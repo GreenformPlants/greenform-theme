@@ -1,0 +1,856 @@
+/* =============================================================================
+   GREENFORM — DAWN THEME OVERRIDES
+   File: assets/greenform-overrides.css
+   Load order: after all Dawn CSS, before closing </body>
+   Inject via layout/theme.liquid:
+     {{ 'greenform-overrides.css' | asset_url | stylesheet_tag }}
+   ============================================================================= */
+
+
+/* =============================================================================
+   1. DESIGN TOKENS
+   ============================================================================= */
+
+:root {
+  --gf-black:        #1d1d1f;
+  --gf-gray-dark:    #424245;
+  --gf-gray-mid:     #6e6e73;
+  --gf-gray-light:   #86868b;
+  --gf-gray-bg:      #f5f5f7;
+  --gf-white:        #fbfbfd;
+  --gf-green:        #2d6a4f;
+  --gf-green-hover:  #40916c;
+  --gf-green-soft:   #d8f3dc;
+  --gf-green-hero:   #1b4332;
+  --gf-cream:        #faf8f5;
+
+  --gf-radius-card:  20px;
+  --gf-radius-pill:  980px;
+
+  --gf-transition:   0.25s ease;
+  --gf-shadow-card:  0 4px 24px rgba(0, 0, 0, 0.07);
+  --gf-shadow-hover: 0 8px 32px rgba(0, 0, 0, 0.12);
+
+  --gf-font-display: 'Playfair Display', Georgia, serif;
+  --gf-font-body:    'DM Sans', -apple-system, sans-serif;
+}
+
+
+/* =============================================================================
+   2. GLOBAL TYPOGRAPHY
+   ============================================================================= */
+
+body {
+  font-family: var(--gf-font-body);
+  color: var(--gf-black);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4,
+.h1, .h2, .h3, .h4 {
+  font-family: var(--gf-font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--gf-black);
+}
+
+/* Tighten Dawn's default heading sizes slightly */
+.h1 { font-size: clamp(2.4rem, 5vw, 4rem); }
+.h2 { font-size: clamp(1.8rem, 3.5vw, 2.8rem); }
+.h3 { font-size: clamp(1.4rem, 2.5vw, 2rem); }
+
+p, li, label, input, select, textarea {
+  font-family: var(--gf-font-body);
+}
+
+
+/* =============================================================================
+   3. BUTTONS
+   ============================================================================= */
+
+.button,
+.btn,
+button[type="submit"],
+.shopify-payment-button__button {
+  border-radius: var(--gf-radius-pill) !important;
+  font-family: var(--gf-font-body);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  transition: background-color var(--gf-transition),
+              color var(--gf-transition),
+              transform var(--gf-transition),
+              box-shadow var(--gf-transition);
+}
+
+/* Primary button — green fill */
+.button--primary,
+.button:not(.button--secondary):not(.button--tertiary) {
+  background-color: var(--gf-green) !important;
+  color: var(--gf-white) !important;
+  border-color: var(--gf-green) !important;
+}
+
+.button--primary:hover,
+.button:not(.button--secondary):not(.button--tertiary):hover {
+  background-color: var(--gf-green-hover) !important;
+  border-color: var(--gf-green-hover) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(45, 106, 79, 0.3);
+}
+
+/* Secondary button — outline */
+.button--secondary {
+  background-color: transparent !important;
+  color: var(--gf-green) !important;
+  border: 1.5px solid var(--gf-green) !important;
+}
+
+.button--secondary:hover {
+  background-color: var(--gf-green-soft) !important;
+  transform: translateY(-1px);
+}
+
+/* Quick add / small buttons */
+.quick-add__submit,
+.product-form__submit {
+  border-radius: var(--gf-radius-pill) !important;
+}
+
+
+/* =============================================================================
+   4. PRODUCT CARDS
+   ============================================================================= */
+
+.card-wrapper {
+  border-radius: var(--gf-radius-card);
+  overflow: hidden;
+}
+
+.card {
+  border-radius: var(--gf-radius-card);
+  background: var(--gf-white);
+  box-shadow: var(--gf-shadow-card);
+  transition: transform var(--gf-transition),
+              box-shadow var(--gf-transition);
+  overflow: hidden;
+  border: none !important;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--gf-shadow-hover);
+}
+
+/* Card image container */
+.card__media {
+  border-radius: var(--gf-radius-card) var(--gf-radius-card) 0 0;
+  overflow: hidden;
+}
+
+.card__media img {
+  transition: transform 0.4s ease;
+}
+
+.card:hover .card__media img {
+  transform: scale(1.04);
+}
+
+/* Card info area */
+.card__content,
+.card__information {
+  padding: 1.2rem 1.4rem 1.4rem;
+}
+
+.card__heading {
+  font-family: var(--gf-font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--gf-black);
+  margin-bottom: 0.2rem;
+}
+
+/* Price */
+.price__regular,
+.price-item--regular {
+  font-family: var(--gf-font-body);
+  font-weight: 500;
+  color: var(--gf-green);
+}
+
+.price--on-sale .price-item--regular {
+  color: var(--gf-gray-mid);
+}
+
+/* Badges — pet safe, difficulty */
+.gf-badge {
+  display: inline-block;
+  padding: 0.2rem 0.7rem;
+  border-radius: var(--gf-radius-pill);
+  font-size: 0.72rem;
+  font-weight: 500;
+  font-family: var(--gf-font-body);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.gf-badge--pet-safe {
+  background-color: var(--gf-green-soft);
+  color: var(--gf-green);
+}
+
+.gf-badge--easy {
+  background-color: #e8f4fd;
+  color: #1a6b9a;
+}
+
+.gf-badge--moderate {
+  background-color: #fef3e2;
+  color: #a05f1a;
+}
+
+.gf-badge--expert {
+  background-color: #fde8e8;
+  color: #9a1a1a;
+}
+
+/* Botanical name — italic subtitle under product title */
+.gf-botanical-name {
+  font-family: var(--gf-font-body);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--gf-gray-mid);
+  margin-top: 0.1rem;
+  margin-bottom: 0.5rem;
+}
+
+
+/* =============================================================================
+   5. HEADER / NAV
+   ============================================================================= */
+
+.header-wrapper {
+  transition: background-color 0.3s ease,
+              backdrop-filter 0.3s ease,
+              box-shadow 0.3s ease;
+}
+
+/* Frosted glass on scroll — JS adds .header-wrapper--scrolled */
+.header-wrapper--scrolled {
+  background-color: rgba(251, 251, 253, 0.85) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+}
+
+.header {
+  font-family: var(--gf-font-body);
+}
+
+/* Nav links */
+.header__menu-item,
+.header__active-menu-item {
+  font-family: var(--gf-font-body);
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--gf-black);
+  transition: color var(--gf-transition);
+}
+
+.header__menu-item:hover {
+  color: var(--gf-green);
+}
+
+/* Logo text fallback (before SVG upload) */
+.header__heading-link {
+  font-family: var(--gf-font-display);
+  font-weight: 700;
+  color: var(--gf-green-hero);
+  font-size: 1.4rem;
+}
+
+/* Cart icon count badge */
+.cart-count-bubble {
+  background-color: var(--gf-green) !important;
+  color: var(--gf-white) !important;
+  border-radius: 50%;
+}
+
+
+/* =============================================================================
+   6. ANNOUNCEMENT BAR
+   ============================================================================= */
+
+.announcement-bar {
+  background-color: var(--gf-green-hero);
+  color: var(--gf-white);
+  font-family: var(--gf-font-body);
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+
+.announcement-bar__message {
+  color: var(--gf-white);
+}
+
+.announcement-bar a {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: underline;
+}
+
+
+/* =============================================================================
+   7. HERO / IMAGE BANNER
+   ============================================================================= */
+
+.banner {
+  border-radius: 0; /* Full-width hero — no radius */
+}
+
+.banner__heading {
+  font-family: var(--gf-font-display);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.banner__text {
+  font-family: var(--gf-font-body);
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.6;
+}
+
+/* Hero plant float animation */
+.gf-float {
+  animation: gf-float 6s ease-in-out infinite;
+}
+
+@keyframes gf-float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-12px); }
+}
+
+
+/* =============================================================================
+   8. COLLECTION / PRODUCT GRID
+   ============================================================================= */
+
+.collection {
+  background-color: var(--gf-gray-bg);
+}
+
+/* Grid spacing */
+.product-grid {
+  gap: 1.5rem;
+}
+
+@media screen and (min-width: 750px) {
+  .product-grid {
+    gap: 2rem;
+  }
+}
+
+/* Collection header */
+.collection-hero__title {
+  font-family: var(--gf-font-display);
+  color: var(--gf-black);
+}
+
+/* Filter / sort bar */
+.facets__heading,
+.facets-vertical__heading {
+  font-family: var(--gf-font-body);
+  font-weight: 600;
+  color: var(--gf-black);
+}
+
+.facets__label,
+.mobile-facets__label {
+  font-family: var(--gf-font-body);
+}
+
+/* Active filter pills */
+.active-facets__button {
+  border-radius: var(--gf-radius-pill);
+  background-color: var(--gf-green-soft);
+  color: var(--gf-green);
+  border: none;
+  font-family: var(--gf-font-body);
+}
+
+
+/* =============================================================================
+   9. PRODUCT PAGE
+   ============================================================================= */
+
+.product__title {
+  font-family: var(--gf-font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.product__text {
+  font-family: var(--gf-font-body);
+  line-height: 1.7;
+  color: var(--gf-gray-dark);
+}
+
+/* Variant picker */
+.variant-radios label,
+.variant-selects select {
+  font-family: var(--gf-font-body);
+  border-radius: 8px;
+}
+
+/* Quantity selector */
+.quantity__input,
+.quantity__button {
+  border-radius: 8px;
+  font-family: var(--gf-font-body);
+}
+
+/* Accordion / collapsible details (care info) */
+.accordion__title,
+details summary {
+  font-family: var(--gf-font-body);
+  font-weight: 600;
+  color: var(--gf-black);
+}
+
+details[open] summary {
+  color: var(--gf-green);
+}
+
+/* Product media gallery */
+.product__media-item img {
+  border-radius: 16px;
+}
+
+/* Care guide link */
+.gf-care-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--gf-font-body);
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--gf-green);
+  text-decoration: none;
+  margin-top: 1rem;
+}
+
+.gf-care-link:hover {
+  color: var(--gf-green-hover);
+  text-decoration: underline;
+}
+
+
+/* =============================================================================
+   10. CART DRAWER
+   ============================================================================= */
+
+.cart-drawer {
+  font-family: var(--gf-font-body);
+}
+
+.cart-drawer__header {
+  border-bottom: 1px solid var(--gf-gray-bg);
+}
+
+.cart-drawer__heading {
+  font-family: var(--gf-font-display);
+  font-weight: 700;
+}
+
+.cart-item__name {
+  font-family: var(--gf-font-body);
+  font-weight: 500;
+}
+
+.cart__checkout-button {
+  border-radius: var(--gf-radius-pill) !important;
+  background-color: var(--gf-green) !important;
+  color: var(--gf-white) !important;
+  font-family: var(--gf-font-body);
+  font-weight: 500;
+}
+
+.cart__checkout-button:hover {
+  background-color: var(--gf-green-hover) !important;
+}
+
+
+/* =============================================================================
+   11. FOOTER
+   ============================================================================= */
+
+.footer {
+  background-color: var(--gf-green-hero);
+  color: rgba(255, 255, 255, 0.75);
+  font-family: var(--gf-font-body);
+}
+
+.footer__heading {
+  font-family: var(--gf-font-display);
+  color: var(--gf-white);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.footer a,
+.footer__list-item a {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-size: 0.88rem;
+  transition: color var(--gf-transition);
+}
+
+.footer a:hover,
+.footer__list-item a:hover {
+  color: var(--gf-white);
+}
+
+.footer__content-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.8rem;
+}
+
+
+/* =============================================================================
+   12. SCROLL REVEAL
+   Dawn has no built-in scroll reveal. JS adds .gf-visible when elements
+   enter viewport. Use class="gf-reveal" on any element you want animated.
+   ============================================================================= */
+
+.gf-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.gf-reveal.gf-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger children — wrap items in .gf-stagger */
+.gf-stagger .gf-reveal:nth-child(1) { transition-delay: 0s; }
+.gf-stagger .gf-reveal:nth-child(2) { transition-delay: 0.1s; }
+.gf-stagger .gf-reveal:nth-child(3) { transition-delay: 0.2s; }
+.gf-stagger .gf-reveal:nth-child(4) { transition-delay: 0.3s; }
+.gf-stagger .gf-reveal:nth-child(5) { transition-delay: 0.4s; }
+.gf-stagger .gf-reveal:nth-child(6) { transition-delay: 0.5s; }
+
+
+/* =============================================================================
+   13. TOAST NOTIFICATIONS
+   ============================================================================= */
+
+.gf-toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background-color: var(--gf-black);
+  color: var(--gf-white);
+  font-family: var(--gf-font-body);
+  font-size: 0.88rem;
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--gf-radius-pill);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 1000;
+  white-space: nowrap;
+}
+
+.gf-toast.gf-toast--visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+
+/* =============================================================================
+   14. SECTION-SPECIFIC OVERRIDES
+   ============================================================================= */
+
+/* Rich text sections */
+.rich-text__text {
+  font-family: var(--gf-font-body);
+  line-height: 1.7;
+  color: var(--gf-gray-dark);
+}
+
+.rich-text__heading {
+  font-family: var(--gf-font-display);
+}
+
+/* Multicolumn (used for care tips or testimonials) */
+.multicolumn-card {
+  border-radius: var(--gf-radius-card);
+  background: var(--gf-white);
+  box-shadow: var(--gf-shadow-card);
+  padding: 2rem;
+  transition: transform var(--gf-transition), box-shadow var(--gf-transition);
+}
+
+.multicolumn-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--gf-shadow-hover);
+}
+
+.multicolumn-card__title {
+  font-family: var(--gf-font-display);
+  font-weight: 600;
+}
+
+.multicolumn-card__info {
+  font-family: var(--gf-font-body);
+  color: var(--gf-gray-dark);
+  line-height: 1.65;
+}
+
+/* Image with text section */
+.image-with-text__content {
+  font-family: var(--gf-font-body);
+}
+
+.image-with-text__heading {
+  font-family: var(--gf-font-display);
+}
+
+.image-with-text__text {
+  color: var(--gf-gray-dark);
+  line-height: 1.7;
+}
+
+/* Featured collection heading */
+.featured-collection .title {
+  font-family: var(--gf-font-display);
+  font-weight: 700;
+}
+
+
+/* =============================================================================
+   15. UTILITY CLASSES
+   ============================================================================= */
+
+.gf-section-padding {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+@media screen and (max-width: 749px) {
+  .gf-section-padding {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+}
+
+.gf-text-green  { color: var(--gf-green); }
+.gf-text-hero   { color: var(--gf-green-hero); }
+.gf-text-mid    { color: var(--gf-gray-mid); }
+.gf-bg-soft     { background-color: var(--gf-green-soft); }
+.gf-bg-cream    { background-color: var(--gf-cream); }
+.gf-bg-gray     { background-color: var(--gf-gray-bg); }
+.gf-bg-hero     { background-color: var(--gf-green-hero); }
+
+/* Italic botanical names anywhere */
+.gf-italic {
+  font-style: italic;
+  color: var(--gf-gray-mid);
+}
+
+
+/* =============================================================================
+   16. MOBILE REFINEMENTS
+   ============================================================================= */
+
+@media screen and (max-width: 749px) {
+  .card__heading {
+    font-size: 0.95rem;
+  }
+
+  .header__heading-link {
+    font-size: 1.2rem;
+  }
+
+  .gf-toast {
+    bottom: 1rem;
+    font-size: 0.82rem;
+    padding: 0.65rem 1.2rem;
+    max-width: calc(100vw - 2rem);
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+
+/* =============================================================================
+   17. GREENFORM CUSTOM SECTIONS
+   (Classes used in sections built from scratch — not part of Dawn)
+   ============================================================================= */
+
+/* Featured product band */
+.gf-featured-product {
+  background-color: var(--gf-green-hero);
+  color: var(--gf-white);
+  padding: 6rem 2rem;
+}
+
+.gf-featured-product__eyebrow {
+  font-family: var(--gf-font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 1rem;
+}
+
+.gf-featured-product__title {
+  font-family: var(--gf-font-display);
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 700;
+  color: var(--gf-white);
+  line-height: 1.15;
+  margin-bottom: 1.2rem;
+}
+
+.gf-featured-product__desc {
+  font-family: var(--gf-font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 2rem;
+  max-width: 480px;
+}
+
+/* Care guide section */
+.gf-care-guide {
+  background-color: var(--gf-gray-bg);
+  padding: 5rem 2rem;
+  text-align: center;
+}
+
+.gf-care-guide__heading {
+  font-family: var(--gf-font-display);
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-weight: 700;
+  color: var(--gf-black);
+  margin-bottom: 0.75rem;
+}
+
+.gf-care-guide__subheading {
+  font-family: var(--gf-font-body);
+  color: var(--gf-gray-mid);
+  font-size: 1rem;
+  margin-bottom: 3rem;
+}
+
+.gf-care-guide__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.gf-care-card {
+  background: var(--gf-white);
+  border-radius: var(--gf-radius-card);
+  padding: 2rem 1.5rem;
+  box-shadow: var(--gf-shadow-card);
+  transition: transform var(--gf-transition), box-shadow var(--gf-transition);
+}
+
+.gf-care-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--gf-shadow-hover);
+}
+
+.gf-care-card__icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.gf-care-card__title {
+  font-family: var(--gf-font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--gf-black);
+  margin-bottom: 0.5rem;
+}
+
+.gf-care-card__text {
+  font-family: var(--gf-font-body);
+  font-size: 0.9rem;
+  color: var(--gf-gray-mid);
+  line-height: 1.6;
+}
+
+/* CTA banner */
+.gf-cta-banner {
+  background-color: var(--gf-green-hero);
+  color: var(--gf-white);
+  text-align: center;
+  padding: 5rem 2rem;
+}
+
+.gf-cta-banner__heading {
+  font-family: var(--gf-font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: var(--gf-white);
+  margin-bottom: 1rem;
+}
+
+.gf-cta-banner__text {
+  font-family: var(--gf-font-body);
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 2rem;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Testimonial cards */
+.gf-testimonial-card {
+  background: var(--gf-white);
+  border-radius: var(--gf-radius-card);
+  padding: 2rem;
+  box-shadow: var(--gf-shadow-card);
+}
+
+.gf-testimonial-card__stars {
+  color: #f4a124;
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+  letter-spacing: 0.05em;
+}
+
+.gf-testimonial-card__text {
+  font-family: var(--gf-font-body);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--gf-gray-dark);
+  margin-bottom: 1.2rem;
+}
+
+.gf-testimonial-card__author {
+  font-family: var(--gf-font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gf-black);
+}
+
+.gf-testimonial-card__location {
+  font-size: 0.8rem;
+  color: var(--gf-gray-mid);
+}
