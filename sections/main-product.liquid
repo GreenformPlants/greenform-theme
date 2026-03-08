@@ -204,7 +204,7 @@
                 {%- comment -%} ── GREENFORM: Title + botanical name + badges ── {%- endcomment -%}
                 <div class="product__title gf-product-meta" {{ block.shopify_attributes }}>
                   <h1>{{ product.title | escape }}</h1>
-<p>TEST: {{ product.metafields.custom.light_requirement }}</p>
+<p>TEST: {{ product.metafields.custom.light_requirement.value }}</p>
                   {%- comment -%} Botanical name from metafield {%- endcomment -%}
                   {%- if product.metafields.custom.botanical_name != blank -%}
                     <p class="gf-product-botanical">{{ product.metafields.custom.botanical_name }}</p>
