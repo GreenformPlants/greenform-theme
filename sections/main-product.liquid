@@ -204,6 +204,8 @@
                 {%- comment -%} ── GREENFORM: Title + botanical name + badges ── {%- endcomment -%}
                 <div class="product__title gf-product-meta" {{ block.shopify_attributes }}>
                   <h1>{{ product.title | escape }}</h1>
+
+                  {%- comment -%} Botanical name from metafield {%- endcomment -%}
                   {%- if product.metafields.custom.botanical_name != blank -%}
                     <p class="gf-product-botanical">{{ product.metafields.custom.botanical_name }}</p>
                   {%- endif -%}
@@ -304,15 +306,10 @@
                 </p>
 
               {%- when 'description' -%}
-                {%- comment -%} ── GREENFORM: Description + care strip + care guide link ── {%- endcomment -%}
-                {%- if product.description != blank -%}
-                  <div class="product__description rte quick-add-hidden" {{ block.shopify_attributes }}>
-                    {{ product.description }}
-                  </div>
-                {%- endif -%}
+                {%- comment -%} ── GREENFORM: Care strip first, then description, then care guide link ── {%- endcomment -%}
 
                 {%- comment -%} Care at a glance strip — only renders if at least one metafield is set {%- endcomment -%}
-                {%- assign has_care_data = true -%}
+                {%- assign has_care_data = false -%}
                 {%- if product.metafields.custom.light_requirement != blank
                     or product.metafields.custom.water_frequency != blank
                     or product.metafields.custom.humidity != blank
@@ -350,6 +347,12 @@
                         <span class="gf-care-strip__value">{{ product.metafields.custom.humidity }}</span>
                       </div>
                     {%- endif -%}
+                  </div>
+                {%- endif -%}
+
+                {%- if product.description != blank -%}
+                  <div class="product__description rte quick-add-hidden" {{ block.shopify_attributes }}>
+                    {{ product.description }}
                   </div>
                 {%- endif -%}
 
