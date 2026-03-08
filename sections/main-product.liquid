@@ -314,7 +314,7 @@
                 {%- endif -%}
 
                 {%- comment -%} Care at a glance strip — only renders if at least one metafield is set {%- endcomment -%}
-                {%- assign has_care_data = false -%}
+                {%- assign has_care_data = true -%}
                 {%- if product.metafields.custom.light_requirement != blank
                     or product.metafields.custom.water_frequency != blank
                     or product.metafields.custom.humidity != blank
