@@ -1,0 +1,95 @@
+{%- comment -%}
+  Greenform product card snippet
+  Required variable: card_product (Shopify product object)
+  Optional: show_quick_add (boolean, default true)
+{%- endcomment -%}
+
+{%- liquid
+  assign show_quick_add = show_quick_add | default: true
+  assign first_variant = card_product.selected_or_first_available_variant
+  assign is_sold_out = false
+  unless first_variant.available
+    assign is_sold_out = true
+  endunless
+  assign on_sale = false
+  if first_variant.compare_at_price > first_variant.price
+    assign on_sale = true
+  endif
+-%}
+
+<article class="gf-card{% if is_sold_out %} gf-card--sold-out{% endif %}">
+  <a href="{{ card_product.url }}" class="gf-card__image-wrap" aria-label="{{ card_product.title | escape }}">
+    {%- if card_product.featured_image != blank -%}
+      <img
+        src="{{ card_product.featured_image | image_url: width: 600 }}"
+        alt="{{ card_product.featured_image.alt | escape }}"
+        class="gf-card__image"
+        loading="lazy"
+        width="600"
+        height="{{ 600 | divided_by: card_product.featured_image.aspect_ratio | round }}"
+      >
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'gf-card__image placeholder-svg' }}
+    {%- endif -%}
+
+    <div class="gf-card__badges">
+      {%- if card_product.metafields.custom.pet_safe == true -%}
+        <span class="gf-badge gf-badge--green">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 5.172C10 3.782 8.423 2.679 6.5 3c-2.823.47-4.113 6.006-4 7 .08.703 1.725 1.722 3.656 1 1.261-.472 1.96-1.45 2.344-2.5m4-3.328C12 3.782 13.577 2.679 15.5 3c2.823.47 4.113 6.006 4 7-.08.703-1.725 1.722-3.656 1-1.261-.472-1.855-1.45-2.344-2.5M8.5 15c.91 2.282 2.385 3.352 3.5 3.5 1.115-.148 2.59-1.218 3.5-3.5"/></svg>
+          Pet safe
+        </span>
+      {%- endif -%}
+      {%- if on_sale -%}
+        <span class="gf-badge gf-badge--sale">Sale</span>
+      {%- endif -%}
+      {%- if is_sold_out -%}
+        <span class="gf-badge gf-badge--sold-out">Sold out</span>
+      {%- endif -%}
+    </div>
+  </a>
+
+  {%- if show_quick_add and first_variant.available -%}
+    <div class="gf-card__quick-add">
+      <button
+        class="gf-btn gf-btn--primary gf-btn--sm"
+        data-gf-quick-add
+        data-variant-id="{{ first_variant.id }}"
+        data-title="{{ card_product.title | escape }}"
+        data-botanical="{{ card_product.metafields.custom.botanical_name | escape }}"
+        data-price="{{ first_variant.price | money }}"
+        data-image="{{ card_product.featured_image | image_url: width: 600 }}"
+        data-light="{{ card_product.metafields.custom.light_requirement | escape }}"
+        data-water="{{ card_product.metafields.custom.water_frequency | escape }}"
+        data-difficulty="{{ card_product.metafields.custom.difficulty | escape }}"
+        aria-label="Quick add {{ card_product.title | escape }}"
+      >
+        Quick add
+      </button>
+    </div>
+  {%- endif -%}
+
+  <div class="gf-card__info">
+    <h3 class="gf-card__title">
+      <a href="{{ card_product.url }}">{{ card_product.title }}</a>
+    </h3>
+
+    {%- if card_product.metafields.custom.botanical_name != blank -%}
+      <p class="gf-card__botanical">{{ card_product.metafields.custom.botanical_name }}</p>
+    {%- endif -%}
+
+    <div class="gf-card__footer">
+      <div>
+        <span class="gf-card__price">{{ first_variant.price | money }}</span>
+        {%- if on_sale -%}
+          <span class="gf-card__price--compare">{{ first_variant.compare_at_price | money }}</span>
+        {%- endif -%}
+      </div>
+
+      {%- if card_product.metafields.custom.difficulty != blank -%}
+        <span class="gf-badge gf-badge--outline gf-card__difficulty">
+          {{ card_product.metafields.custom.difficulty }}
+        </span>
+      {%- endif -%}
+    </div>
+  </div>
+</article>

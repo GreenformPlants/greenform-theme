@@ -1,0 +1,138 @@
+<section class="gf-featured" id="gf-featured">
+  <div class="gf-featured__inner">
+    <div class="gf-featured__image-wrap gf-reveal">
+      {%- if section.settings.product != blank -%}
+        {%- assign product = section.settings.product -%}
+        {%- if product.featured_image != blank -%}
+          <img
+            src="{{ product.featured_image | image_url: width: 800 }}"
+            alt="{{ product.featured_image.alt | escape }}"
+            class="gf-featured__image"
+            loading="lazy"
+            width="800"
+            height="{{ 800 | divided_by: product.featured_image.aspect_ratio | round }}"
+          >
+        {%- else -%}
+          {{ 'product-1' | placeholder_svg_tag: 'gf-featured__image' }}
+        {%- endif -%}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'gf-featured__image' }}
+      {%- endif -%}
+    </div>
+
+    <div class="gf-featured__info gf-reveal gf-reveal--delay-2">
+      <div class="gf-featured__tag">{{ section.settings.tag }}</div>
+
+      {%- if section.settings.product != blank -%}
+        {%- assign product = section.settings.product -%}
+        <h2 class="gf-featured__title">{{ product.title }}</h2>
+        {%- if product.metafields.custom.botanical_name != blank -%}
+          <p class="gf-featured__botanical">{{ product.metafields.custom.botanical_name }}</p>
+        {%- endif -%}
+
+        <div class="gf-featured__meta">
+          {%- if product.metafields.custom.light_requirement != blank -%}
+            <div class="gf-featured__meta-item">
+              <span class="gf-featured__meta-label">Light</span>
+              <span class="gf-featured__meta-value">{{ product.metafields.custom.light_requirement }}</span>
+            </div>
+          {%- endif -%}
+          {%- if product.metafields.custom.water_frequency != blank -%}
+            <div class="gf-featured__meta-item">
+              <span class="gf-featured__meta-label">Water</span>
+              <span class="gf-featured__meta-value">{{ product.metafields.custom.water_frequency }}</span>
+            </div>
+          {%- endif -%}
+          {%- if product.metafields.custom.difficulty != blank -%}
+            <div class="gf-featured__meta-item">
+              <span class="gf-featured__meta-label">Difficulty</span>
+              <span class="gf-featured__meta-value">{{ product.metafields.custom.difficulty }}</span>
+            </div>
+          {%- endif -%}
+          {%- if product.metafields.custom.plant_size != blank -%}
+            <div class="gf-featured__meta-item">
+              <span class="gf-featured__meta-label">Size</span>
+              <span class="gf-featured__meta-value">{{ product.metafields.custom.plant_size }}</span>
+            </div>
+          {%- endif -%}
+        </div>
+
+        <div class="gf-featured__price">{{ product.price | money }}</div>
+
+        {%- if section.settings.description != blank -%}
+          <div class="gf-featured__description">{{ section.settings.description }}</div>
+        {%- elsif product.description != blank -%}
+          <div class="gf-featured__description">{{ product.description | strip_html | truncate: 200 }}</div>
+        {%- endif -%}
+
+        <a href="{{ product.url }}" class="gf-btn gf-btn--primary gf-btn--lg">
+          {{ section.settings.button_label }}
+        </a>
+      {%- else -%}
+        <h2 class="gf-featured__title">{{ section.settings.heading }}</h2>
+        <p class="gf-featured__botanical">Botanical name</p>
+        <div class="gf-featured__meta">
+          <div class="gf-featured__meta-item">
+            <span class="gf-featured__meta-label">Light</span>
+            <span class="gf-featured__meta-value">Bright indirect</span>
+          </div>
+          <div class="gf-featured__meta-item">
+            <span class="gf-featured__meta-label">Water</span>
+            <span class="gf-featured__meta-value">Weekly</span>
+          </div>
+          <div class="gf-featured__meta-item">
+            <span class="gf-featured__meta-label">Difficulty</span>
+            <span class="gf-featured__meta-value">Moderate</span>
+          </div>
+        </div>
+        <div class="gf-featured__price">$89.00</div>
+        <div class="gf-featured__description">{{ section.settings.description }}</div>
+        <a href="#" class="gf-btn gf-btn--primary gf-btn--lg">{{ section.settings.button_label }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Greenform Featured Product",
+  "tag": "section",
+  "class": "gf-featured-section",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Featured product"
+    },
+    {
+      "type": "text",
+      "id": "tag",
+      "label": "Tag line",
+      "default": "Featured plant"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading (if no product selected)",
+      "default": "Monstera Thai Constellation"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description override",
+      "info": "Leave blank to use the product description"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "View plant"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Greenform Featured Product"
+    }
+  ]
+}
+{% endschema %}

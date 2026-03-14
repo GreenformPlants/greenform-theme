@@ -1,0 +1,39 @@
+{%- comment -%}
+  Greenform product modal
+  Rendered once in theme.liquid. Populated dynamically via greenform.js
+  when a [data-gf-quick-add] button is clicked.
+{%- endcomment -%}
+
+<div class="gf-modal-overlay" id="gf-modal-overlay" aria-hidden="true"></div>
+
+<div class="gf-modal" id="gf-product-modal" role="dialog" aria-modal="true" aria-label="Product quick view" data-variant-id="">
+  <button class="gf-modal__close" aria-label="Close">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+  </button>
+
+  <img class="gf-modal__image" src="" alt="" loading="lazy">
+
+  <h2 class="gf-modal__title"></h2>
+  <p class="gf-modal__botanical"></p>
+
+  <div class="gf-modal__meta">
+    <span class="gf-badge gf-badge--outline" data-meta="light"></span>
+    <span class="gf-badge gf-badge--outline" data-meta="water"></span>
+    <span class="gf-badge gf-badge--outline" data-meta="difficulty"></span>
+  </div>
+
+  <div class="gf-modal__price"></div>
+
+  <div class="gf-modal__qty">
+    <button class="gf-modal__qty-btn" data-action="decrease" aria-label="Decrease quantity">&minus;</button>
+    <span class="gf-modal__qty-value" aria-live="polite">1</span>
+    <button class="gf-modal__qty-btn" data-action="increase" aria-label="Increase quantity">&plus;</button>
+  </div>
+
+  <button class="gf-btn gf-btn--primary gf-modal__add-btn" style="width:100%;">
+    Add to cart
+  </button>
+</div>

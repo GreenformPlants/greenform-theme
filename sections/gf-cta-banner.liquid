@@ -1,0 +1,106 @@
+<section class="gf-cta" id="gf-cta">
+  <div class="gf-cta__inner gf-reveal">
+    <h2 class="gf-cta__title">{{ section.settings.heading }}</h2>
+    {%- if section.settings.text != blank -%}
+      <p class="gf-cta__text">{{ section.settings.text }}</p>
+    {%- endif -%}
+
+    {%- if section.settings.show_email_signup -%}
+      {%- form 'customer', id: 'gf-cta-newsletter' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <div class="gf-cta__form">
+          <input
+            type="email"
+            name="contact[email]"
+            class="gf-cta__input"
+            placeholder="{{ section.settings.placeholder }}"
+            required
+            autocomplete="email"
+            aria-label="Email address"
+          >
+          <button type="submit" class="gf-btn gf-btn--primary">
+            {{ section.settings.submit_label }}
+          </button>
+        </div>
+        {%- if form.posted_successfully? -%}
+          <p style="color: var(--gf-green-soft); margin-top: 1rem; font-size: var(--gf-text-sm);">
+            {{ section.settings.success_message }}
+          </p>
+        {%- endif -%}
+        {%- if form.errors -%}
+          <p style="color: #f4a261; margin-top: 1rem; font-size: var(--gf-text-sm);">
+            {{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}
+          </p>
+        {%- endif -%}
+      {%- endform -%}
+    {%- else -%}
+      {%- if section.settings.button_label != blank -%}
+        <a href="{{ section.settings.button_link }}" class="gf-btn gf-btn--primary gf-btn--lg">
+          {{ section.settings.button_label }}
+        </a>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Greenform CTA Banner",
+  "tag": "section",
+  "class": "gf-cta-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Join the Greenform family"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "Get care tips, early access to new arrivals, and exclusive offers. No spam, just plants."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_email_signup",
+      "label": "Show email signup",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Email placeholder",
+      "default": "Enter your email"
+    },
+    {
+      "type": "text",
+      "id": "submit_label",
+      "label": "Submit button label",
+      "default": "Subscribe"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "Welcome to Greenform! Check your inbox."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label (if email signup is off)",
+      "default": "Shop all plants"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Greenform CTA Banner"
+    }
+  ]
+}
+{% endschema %}

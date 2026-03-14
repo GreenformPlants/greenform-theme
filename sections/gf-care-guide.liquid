@@ -1,0 +1,124 @@
+<section class="gf-care gf-section" id="gf-care">
+  <div class="gf-container">
+    <div class="gf-care__header gf-reveal">
+      <h2 class="gf-care__title">{{ section.settings.heading }}</h2>
+      {%- if section.settings.subheading != blank -%}
+        <p class="gf-care__subtitle">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="gf-care__grid">
+      {%- for block in section.blocks -%}
+        <div class="gf-care__card gf-reveal gf-reveal--delay-{{ forloop.index }}" {{ block.shopify_attributes }}>
+          <div class="gf-care__icon">
+            {%- case block.settings.icon -%}
+              {%- when 'sun' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+              {%- when 'droplet' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+              {%- when 'leaf' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 4 13c0-3.87 3.13-7 7-7h1a8 8 0 0 1 8 8v1a7 7 0 0 1-7 7h-2z"/><path d="M8 20l4-4"/></svg>
+              {%- when 'thermometer' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></svg>
+              {%- when 'heart' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              {%- when 'shield' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              {%- else -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 4 13c0-3.87 3.13-7 7-7h1a8 8 0 0 1 8 8v1a7 7 0 0 1-7 7h-2z"/><path d="M8 20l4-4"/></svg>
+              {%- endcase -%}
+          </div>
+          <h3 class="gf-care__card-title">{{ block.settings.title }}</h3>
+          <p class="gf-care__card-text">{{ block.settings.text }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Greenform Care Guide",
+  "tag": "section",
+  "class": "gf-care-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Plant care, simplified"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Everything you need to keep your plants thriving"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tip",
+      "name": "Care tip",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "sun", "label": "Sun" },
+            { "value": "droplet", "label": "Water droplet" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "thermometer", "label": "Thermometer" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "shield", "label": "Shield" }
+          ],
+          "default": "sun"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Find the right light"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description",
+          "default": "Most houseplants prefer bright, indirect light. Keep them near a window but out of harsh direct sun."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Greenform Care Guide",
+      "blocks": [
+        {
+          "type": "tip",
+          "settings": {
+            "icon": "sun",
+            "title": "Find the right light",
+            "text": "Most houseplants prefer bright, indirect light. Keep them near a window but out of harsh direct sun."
+          }
+        },
+        {
+          "type": "tip",
+          "settings": {
+            "icon": "droplet",
+            "title": "Water with confidence",
+            "text": "Check the top 2-3cm of soil before watering. Most plants prefer to dry out slightly between drinks."
+          }
+        },
+        {
+          "type": "tip",
+          "settings": {
+            "icon": "leaf",
+            "title": "Feed the growth",
+            "text": "Use a balanced liquid fertiliser during spring and summer. Ease off in autumn and winter when growth slows."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,102 @@
+{{ 'greenform.css' | asset_url | stylesheet_tag }}
+
+<section class="gf-hero" id="gf-hero">
+  {%- if section.settings.image != blank -%}
+    <div class="gf-hero__bg">
+      {{
+        section.settings.image
+        | image_url: width: 2000
+        | image_tag: loading: 'eager', fetchpriority: 'high', sizes: '100vw', widths: '800,1200,1600,2000'
+      }}
+    </div>
+  {%- endif -%}
+  <div class="gf-hero__overlay"></div>
+
+  <div class="gf-hero__content">
+    {%- if section.settings.tag != blank -%}
+      <div class="gf-hero__tag">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 12l2.5 2.5L16 9"/></svg>
+        {{ section.settings.tag }}
+      </div>
+    {%- endif -%}
+
+    <h1 class="gf-hero__title">{{ section.settings.heading }}</h1>
+
+    {%- if section.settings.subheading != blank -%}
+      <p class="gf-hero__subtitle">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    <div class="gf-hero__actions">
+      {%- if section.settings.button_label_1 != blank -%}
+        <a href="{{ section.settings.button_link_1 }}" class="gf-btn gf-btn--primary gf-btn--lg">
+          {{ section.settings.button_label_1 }}
+        </a>
+      {%- endif -%}
+      {%- if section.settings.button_label_2 != blank -%}
+        <a href="{{ section.settings.button_link_2 }}" class="gf-btn gf-btn--secondary gf-btn--lg">
+          {{ section.settings.button_label_2 }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Greenform Hero",
+  "tag": "section",
+  "class": "gf-hero-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image"
+    },
+    {
+      "type": "text",
+      "id": "tag",
+      "label": "Tag line",
+      "default": "NZ's premium houseplant store"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Plants that make your space feel alive"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Carefully selected, safely shipped to your door anywhere in New Zealand."
+    },
+    {
+      "type": "text",
+      "id": "button_label_1",
+      "label": "Primary button label",
+      "default": "Shop all plants"
+    },
+    {
+      "type": "url",
+      "id": "button_link_1",
+      "label": "Primary button link"
+    },
+    {
+      "type": "text",
+      "id": "button_label_2",
+      "label": "Secondary button label",
+      "default": "Explore care guides"
+    },
+    {
+      "type": "url",
+      "id": "button_link_2",
+      "label": "Secondary button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Greenform Hero"
+    }
+  ]
+}
+{% endschema %}
