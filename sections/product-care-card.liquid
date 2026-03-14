@@ -1,0 +1,192 @@
+{% comment %}
+  Greenform — Product Care Card
+  Two-column layout: product image left, structured care info right.
+  Pulls from product metafields (custom namespace).
+  Links to full standalone care guide.
+{% endcomment %}
+
+{%- assign has_care_data = false -%}
+{%- if product.metafields.custom.light_requirement != blank
+  or product.metafields.custom.water_frequency != blank
+  or product.metafields.custom.humidity != blank
+  or product.metafields.custom.temperature != blank
+  or product.metafields.custom.pet_safe != blank
+-%}
+  {%- assign has_care_data = true -%}
+{%- endif -%}
+
+{%- if has_care_data -%}
+<section class="product-care-card" id="ProductCareCard-{{ section.id }}">
+  <div class="product-care-card__grid">
+
+    {%- comment -%} Left: Image {%- endcomment -%}
+    <div class="product-care-card__image">
+      {%- if product.media.size > 1 -%}
+        {%- assign care_image = product.media[1] -%}
+      {%- else -%}
+        {%- assign care_image = product.featured_media -%}
+      {%- endif -%}
+
+      {%- if care_image -%}
+        <img
+          src="{{ care_image | image_url: width: 800 }}"
+          srcset="
+            {{ care_image | image_url: width: 400 }} 400w,
+            {{ care_image | image_url: width: 600 }} 600w,
+            {{ care_image | image_url: width: 800 }} 800w
+          "
+          sizes="(max-width: 768px) 100vw, 45vw"
+          alt="{{ care_image.alt | escape | default: product.title }}"
+          width="{{ care_image.width }}"
+          height="{{ care_image.height }}"
+          loading="lazy"
+        >
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'product-care-card__placeholder-svg' }}
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} Right: Care content {%- endcomment -%}
+    <div class="product-care-card__content">
+      <h2 class="product-care-card__title">{{ product.title }}</h2>
+
+      {%- if product.metafields.custom.botanical_name != blank -%}
+        <p class="product-care-card__origin">
+          {{ product.metafields.custom.botanical_name }}
+        </p>
+      {%- endif -%}
+
+      <div class="product-care-card__blocks">
+
+        {%- if product.metafields.custom.light_requirement != blank -%}
+          <div class="product-care-card__block">
+            <h3 class="product-care-card__block-heading">Sunlight</h3>
+            <p class="product-care-card__block-text">
+              {{ product.metafields.custom.light_requirement }}.
+              {%- if section.settings.light_description != blank %}
+                {{ section.settings.light_description }}
+              {%- endif -%}
+            </p>
+          </div>
+        {%- endif -%}
+
+        {%- if product.metafields.custom.water_frequency != blank -%}
+          <div class="product-care-card__block">
+            <h3 class="product-care-card__block-heading">Watering</h3>
+            <p class="product-care-card__block-text">
+              Water {{ product.metafields.custom.water_frequency | downcase }}.
+              {%- if section.settings.water_description != blank %}
+                {{ section.settings.water_description }}
+              {%- endif -%}
+            </p>
+          </div>
+        {%- endif -%}
+
+        {%- if product.metafields.custom.humidity != blank -%}
+          <div class="product-care-card__block">
+            <h3 class="product-care-card__block-heading">Humidity</h3>
+            <p class="product-care-card__block-text">
+              Prefers {{ product.metafields.custom.humidity }} humidity.
+              {%- if section.settings.humidity_description != blank %}
+                {{ section.settings.humidity_description }}
+              {%- endif -%}
+            </p>
+          </div>
+        {%- endif -%}
+
+        {%- if product.metafields.custom.temperature != blank -%}
+          <div class="product-care-card__block">
+            <h3 class="product-care-card__block-heading">Temperature</h3>
+            <p class="product-care-card__block-text">
+              Ideal range: {{ product.metafields.custom.temperature }}.
+              {%- if section.settings.temperature_description != blank %}
+                {{ section.settings.temperature_description }}
+              {%- endif -%}
+            </p>
+          </div>
+        {%- endif -%}
+
+        {%- if product.metafields.custom.pet_safe != blank -%}
+          <div class="product-care-card__block">
+            <h3 class="product-care-card__block-heading">Pet safe?</h3>
+            {%- if product.metafields.custom.pet_safe == true -%}
+              <p class="product-care-card__block-text product-care-card__block-text--safe">
+                Yes, this plant is considered non-toxic to cats and dogs.
+              </p>
+            {%- else -%}
+              <p class="product-care-card__block-text product-care-card__block-text--warning">
+                Not safe for pets. Keep out of reach of cats, dogs, and children.
+              </p>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+      </div>
+
+      {%- if product.metafields.custom.care_guide_url != blank -%}
+        <a href="{{ product.metafields.custom.care_guide_url }}" class="product-care-card__link">
+          Read full care guide <span aria-hidden="true">→</span>
+        </a>
+      {%- elsif section.settings.care_guide_page != blank -%}
+        <a href="{{ section.settings.care_guide_page }}" class="product-care-card__link">
+          Read full care guide <span aria-hidden="true">→</span>
+        </a>
+      {%- endif -%}
+    </div>
+
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Product care card",
+  "tag": "section",
+  "class": "section-product-care-card",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Additional care descriptions"
+    },
+    {
+      "type": "paragraph",
+      "content": "These fields add extra context after the metafield value. Leave blank to show only the metafield."
+    },
+    {
+      "type": "text",
+      "id": "light_description",
+      "label": "Light — additional detail"
+    },
+    {
+      "type": "text",
+      "id": "water_description",
+      "label": "Watering — additional detail"
+    },
+    {
+      "type": "text",
+      "id": "humidity_description",
+      "label": "Humidity — additional detail"
+    },
+    {
+      "type": "text",
+      "id": "temperature_description",
+      "label": "Temperature — additional detail"
+    },
+    {
+      "type": "header",
+      "content": "Care guide link"
+    },
+    {
+      "type": "url",
+      "id": "care_guide_page",
+      "label": "Care guide URL (fallback)",
+      "info": "Used if the product's care_guide_url metafield is empty."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product care card"
+    }
+  ]
+}
+{% endschema %}
