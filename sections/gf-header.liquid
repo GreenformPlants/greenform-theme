@@ -1,0 +1,550 @@
+{%- comment -%}
+  Greenform Header
+  Replaces Dawn's stock header. Keeps sticky-header web component from global.js.
+  Clean, minimal nav: logo left, links centre, cart right.
+  Mobile: hamburger triggers a full-screen overlay menu.
+{%- endcomment -%}
+
+<style>
+  /* ── Header structure ── */
+  .gf-header-section {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
+  .gf-header-wrap {
+    background-color: rgba(251, 251, 253, 0.8);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .gf-header-wrap.is-scrolled {
+    background-color: rgba(251, 251, 253, 0.96);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  .gf-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 clamp(1rem, 0.5rem + 2vw, 2.5rem);
+    height: 64px;
+  }
+
+  @media (min-width: 990px) {
+    .gf-header {
+      height: 72px;
+    }
+  }
+
+  /* ── Logo ── */
+  .gf-header__logo {
+    flex-shrink: 0;
+    z-index: 2;
+  }
+
+  .gf-header__logo a {
+    font-family: var(--gf-font-display, 'Playfair Display', serif);
+    font-size: clamp(1.25rem, 1rem + 0.8vw, 1.5rem);
+    font-weight: 700;
+    color: var(--gf-green-hero, #1b4332);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .gf-header__logo-img {
+    height: clamp(28px, 2vw + 20px, 40px);
+    width: auto;
+  }
+
+  /* ── Desktop Nav ── */
+  .gf-header__nav {
+    display: none;
+    gap: 0.25rem;
+    align-items: center;
+  }
+
+  @media (min-width: 990px) {
+    .gf-header__nav {
+      display: flex;
+    }
+  }
+
+  .gf-header__nav a {
+    font-family: var(--gf-font-body, 'DM Sans', sans-serif);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--gf-gray-dark, #424245);
+    text-decoration: none;
+    padding: 0.5rem 0.875rem;
+    border-radius: 980px;
+    transition: color 0.2s ease, background-color 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .gf-header__nav a:hover,
+  .gf-header__nav a[aria-current="page"] {
+    color: var(--gf-green, #2d6a4f);
+    background-color: rgba(45, 106, 79, 0.06);
+  }
+
+  /* ── Right icons ── */
+  .gf-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    flex-shrink: 0;
+    z-index: 2;
+  }
+
+  .gf-header__icon-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--gf-black, #1d1d1f);
+    border-radius: 50%;
+    transition: color 0.2s ease, background-color 0.2s ease;
+  }
+
+  .gf-header__icon-btn:hover {
+    color: var(--gf-green, #2d6a4f);
+    background-color: rgba(45, 106, 79, 0.06);
+  }
+
+  .gf-header__icon-btn svg {
+    width: 22px;
+    height: 22px;
+    stroke-width: 1.75;
+  }
+
+  /* Cart badge */
+  .gf-header__cart-badge {
+    position: absolute;
+    top: 6px;
+    right: 4px;
+    background-color: var(--gf-green, #2d6a4f);
+    color: white;
+    font-family: var(--gf-font-body, 'DM Sans', sans-serif);
+    font-size: 0.625rem;
+    font-weight: 700;
+    min-width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .gf-header__cart-badge:empty,
+  .gf-header__cart-badge[data-count="0"] {
+    display: none;
+  }
+
+  /* ── Hamburger (mobile only) ── */
+  .gf-header__hamburger {
+    display: flex;
+  }
+
+  @media (min-width: 990px) {
+    .gf-header__hamburger {
+      display: none;
+    }
+  }
+
+  /* ── Mobile Drawer ── */
+  .gf-mobile-drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .gf-mobile-drawer.is-open {
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .gf-mobile-drawer__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    opacity: 0;
+    transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .gf-mobile-drawer.is-open .gf-mobile-drawer__backdrop {
+    opacity: 1;
+  }
+
+  .gf-mobile-drawer__panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: min(380px, 85vw);
+    height: 100%;
+    background: var(--gf-white, #fbfbfd);
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .gf-mobile-drawer.is-open .gf-mobile-drawer__panel {
+    transform: translateX(0);
+  }
+
+  .gf-mobile-drawer__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  .gf-mobile-drawer__title {
+    font-family: var(--gf-font-display, 'Playfair Display', serif);
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--gf-green-hero, #1b4332);
+  }
+
+  .gf-mobile-drawer__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: var(--gf-gray-bg, #f5f5f7);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    color: var(--gf-gray-dark, #424245);
+    transition: background-color 0.2s ease;
+  }
+
+  .gf-mobile-drawer__close:hover {
+    background: var(--gf-green-soft, #d8f3dc);
+    color: var(--gf-green-hero, #1b4332);
+  }
+
+  .gf-mobile-drawer__nav {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    flex: 1;
+  }
+
+  .gf-mobile-drawer__nav a {
+    font-family: var(--gf-font-body, 'DM Sans', sans-serif);
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: var(--gf-black, #1d1d1f);
+    text-decoration: none;
+    padding: 0.875rem 1rem;
+    border-radius: 12px;
+    transition: color 0.2s ease, background-color 0.2s ease;
+    display: block;
+  }
+
+  .gf-mobile-drawer__nav a:hover,
+  .gf-mobile-drawer__nav a[aria-current="page"] {
+    color: var(--gf-green, #2d6a4f);
+    background-color: rgba(45, 106, 79, 0.06);
+  }
+
+  .gf-mobile-drawer__footer {
+    padding: 1.5rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  .gf-mobile-drawer__footer a {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-family: var(--gf-font-body, 'DM Sans', sans-serif);
+    font-size: 1rem;
+    font-weight: 500;
+    color: white;
+    background: var(--gf-green, #2d6a4f);
+    padding: 0.875rem;
+    border-radius: 980px;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+  }
+
+  .gf-mobile-drawer__footer a:hover {
+    background: var(--gf-green-light, #40916c);
+  }
+</style>
+
+<sticky-header data-sticky-type="on-scroll-up" class="gf-header-section">
+  <div class="gf-header-wrap" id="gf-header-wrap">
+    <div class="gf-header">
+
+      {%- comment -%} Logo {%- endcomment -%}
+      <div class="gf-header__logo">
+        {%- if request.page_type == 'index' -%}<h1 style="margin:0;font-size:inherit;">{%- endif -%}
+          <a href="{{ routes.root_url }}">
+            {%- if settings.logo != blank -%}
+              {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
+              <img
+                src="{{ settings.logo | image_url: width: 300 }}"
+                alt="{{ logo_alt }}"
+                class="gf-header__logo-img"
+                width="{{ settings.logo_width | default: 120 }}"
+                height="{{ settings.logo_width | default: 120 | divided_by: settings.logo.aspect_ratio | round }}"
+                loading="eager"
+              >
+            {%- else -%}
+              {{ shop.name }}
+            {%- endif -%}
+          </a>
+        {%- if request.page_type == 'index' -%}</h1>{%- endif -%}
+      </div>
+
+      {%- comment -%} Desktop Navigation {%- endcomment -%}
+      {%- if section.settings.menu != blank -%}
+        <nav class="gf-header__nav" aria-label="Main navigation">
+          {%- for link in section.settings.menu.links -%}
+            <a
+              href="{{ link.url }}"
+              {% if link.current %}aria-current="page"{% endif %}
+            >
+              {{ link.title | escape }}
+            </a>
+          {%- endfor -%}
+        </nav>
+      {%- endif -%}
+
+      {%- comment -%} Actions: cart + mobile hamburger {%- endcomment -%}
+      <div class="gf-header__actions">
+
+        {%- comment -%} Cart button — opens Dawn's cart drawer {%- endcomment -%}
+        <a href="{{ routes.cart_url }}" class="gf-header__icon-btn" id="gf-cart-trigger" aria-label="Cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+          <span class="gf-header__cart-badge" id="gf-cart-count" data-count="{{ cart.item_count }}">
+            {%- if cart.item_count > 0 -%}{{ cart.item_count }}{%- endif -%}
+          </span>
+        </a>
+
+        {%- comment -%} Hamburger — mobile only {%- endcomment -%}
+        <button
+          class="gf-header__icon-btn gf-header__hamburger"
+          id="gf-mobile-toggle"
+          aria-label="Open menu"
+          aria-expanded="false"
+          aria-controls="gf-mobile-drawer"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</sticky-header>
+
+{%- comment -%} Mobile drawer {%- endcomment -%}
+<div class="gf-mobile-drawer" id="gf-mobile-drawer" aria-hidden="true">
+  <div class="gf-mobile-drawer__backdrop" id="gf-mobile-backdrop"></div>
+  <div class="gf-mobile-drawer__panel">
+    <div class="gf-mobile-drawer__header">
+      <span class="gf-mobile-drawer__title">{{ shop.name }}</span>
+      <button class="gf-mobile-drawer__close" id="gf-mobile-close" aria-label="Close menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    {%- if section.settings.menu != blank -%}
+      <nav class="gf-mobile-drawer__nav" aria-label="Mobile navigation">
+        {%- for link in section.settings.menu.links -%}
+          <a
+            href="{{ link.url }}"
+            {% if link.current %}aria-current="page"{% endif %}
+          >
+            {{ link.title | escape }}
+          </a>
+        {%- endfor -%}
+      </nav>
+    {%- endif -%}
+    <div class="gf-mobile-drawer__footer">
+      <a href="{{ routes.cart_url }}">View cart ({{ cart.item_count }})</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* Mobile drawer toggle */
+  (function() {
+    const toggle = document.getElementById('gf-mobile-toggle');
+    const drawer = document.getElementById('gf-mobile-drawer');
+    const close = document.getElementById('gf-mobile-close');
+    const backdrop = document.getElementById('gf-mobile-backdrop');
+
+    function openDrawer() {
+      drawer.classList.add('is-open');
+      drawer.setAttribute('aria-hidden', 'false');
+      toggle.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+      close.focus();
+    }
+    function closeDrawer() {
+      drawer.classList.remove('is-open');
+      drawer.setAttribute('aria-hidden', 'true');
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+      toggle.focus();
+    }
+
+    if (toggle) toggle.addEventListener('click', openDrawer);
+    if (close) close.addEventListener('click', closeDrawer);
+    if (backdrop) backdrop.addEventListener('click', closeDrawer);
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && drawer.classList.contains('is-open')) closeDrawer();
+    });
+
+    /* Cart icon: if Dawn cart drawer exists, open it instead of navigating */
+    const cartTrigger = document.getElementById('gf-cart-trigger');
+    if (cartTrigger) {
+      cartTrigger.addEventListener('click', function(e) {
+        const dawnDrawer = document.querySelector('cart-drawer');
+        if (dawnDrawer) {
+          e.preventDefault();
+          const details = dawnDrawer.querySelector('details');
+          if (details) {
+            details.setAttribute('open', '');
+            /* Trigger Dawn's section rendering fetch */
+            dawnDrawer.classList.add('active');
+            fetch('/?sections=cart-drawer')
+              .then(r => r.json())
+              .then(data => {
+                const html = data['cart-drawer'];
+                if (html) {
+                  const temp = document.createElement('div');
+                  temp.innerHTML = html;
+                  const newContent = temp.querySelector('cart-drawer');
+                  if (newContent) {
+                    dawnDrawer.innerHTML = newContent.innerHTML;
+                    const d = dawnDrawer.querySelector('details');
+                    if (d) d.setAttribute('open', '');
+                  }
+                }
+              })
+              .catch(() => {});
+          }
+        }
+      });
+    }
+
+    /* Header scroll state */
+    const headerWrap = document.getElementById('gf-header-wrap');
+    if (headerWrap) {
+      const onScroll = function() {
+        if (window.scrollY > 20) {
+          headerWrap.classList.add('is-scrolled');
+        } else {
+          headerWrap.classList.remove('is-scrolled');
+        }
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    }
+  })();
+</script>
+
+{%- comment -%} Preserve Dawn's structured data for SEO {%- endcomment -%}
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Organization",
+    "name": {{ shop.name | json }},
+    {% if settings.logo %}
+      "logo": {{ settings.logo | image_url: width: 500 | prepend: "https:" | json }},
+    {% endif %}
+    "sameAs": [
+      {{ settings.social_twitter_link | json }},
+      {{ settings.social_facebook_link | json }},
+      {{ settings.social_pinterest_link | json }},
+      {{ settings.social_instagram_link | json }},
+      {{ settings.social_tiktok_link | json }},
+      {{ settings.social_tumblr_link | json }},
+      {{ settings.social_snapchat_link | json }},
+      {{ settings.social_youtube_link | json }},
+      {{ settings.social_vimeo_link | json }}
+    ],
+    "url": {{ request.origin | append: page.url | json }}
+  }
+</script>
+
+{%- if request.page_type == 'index' -%}
+  {% assign potential_action_target = request.origin | append: routes.search_url | append: '?q={search_term_string}' %}
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "WebSite",
+      "name": {{ shop.name | json }},
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {{ potential_action_target | json }},
+        "query-input": "required name=search_term_string"
+      },
+      "url": {{ request.origin | append: page.url | json }}
+    }
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Greenform Header",
+  "class": "gf-header-section",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "default": "main-menu",
+      "label": "Navigation menu"
+    },
+    {
+      "type": "select",
+      "id": "sticky_header_type",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "on-scroll-up", "label": "On scroll up" },
+        { "value": "always", "label": "Always" }
+      ],
+      "default": "on-scroll-up",
+      "label": "Sticky header"
+    }
+  ]
+}
+{% endschema %}

@@ -1,84 +1,134 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
+    "gf_hero": {
+      "type": "gf-hero",
+      "settings": {
+        "tag": "NZ's premium houseplant store",
+        "heading": "Plants that make your space feel alive",
+        "subheading": "Carefully selected, safely shipped to your door anywhere in New Zealand.",
+        "button_label_1": "Shop all plants",
+        "button_link_1": "shopify:\/\/collections\/all",
+        "button_label_2": "Explore care guides"
+      }
+    },
+    "gf_featured_product": {
+      "type": "gf-featured-product",
+      "settings": {
+        "tag": "Featured plant",
+        "heading": "Monstera Thai Constellation",
+        "description": "A stunning variegated Monstera with creamy-white splashes across every leaf. Each plant is unique. Thrives in bright, indirect light and ships safely nationwide.",
+        "button_label": "View plant"
+      }
+    },
+    "gf_product_grid": {
+      "type": "gf-product-grid",
+      "settings": {
+        "heading": "Our plants",
+        "subheading": "Hand-picked for New Zealand homes",
+        "products_to_show": 6,
+        "enable_quick_add": true,
+        "show_view_all": true,
+        "view_all_label": "View all plants"
+      }
+    },
+    "gf_care_guide": {
+      "type": "gf-care-guide",
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "tip_1": {
+          "type": "tip",
           "settings": {
-            "heading": "Bring your space to life",
-            "heading_size": "h1"
+            "icon": "sun",
+            "title": "Find the right light",
+            "text": "Most houseplants prefer bright, indirect light. Keep them near a window but out of harsh direct sun."
           }
         },
-        "button": {
-          "type": "buttons",
+        "tip_2": {
+          "type": "tip",
           "settings": {
-            "button_label_1": "Shop Plants",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "icon": "droplet",
+            "title": "Water with confidence",
+            "text": "Check the top 2\u20133cm of soil before watering. Most plants prefer to dry out slightly between drinks."
+          }
+        },
+        "tip_3": {
+          "type": "tip",
+          "settings": {
+            "icon": "leaf",
+            "title": "Feed the growth",
+            "text": "Use a balanced liquid fertiliser during spring and summer. Ease off in autumn and winter when growth slows."
           }
         }
       },
-      "block_order": [
-        "heading",
-        "button"
-      ],
+      "block_order": ["tip_1", "tip_2", "tip_3"],
       "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "image_behavior": "none",
-        "desktop_content_position": "bottom-center",
-        "desktop_content_alignment": "center",
-        "show_text_box": false,
-        "color_scheme": "scheme-3",
-        "stack_images_on_mobile": false,
-        "mobile_content_alignment": "center",
-        "show_text_below": false
+        "heading": "Plant care, simplified",
+        "subheading": "Everything you need to keep your plants thriving"
       }
     },
-    "featured_collection": {
-      "type": "featured-collection",
+    "gf_testimonials": {
+      "type": "gf-testimonials",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "text": "My Monstera arrived in perfect condition. Beautifully packaged and clearly well looked after. Already planning my next order.",
+            "author": "Sarah T.",
+            "plant": "Monstera Deliciosa"
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "text": "The care guide that came with my Fiddle Leaf Fig has been a lifesaver. Three months in and it\u2019s thriving. Best plant purchase I\u2019ve made.",
+            "author": "James K.",
+            "plant": "Fiddle Leaf Fig"
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "text": "Fast shipping to Wellington and the plant was packed so carefully. Love that they include specific care instructions for NZ conditions.",
+            "author": "Aroha M.",
+            "plant": "Alocasia Zebrina"
+          }
+        },
+        "review_4": {
+          "type": "review",
+          "settings": {
+            "rating": 4,
+            "text": "Great selection of rare plants. The Thai Constellation was exactly as pictured. Would love to see more pot options in future.",
+            "author": "Daniel W.",
+            "plant": "Thai Constellation"
+          }
+        }
+      },
+      "block_order": ["review_1", "review_2", "review_3", "review_4"],
       "settings": {
-        "collection": "all",
-        "products_to_show": 8,
-        "title": "Featured products",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "columns_desktop": 4,
-        "enable_desktop_slider": false,
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "color_scheme": "scheme-1",
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "swipe_on_mobile": false,
-        "padding_top": 44,
-        "padding_bottom": 36
+        "heading": "What our customers say",
+        "subheading": "Real reviews from real plant lovers"
+      }
+    },
+    "gf_cta_banner": {
+      "type": "gf-cta-banner",
+      "settings": {
+        "heading": "Join the Greenform family",
+        "text": "Get care tips, early access to new arrivals, and exclusive offers. No spam, just plants.",
+        "show_email_signup": true,
+        "placeholder": "Enter your email",
+        "submit_label": "Subscribe",
+        "success_message": "Welcome to Greenform! Check your inbox."
       }
     }
   },
   "order": [
-    "image_banner",
-    "featured_collection"
+    "gf_hero",
+    "gf_featured_product",
+    "gf_product_grid",
+    "gf_care_guide",
+    "gf_testimonials",
+    "gf_cta_banner"
   ]
 }

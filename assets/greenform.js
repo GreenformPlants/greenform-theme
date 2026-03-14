@@ -30,25 +30,8 @@
 
   /* ---------------------------------------------------------
      NAV SCROLL STATE
+     (Handled directly in gf-header.liquid — no action needed here)
      --------------------------------------------------------- */
-  function initNavScroll() {
-    const header = document.querySelector('.header-wrapper');
-    if (!header) return;
-
-    let lastY = 0;
-    const onScroll = () => {
-      const y = window.scrollY;
-      if (y > 50) {
-        header.classList.add('scrolled-past-header');
-      } else {
-        header.classList.remove('scrolled-past-header');
-      }
-      lastY = y;
-    };
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-  }
 
   /* ---------------------------------------------------------
      TOAST NOTIFICATIONS
@@ -282,7 +265,6 @@
   function init() {
     toast.init();
     initScrollReveal();
-    initNavScroll();
     initProductModal();
     initDirectAdd();
   }
