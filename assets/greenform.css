@@ -216,94 +216,23 @@ h1, h2, h3, h4, h5, h6,
 
 
 /* ============================================================
-   HEADER OVERRIDES (Dawn header.liquid)
+   DAWN HEADER/FOOTER OVERRIDES
+   Not needed — using custom gf-header.liquid and gf-footer.liquid
    ============================================================ */
-.section-header {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-
-.header-wrapper {
-  background-color: rgba(251, 251, 253, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-  transition: background-color var(--gf-duration) var(--gf-ease),
-              box-shadow var(--gf-duration) var(--gf-ease);
-}
-
-.header-wrapper.scrolled-past-header {
-  background-color: rgba(251, 251, 253, 0.95);
-  box-shadow: var(--gf-shadow-sm);
-}
-
-.header {
-  font-family: var(--gf-font-body);
-  max-width: var(--gf-max-width-wide);
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
-}
-
-/* Logo / store name styling */
-.header h1,
-.header .header__heading-link {
-  font-family: var(--gf-font-display);
-  color: var(--gf-green-hero);
-  font-weight: 700;
-  font-size: clamp(1.25rem, 1rem + 1vw, 1.625rem);
-  text-decoration: none;
-  letter-spacing: -0.01em;
-}
-
-/* Nav links */
-.header__menu-item,
-.header__menu-item span {
-  font-family: var(--gf-font-body);
-  font-size: var(--gf-text-sm);
-  font-weight: 500;
-  color: var(--gf-gray-dark);
-  text-decoration: none;
-  transition: color var(--gf-duration) var(--gf-ease);
-}
-.header__menu-item:hover,
-.header__menu-item:hover span {
-  color: var(--gf-green);
-}
-
-/* Cart icon */
-.header__icon .icon {
-  color: var(--gf-black);
-  width: 22px;
-  height: 22px;
-}
-.header__icon:hover .icon {
-  color: var(--gf-green);
-}
-
-/* Cart count badge */
-.cart-count-bubble {
-  background-color: var(--gf-green);
-  color: var(--gf-white);
-  font-family: var(--gf-font-body);
-  font-size: 0.625rem;
-  font-weight: 600;
-  min-width: 18px;
-  height: 18px;
-  border-radius: 50%;
-}
 
 
 /* ============================================================
    ANNOUNCEMENT BAR OVERRIDES
    ============================================================ */
 .announcement-bar {
-  background-color: var(--gf-green-hero);
+  background-color: rgba(27, 67, 50, 0.6);
   color: var(--gf-white);
   font-family: var(--gf-font-body);
   font-size: var(--gf-text-xs);
   font-weight: 500;
   letter-spacing: 0.02em;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 .announcement-bar a {
   color: var(--gf-green-soft);
@@ -315,11 +244,13 @@ h1, h2, h3, h4, h5, h6,
    ============================================================ */
 .gf-hero {
   position: relative;
-  min-height: clamp(500px, 60vh, 800px);
+  min-height: 100vh;
   display: flex;
   align-items: center;
   overflow: hidden;
   background-color: var(--gf-green-hero);
+  margin-top: -72px; /* Pull up behind the transparent header */
+  padding-top: 72px; /* Compensate so content isn't hidden */
 }
 
 .gf-hero__bg {
@@ -348,7 +279,13 @@ h1, h2, h3, h4, h5, h6,
   max-width: var(--gf-max-width);
   margin: 0 auto;
   padding: clamp(4rem, 3rem + 5vw, 8rem) clamp(1rem, 0.5rem + 2vw, 2rem);
+  padding-top: 30vh;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: calc(100vh - 72px);
+  padding-bottom: clamp(4rem, 3rem + 5vw, 8rem);
 }
 
 .gf-hero__tag {
