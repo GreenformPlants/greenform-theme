@@ -149,3 +149,13 @@ button {
    
    Option B is more reliable. Option A is cleaner.
    ============================================================ */
+
+.section-header,
+.section-header * {
+  color: #1b4332 !important;
+  stroke: #1b4332 !important;
+  fill: #1b4332 !important;
+}
+.section-header .header {
+  background: #ffffff !important;
+}
