@@ -392,9 +392,6 @@
     }
   },
   "platform_customizations": {
-    "custom_css": [
-      ".section-header .header {background: #ffffff !important;}",
-      ".section-header .header__heading-link,.section-header .header__heading-link *,.section-header .header__icon,.section-header .header__icon svg,.section-header .list-menu__item,.section-header a {color: #1b4332 !important; stroke: #1b4332 !important;}"
-    ]
+    "custom_css": []
   }
 }
