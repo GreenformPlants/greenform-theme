@@ -1,6 +1,8 @@
 /* ============================================================
    Greenform — Product Page Styles
    Covers: main-product, product-care-card, trust-strip sections
+   Typography: Satoshi (headings/UI), Instrument Serif (body)
+   Requires: fonts.css loaded before this file
    ============================================================ */
 
 /* ---- Breadcrumb ---- */
@@ -157,14 +159,15 @@
 .product-info__title {
   font-family: var(--font-heading);
   font-size: clamp(1.5rem, 2.5vw, 1.875rem);
-  font-weight: 500;
+  font-weight: 700;
   color: var(--black);
-  line-height: 1.2;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
   margin: 0;
 }
 
 .product-info__botanical {
-  font-family: var(--font-heading);
+  font-family: var(--font-body);
   font-style: italic;
   font-size: 0.875rem;
   color: var(--gray-mid);
@@ -181,7 +184,7 @@
 
 .product-info__price {
   font-size: 1.5rem;
-  font-weight: 500;
+  font-weight: 700;
   color: var(--black);
 }
 
@@ -252,7 +255,7 @@
   background: transparent;
   cursor: pointer;
   transition: all 0.2s ease;
-  font-family: var(--font-body);
+  font-family: var(--font-ui);
   line-height: 1.4;
 }
 
@@ -410,7 +413,7 @@
   font-size: 1rem;
   cursor: pointer;
   color: var(--gray-dark);
-  font-family: var(--font-body);
+  font-family: var(--font-ui);
   transition: background 0.15s ease;
   display: flex;
   align-items: center;
@@ -429,7 +432,7 @@
   border: none;
   background: transparent;
   color: var(--black);
-  font-family: var(--font-body);
+  font-family: var(--font-ui);
   -moz-appearance: textfield;
 }
 
@@ -449,7 +452,7 @@
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
-  font-family: var(--font-body);
+  font-family: var(--font-ui);
   letter-spacing: 0.3px;
   transition: background 0.2s ease, transform 0.1s ease;
   display: flex;
@@ -577,7 +580,7 @@
   background: transparent;
   cursor: pointer;
   white-space: nowrap;
-  font-family: var(--font-body);
+  font-family: var(--font-ui);
   transition: all 0.2s ease;
   flex-shrink: 0;
 }
@@ -607,8 +610,9 @@
 .product-description__heading {
   font-family: var(--font-heading);
   font-size: 1.375rem;
-  font-weight: 500;
+  font-weight: 700;
   color: var(--black);
+  letter-spacing: -0.3px;
   margin-bottom: 1rem;
 }
 
@@ -621,8 +625,9 @@
 .product-description__body h2 {
   font-family: var(--font-heading);
   font-size: 1.125rem;
-  font-weight: 500;
+  font-weight: 700;
   color: var(--black);
+  letter-spacing: -0.3px;
   margin-top: 2rem;
   margin-bottom: 0.5rem;
 }
@@ -630,8 +635,9 @@
 .product-description__body h3 {
   font-family: var(--font-heading);
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 700;
   color: var(--black);
+  letter-spacing: -0.2px;
   margin-top: 1.5rem;
   margin-bottom: 0.375rem;
 }
@@ -698,13 +704,14 @@
 .product-care-card__title {
   font-family: var(--font-heading);
   font-size: 1.375rem;
-  font-weight: 500;
+  font-weight: 700;
   color: var(--black);
+  letter-spacing: -0.3px;
   margin-bottom: 0.375rem;
 }
 
 .product-care-card__origin {
-  font-family: var(--font-heading);
+  font-family: var(--font-body);
   font-style: italic;
   font-size: 0.8125rem;
   color: var(--gray-mid);
@@ -810,8 +817,9 @@
 .trust-strip__heading {
   font-family: var(--font-heading);
   font-size: 0.9375rem;
-  font-weight: 500;
+  font-weight: 700;
   color: var(--black);
+  letter-spacing: -0.2px;
   margin-bottom: 0.375rem;
 }
 
