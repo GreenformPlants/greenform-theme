@@ -40,7 +40,7 @@
       "type": "gf-header",
       "settings": {
         "menu": "main-menu",
-        "sticky_header_type": "on-scroll-up"
+        "sticky_header_type": "none"
       }
     }
   },
