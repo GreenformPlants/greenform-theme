@@ -1,37 +1,37 @@
 /* ============================================================
    Greenform — Font Declarations & Base Typography
-   Fonts: Satoshi (headings/display/UI), Instrument Serif (body)
-   
-   Upload these font files to your Shopify assets/ folder:
-   - Satoshi-Variable.woff2 (from fontshare.com/fonts/satoshi)
-   - InstrumentSerif-Regular.woff2 (from fonts.google.com)
-   - InstrumentSerif-Italic.woff2 (from fonts.google.com)
-   
-   Then replace the src URLs below with Liquid asset_url tags
-   in your theme.liquid <head>. See note at bottom of file.
+   Fonts: Satoshi (headings/display), Lato (body/UI)
    ============================================================ */
 
 @font-face {
   font-family: 'Satoshi';
-  src: url('Satoshi-Variable.woff2') format('woff2');
-  font-weight: 300 900;
+  src: url('SatoshiVariable-Bold.woff2') format('woff2');
+  font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Instrument Serif';
-  src: url('InstrumentSerif-Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Instrument Serif';
-  src: url('InstrumentSerif-Italic.woff2') format('woff2');
-  font-weight: 400;
+  font-family: 'Satoshi';
+  src: url('SatoshiVariable-BoldItalic.woff2') format('woff2');
+  font-weight: 700;
   font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lato';
+  src: url('Lato-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lato';
+  src: url('Lato-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
   font-display: swap;
 }
 
@@ -39,12 +39,9 @@
 /* ---- Base Variables ---- */
 
 :root {
-  /* Typography */
   --font-heading: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-body: 'Instrument Serif', Georgia, 'Times New Roman', serif;
-  --font-ui: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-body: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
-  /* Colour palette */
   --black:        #1d1d1f;
   --gray-dark:    #424245;
   --gray-mid:     #6e6e73;
@@ -57,14 +54,11 @@
   --green-hero:   #1b4332;
   --cream:        #faf8f5;
 
-  /* Spacing */
   --content-width: 1200px;
   --section-padding: 7rem 2rem;
   --radius-card: 20px;
   --radius-pill: 980px;
 }
-
-/* ---- Base Reset ---- */
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -73,106 +67,4 @@
 }
 
 body {
-  font-family: var(--font-body);
-  font-size: 1rem;
-  line-height: 1.7;
-  color: var(--gray-dark);
-  background: var(--white);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.5px;
-  color: var(--black);
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* UI elements (buttons, labels, nav, badges, form inputs)
-   use Satoshi, not the serif body font */
-button,
-input,
-select,
-textarea,
-nav,
-.product-form__selector-label,
-.product-metafield-strip__label,
-.product-metafield-strip__value,
-.product-cross-sell__title,
-.product-cross-sell__add-btn,
-.product-cross-sell__name,
-.product-cross-sell__desc,
-.product-cross-sell__price,
-.product-form__atc-btn,
-.product-form__size-pill,
-.product-form__pot-chip-label,
-.product-info__shipping-line,
-.product-info__save-badge,
-.product-info__stock-badge,
-.product-info__sold-out-badge,
-.product-info__price,
-.product-breadcrumb,
-.trust-strip__heading,
-.trust-strip__text,
-.product-care-card__block-heading,
-.product-care-card__link {
-  font-family: var(--font-ui);
-}
-
-
-/* ============================================================
-   NOTE FOR SHOPIFY IMPLEMENTATION
-   ============================================================
-   
-   In Shopify, font file URLs need the Liquid asset_url filter.
-   You have two options:
-   
-   OPTION A — Load this file as a static CSS asset:
-   Upload fonts.css to assets/ and the font URLs above will
-   resolve automatically (Shopify looks in assets/ by default).
-   Load it in theme.liquid:
-   
-     {{ 'fonts.css' | asset_url | stylesheet_tag }}
-   
-   OPTION B — Inline the @font-face in theme.liquid:
-   If the URLs don't resolve, paste this in your <head>:
-   
-     <style>
-       @font-face {
-         font-family: 'Satoshi';
-         src: url({{ 'Satoshi-Variable.woff2' | asset_url }}) format('woff2');
-         font-weight: 300 900;
-         font-style: normal;
-         font-display: swap;
-       }
-       @font-face {
-         font-family: 'Instrument Serif';
-         src: url({{ 'InstrumentSerif-Regular.woff2' | asset_url }}) format('woff2');
-         font-weight: 400;
-         font-style: normal;
-         font-display: swap;
-       }
-       @font-face {
-         font-family: 'Instrument Serif';
-         src: url({{ 'InstrumentSerif-Italic.woff2' | asset_url }}) format('woff2');
-         font-weight: 400;
-         font-style: italic;
-         font-display: swap;
-       }
-     </style>
-   
-   Option B is more reliable. Option A is cleaner.
-   ============================================================ */
+  font-family:
