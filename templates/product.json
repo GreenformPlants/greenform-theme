@@ -1,19 +1,27 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main-product": {
       "type": "main-product",
       "settings": {
         "show_short_description": true,
-        "show_size_selector": true,
-        "show_pot_selector": true,
+        "show_size_selector": false,
+        "show_pot_selector": false,
         "show_metafield_strip": true,
         "show_cross_sells": true,
         "cross_sell_heading": "Complete the look",
         "show_shipping_line": true,
         "shipping_line_left": "Free shipping over $120",
         "shipping_line_right": "Arrives in 2–4 days"
-      },
-      "blocks": {}
+      }
     },
     "care-card": {
       "type": "product-care-card",
@@ -57,7 +65,8 @@
         "trust-guarantee",
         "trust-shipping",
         "trust-sourcing"
-      ]
+      ],
+      "settings": {}
     }
   },
   "order": [
