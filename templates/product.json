@@ -11,7 +11,17 @@
   "sections": {
     "main-product": {
       "type": "main-product",
-      "settings": {}
+      "settings": {
+        "show_short_description": true,
+        "show_size_selector": false,
+        "show_pot_selector": false,
+        "show_metafield_strip": true,
+        "show_cross_sells": true,
+        "cross_sell_heading": "Complete the look",
+        "show_shipping_line": true,
+        "shipping_line_left": "Free shipping over $120",
+        "shipping_line_right": "Arrives in 2–4 days"
+      }
     },
     "care-card": {
       "type": "product-care-card",
