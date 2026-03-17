@@ -1,0 +1,572 @@
+/* ============================================================
+   Greenform Product Carousel & Card Styles
+   Design reference: Patch Plants (patchplants.com)
+   ============================================================ */
+
+/* ---- Section layout ---- */
+
+.gf-carousel-section {
+  padding: 3rem 0;
+}
+
+.gf-carousel-section__container {
+  max-width: var(--content-width, 1200px);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.gf-carousel-section__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+}
+
+.gf-carousel-section__heading {
+  font-family: var(--font-heading-family, 'Satoshi', sans-serif);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  color: var(--black, #1d1d1f);
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+
+.gf-carousel-section__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-body-family, 'Lato', sans-serif);
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: var(--green-accent, #2d6a4f);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
+}
+
+.gf-carousel-section__link:hover {
+  opacity: 0.75;
+}
+
+.gf-carousel-section__link svg {
+  transition: transform 0.2s ease;
+}
+
+.gf-carousel-section__link:hover svg {
+  transform: translateX(3px);
+}
+
+
+/* ---- Carousel track ---- */
+
+.gf-carousel {
+  position: relative;
+}
+
+.gf-carousel__track {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+
+  /* Hide scrollbar but keep scroll */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.gf-carousel__track::-webkit-scrollbar {
+  display: none;
+}
+
+.gf-carousel__slide {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  /* Mobile: ~80% width so next card peeks */
+  width: calc(80vw - 2rem);
+  max-width: 320px;
+}
+
+/* Desktop: 4 columns grid */
+@media (min-width: 900px) {
+  .gf-carousel__track {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+    overflow-x: visible;
+    scroll-snap-type: none;
+  }
+
+  .gf-carousel__slide {
+    width: auto;
+    max-width: none;
+  }
+}
+
+/* Large desktop: allow more breathing room */
+@media (min-width: 1200px) {
+  .gf-carousel__track {
+    gap: 1.5rem;
+  }
+}
+
+
+/* ---- Carousel nav arrows (mobile only) ---- */
+
+.gf-carousel__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 3rem;
+  z-index: 3;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: #fff;
+  transition: opacity 0.2s ease;
+}
+
+.gf-carousel__nav--prev {
+  left: 0;
+  background: linear-gradient(to right, rgba(0,0,0,0.15) 0%, transparent 100%);
+  border-radius: 0;
+}
+
+.gf-carousel__nav--next {
+  right: 0;
+  background: linear-gradient(to left, rgba(0,0,0,0.15) 0%, transparent 100%);
+}
+
+.gf-carousel__nav.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (min-width: 900px) {
+  .gf-carousel__nav {
+    display: none;
+  }
+}
+
+
+/* ---- Product Card ---- */
+
+.gf-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #fff;
+  border: 1px solid #e8e8e8;
+  border-radius: 0;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease;
+}
+
+.gf-card:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+
+/* ---- Card image ---- */
+
+.gf-card__image-link {
+  display: block;
+  text-decoration: none;
+}
+
+.gf-card__image-wrapper {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.gf-card__image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.gf-card:hover .gf-card__image-wrapper img {
+  transform: scale(1.03);
+}
+
+/* Image carousel (multi-image cards) */
+.gf-card__image-carousel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.gf-card__image-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.gf-card__image-slide.is-active {
+  opacity: 1;
+  position: relative;
+}
+
+.gf-card__image-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Card image arrows */
+.gf-card__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #333;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+}
+
+.gf-card:hover .gf-card__arrow {
+  opacity: 1;
+}
+
+.gf-card__arrow:hover {
+  background: #fff;
+}
+
+.gf-card__arrow--prev {
+  left: 0.5rem;
+}
+
+.gf-card__arrow--next {
+  right: 0.5rem;
+}
+
+/* Image dots */
+.gf-card__dots {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.3rem;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.gf-card:hover .gf-card__dots {
+  opacity: 1;
+}
+
+.gf-card__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  transition: background 0.2s ease;
+}
+
+.gf-card__dot.is-active {
+  background: #fff;
+}
+
+/* Placeholder */
+.gf-card__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: #f0f0f0;
+}
+
+.gf-card__placeholder-svg {
+  width: 50%;
+  height: 50%;
+  fill: #ccc;
+}
+
+
+/* ---- Card info ---- */
+
+.gf-card__info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1rem 1rem 1.25rem;
+}
+
+.gf-card__title-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.gf-card__title {
+  font-family: var(--font-heading-family, 'Satoshi', sans-serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--black, #1d1d1f);
+  line-height: 1.3;
+  margin: 0 0 0.15rem;
+  letter-spacing: -0.3px;
+}
+
+.gf-card__botanical {
+  font-family: var(--font-body-family, 'Lato', sans-serif);
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--gray-mid, #6e6e73);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.4;
+  margin: 0 0 0.5rem;
+}
+
+
+/* ---- Badges ---- */
+
+.gf-card__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.6rem;
+}
+
+.gf-card__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: var(--font-body-family, 'Lato', sans-serif);
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--gray-dark, #424245);
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.25rem 0.6rem;
+  line-height: 1.3;
+}
+
+.gf-card__meta-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.gf-card__meta-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: var(--font-body-family, 'Lato', sans-serif);
+  font-size: 0.78rem;
+  color: var(--gray-mid, #6e6e73);
+}
+
+.gf-card__meta-badge svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+
+/* ---- Price ---- */
+
+.gf-card__price {
+  margin-top: auto;
+  padding-top: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.gf-card__price-from {
+  font-family: var(--font-body-family, 'Lato', sans-serif);
+  font-size: 0.85rem;
+  color: var(--gray-mid, #6e6e73);
+}
+
+.gf-card__price-amount {
+  font-family: var(--font-body-family, 'Lato', sans-serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--black, #1d1d1f);
+}
+
+.gf-card__price-was {
+  font-family: var(--font-body-family, 'Lato', sans-serif);
+  font-size: 0.85rem;
+  color: var(--gray-light, #86868b);
+  text-decoration: line-through;
+  margin-left: 0.4rem;
+}
+
+
+/* ---- Actions (CTA) ---- */
+
+.gf-card__actions {
+  border-top: 1px solid #e8e8e8;
+  padding-top: 0.75rem;
+}
+
+.gf-card__btn {
+  display: block;
+  width: 100%;
+  padding: 0.7rem 1rem;
+  font-family: var(--font-body-family, 'Lato', sans-serif);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-align: center;
+  border-radius: 0;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  text-decoration: none;
+  line-height: 1.4;
+}
+
+/* Outlined â€” "See options" */
+.gf-card__btn--outline {
+  background: transparent;
+  color: var(--black, #1d1d1f);
+  border: 1.5px solid var(--black, #1d1d1f);
+}
+
+.gf-card__btn--outline:hover {
+  background: var(--black, #1d1d1f);
+  color: #fff;
+}
+
+/* Filled â€” "Add to bag" */
+.gf-card__btn--filled {
+  background: var(--black, #1d1d1f);
+  color: #fff;
+  border: 1.5px solid var(--black, #1d1d1f);
+}
+
+.gf-card__btn--filled:hover {
+  background: var(--gray-dark, #424245);
+  border-color: var(--gray-dark, #424245);
+}
+
+/* Disabled â€” "Sold out" */
+.gf-card__btn--disabled {
+  background: #e0e0e0;
+  color: #999;
+  border: 1.5px solid #e0e0e0;
+  cursor: not-allowed;
+}
+
+
+/* ---- Qty selector (single-variant cards) ---- */
+
+.gf-card__add-form {
+  display: flex;
+  gap: 0.5rem;
+  align-items: stretch;
+}
+
+.gf-card__qty-wrap {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid #ddd;
+  border-radius: 0;
+  flex-shrink: 0;
+}
+
+.gf-card__qty-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 100%;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: var(--gray-dark, #424245);
+  cursor: pointer;
+  transition: color 0.15s ease;
+  padding: 0;
+  font-family: var(--font-body-family, 'Lato', sans-serif);
+}
+
+.gf-card__qty-btn:hover {
+  color: var(--black, #1d1d1f);
+}
+
+.gf-card__qty-input {
+  width: 2rem;
+  text-align: center;
+  border: none;
+  font-family: var(--font-body-family, 'Lato', sans-serif);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--black, #1d1d1f);
+  background: transparent;
+  -moz-appearance: textfield;
+  appearance: textfield;
+  padding: 0;
+}
+
+.gf-card__qty-input::-webkit-outer-spin-button,
+.gf-card__qty-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.gf-card__add-form .gf-card__btn--filled {
+  flex: 1;
+  padding: 0.7rem 0.75rem;
+}
+
+
+/* ---- Mobile-first responsive ---- */
+
+@media (max-width: 599px) {
+  .gf-carousel-section__container {
+    padding: 0 1rem;
+  }
+
+  .gf-carousel__slide {
+    width: calc(75vw - 1.5rem);
+  }
+
+  .gf-card__info {
+    padding: 0.75rem 0.75rem 1rem;
+  }
+
+  .gf-card__title {
+    font-size: 1rem;
+  }
+}
+
+/* Tablet: 2-3 cards visible */
+@media (min-width: 600px) and (max-width: 899px) {
+  .gf-carousel__slide {
+    width: calc(42vw - 1.5rem);
+    max-width: 300px;
+  }
+}
+
+/* Desktop: hide swipe indicators, show grid */
+@media (min-width: 900px) {
+  .gf-carousel-section {
+    padding: 4rem 0;
+  }
+}
