@@ -1,0 +1,261 @@
+{%- comment -%}
+  GF Product Carousel
+  Horizontal swipeable product carousel (mobile) / grid (desktop)
+  Matches Patch Plants carousel UX
+{%- endcomment -%}
+
+{{ 'gf-product-carousel.css' | asset_url | stylesheet_tag }}
+
+<div class="gf-carousel-section">
+  <div class="gf-carousel-section__container">
+    {%- if section.settings.heading != blank -%}
+      <div class="gf-carousel-section__header">
+        <h2 class="gf-carousel-section__heading">{{ section.settings.heading }}</h2>
+        {%- if section.settings.link_text != blank and section.settings.link_url != blank -%}
+          <a href="{{ section.settings.link_url }}" class="gf-carousel-section__link">
+            {{ section.settings.link_text }}
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="gf-carousel" data-gf-carousel>
+      {%- comment -%} Mobile navigation arrows {%- endcomment -%}
+      <button class="gf-carousel__nav gf-carousel__nav--prev" data-carousel-nav="prev" aria-label="Previous products" type="button">
+        <svg width="12" height="20" viewBox="0 0 12 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 2L2 10L10 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <button class="gf-carousel__nav gf-carousel__nav--next" data-carousel-nav="next" aria-label="Next products" type="button">
+        <svg width="12" height="20" viewBox="0 0 12 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 2L10 10L2 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <div class="gf-carousel__track" data-carousel-track>
+        {%- assign collection = section.settings.collection -%}
+        {%- assign limit = section.settings.products_to_show -%}
+
+        {%- if collection != blank -%}
+          {%- for product in collection.products limit: limit -%}
+            <div class="gf-carousel__slide">
+              {% render 'gf-product-card', product: product %}
+            </div>
+          {%- endfor -%}
+        {%- else -%}
+          {%- comment -%} Placeholder cards for theme editor {%- endcomment -%}
+          {%- for i in (1..4) -%}
+            <div class="gf-carousel__slide">
+              <div class="gf-card gf-card--placeholder">
+                <div class="gf-card__image-wrapper">
+                  <div class="gf-card__placeholder">
+                    {{ 'product-1' | placeholder_svg_tag: 'gf-card__placeholder-svg' }}
+                  </div>
+                </div>
+                <div class="gf-card__info">
+                  <h3 class="gf-card__title">Sample Plant {{ i }}</h3>
+                  <p class="gf-card__botanical">BOTANICAL NAME</p>
+                  <div class="gf-card__price">
+                    <span class="gf-card__price-amount">$29.99</span>
+                  </div>
+                  <div class="gf-card__actions">
+                    <a href="#" class="gf-card__btn gf-card__btn--outline">See options</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* GF Product Carousel - touch swipe + nav arrows */
+  (function() {
+    document.querySelectorAll('[data-gf-carousel]').forEach(function(carousel) {
+      const track = carousel.querySelector('[data-carousel-track]');
+      const prevBtn = carousel.querySelector('[data-carousel-nav="prev"]');
+      const nextBtn = carousel.querySelector('[data-carousel-nav="next"]');
+      if (!track) return;
+
+      /* Carousel nav arrows - scroll by one card width */
+      function getScrollAmount() {
+        const slide = track.querySelector('.gf-carousel__slide');
+        if (!slide) return 300;
+        return slide.offsetWidth + parseInt(getComputedStyle(track).gap || 16);
+      }
+
+      function updateNavState() {
+        if (!prevBtn || !nextBtn) return;
+        const maxScroll = track.scrollWidth - track.offsetWidth;
+        prevBtn.classList.toggle('is-hidden', track.scrollLeft < 5);
+        nextBtn.classList.toggle('is-hidden', track.scrollLeft >= maxScroll - 5);
+      }
+
+      if (prevBtn) {
+        prevBtn.addEventListener('click', function() {
+          track.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
+        });
+      }
+      if (nextBtn) {
+        nextBtn.addEventListener('click', function() {
+          track.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
+        });
+      }
+
+      track.addEventListener('scroll', updateNavState, { passive: true });
+      updateNavState();
+
+      /* Observe for resize changes */
+      if (window.ResizeObserver) {
+        new ResizeObserver(updateNavState).observe(track);
+      }
+    });
+
+    /* Product card image carousel - per-card prev/next */
+    document.querySelectorAll('[data-carousel]').forEach(function(carousel) {
+      const card = carousel.closest('.gf-card');
+      if (!card) return;
+
+      const slides = carousel.querySelectorAll('.gf-card__image-slide');
+      const dots = card.querySelectorAll('.gf-card__dot');
+      const prevBtn = card.querySelector('[data-arrow="prev"]');
+      const nextBtn = card.querySelector('[data-arrow="next"]');
+      if (slides.length < 2) return;
+
+      let current = 0;
+
+      function goTo(index) {
+        if (index < 0) index = slides.length - 1;
+        if (index >= slides.length) index = 0;
+        slides.forEach(function(s) { s.classList.remove('is-active'); });
+        dots.forEach(function(d) { d.classList.remove('is-active'); });
+        slides[index].classList.add('is-active');
+        if (dots[index]) dots[index].classList.add('is-active');
+        current = index;
+      }
+
+      if (prevBtn) {
+        prevBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          goTo(current - 1);
+        });
+      }
+      if (nextBtn) {
+        nextBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          goTo(current + 1);
+        });
+      }
+    });
+
+    /* Quantity +/- buttons */
+    document.querySelectorAll('.gf-card__qty-btn').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const input = this.closest('.gf-card__add-form').querySelector('.gf-card__qty-input');
+        if (!input) return;
+        let val = parseInt(input.value) || 1;
+        if (this.dataset.qty === 'minus') val = Math.max(1, val - 1);
+        if (this.dataset.qty === 'plus') val++;
+        input.value = val;
+      });
+    });
+
+    /* Ajax add to cart */
+    document.querySelectorAll('.gf-card__add-form').forEach(function(form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const btn = form.querySelector('.gf-card__btn--filled');
+        const originalText = btn.textContent;
+        btn.textContent = 'Adding...';
+        btn.disabled = true;
+
+        fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            id: parseInt(form.querySelector('[name="id"]').value),
+            quantity: parseInt(form.querySelector('[name="quantity"]').value) || 1
+          })
+        })
+        .then(function(res) { return res.json(); })
+        .then(function() {
+          btn.textContent = 'Added!';
+          setTimeout(function() {
+            btn.textContent = originalText;
+            btn.disabled = false;
+          }, 1500);
+          /* Update cart count if your theme has a cart badge */
+          fetch('/cart.js')
+            .then(function(r) { return r.json(); })
+            .then(function(cart) {
+              document.querySelectorAll('[data-cart-count]').forEach(function(el) {
+                el.textContent = cart.item_count;
+              });
+            });
+        })
+        .catch(function() {
+          btn.textContent = 'Error';
+          setTimeout(function() {
+            btn.textContent = originalText;
+            btn.disabled = false;
+          }, 1500);
+        });
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "GF Product Carousel",
+  "tag": "section",
+  "class": "gf-carousel-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Our plants"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "View all link text",
+      "default": "View all"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "View all link URL"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 24,
+      "step": 1,
+      "default": 8,
+      "label": "Products to show"
+    }
+  ],
+  "presets": [
+    {
+      "name": "GF Product Carousel"
+    }
+  ]
+}
+{% endschema %}
