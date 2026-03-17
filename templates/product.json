@@ -67,11 +67,23 @@
         "trust-sourcing"
       ],
       "settings": {}
+    },
+    "gf_product_carousel_dGPnHp": {
+      "type": "gf-product-carousel",
+      "name": "GF Product Carousel",
+      "settings": {
+        "heading": "Our plants",
+        "link_text": "View all",
+        "link_url": "",
+        "collection": "",
+        "products_to_show": 2
+      }
     }
   },
   "order": [
     "main-product",
     "care-card",
-    "trust-strip"
+    "trust-strip",
+    "gf_product_carousel_dGPnHp"
   ]
 }
