@@ -53,7 +53,7 @@
       "type": "gf-hero",
       "name": "Greenform Hero",
       "settings": {
-        "image": "shopify://shop_images/IMG_2402.jpg",
+        "image": "shopify://shop_images/Phone_pic_26.jpg",
         "tag": "NZ's premium houseplant store",
         "heading": "Plants that make your space feel alive",
         "subheading": "Carefully selected, safely shipped to your door anywhere in New Zealand.",
@@ -61,6 +61,17 @@
         "button_link_1": "",
         "button_label_2": "Explore care guides",
         "button_link_2": ""
+      }
+    },
+    "gf_product_carousel_6LizMe": {
+      "type": "gf-product-carousel",
+      "name": "GF Product Carousel",
+      "settings": {
+        "heading": "Our plants",
+        "link_text": "View all",
+        "link_url": "",
+        "collection": "",
+        "products_to_show": 2
       }
     },
     "featured_collection": {
@@ -117,17 +128,6 @@
         "enable_quick_add": true,
         "show_view_all": true,
         "view_all_label": "View all plants"
-      }
-    },
-    "gf_product_carousel_6LizMe": {
-      "type": "gf-product-carousel",
-      "name": "GF Product Carousel",
-      "settings": {
-        "heading": "Our plants",
-        "link_text": "View all",
-        "link_url": "",
-        "collection": "",
-        "products_to_show": 2
       }
     }
   },
