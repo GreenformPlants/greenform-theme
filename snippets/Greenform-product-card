@@ -1,0 +1,126 @@
+{% comment %}
+  Greenform Product Card
+  Usage: {% render 'greenform-product-card', product: product %}
+  
+  Matches Patch Plants card design:
+  - Image with optional multi-image arrows
+  - Product title (bold)
+  - Botanical/type name (uppercase, grey)
+  - Pot size badges
+  - Price with "From" prefix for variants
+  - "See options" or qty + "Add to bag"
+{% endcomment %}
+
+<div class="gf-card" data-product-id="{{ product.id }}">
+  {%- comment -%} Image area {%- endcomment -%}
+  <a href="{{ product.url }}" class="gf-card__image-link">
+    <div class="gf-card__image-wrapper">
+      {%- if product.images.size > 1 -%}
+        <div class="gf-card__image-carousel" data-carousel>
+          {%- for image in product.images -%}
+            <div class="gf-card__image-slide{% if forloop.first %} is-active{% endif %}" data-slide="{{ forloop.index0 }}">
+              <img
+                src="{{ image | image_url: width: 800 }}"
+                alt="{{ image.alt | default: product.title | escape }}"
+                width="800"
+                height="{{ 800 | divided_by: image.aspect_ratio | round }}"
+                loading="lazy"
+              >
+            </div>
+          {%- endfor -%}
+        </div>
+        <button class="gf-card__arrow gf-card__arrow--prev" data-arrow="prev" aria-label="Previous image" type="button">
+          <svg width="10" height="16" viewBox="0 0 10 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8.5 1L1.5 8L8.5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <button class="gf-card__arrow gf-card__arrow--next" data-arrow="next" aria-label="Next image" type="button">
+          <svg width="10" height="16" viewBox="0 0 10 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1.5 1L8.5 8L1.5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="gf-card__dots">
+          {%- for image in product.images -%}
+            <span class="gf-card__dot{% if forloop.first %} is-active{% endif %}" data-dot="{{ forloop.index0 }}"></span>
+          {%- endfor -%}
+        </div>
+      {%- elsif product.featured_image -%}
+        <img
+          src="{{ product.featured_image | image_url: width: 800 }}"
+          alt="{{ product.featured_image.alt | default: product.title | escape }}"
+          width="800"
+          height="{{ 800 | divided_by: product.featured_image.aspect_ratio | round }}"
+          loading="lazy"
+        >
+      {%- else -%}
+        <div class="gf-card__placeholder">
+          {{ 'product-1' | placeholder_svg_tag: 'gf-card__placeholder-svg' }}
+        </div>
+      {%- endif -%}
+    </div>
+  </a>
+
+  {%- comment -%} Card info {%- endcomment -%}
+  <div class="gf-card__info">
+    <a href="{{ product.url }}" class="gf-card__title-link">
+      <h3 class="gf-card__title">{{ product.title }}</h3>
+    </a>
+
+    {%- if product.metafields.custom.botanical_name != blank -%}
+      <p class="gf-card__botanical">{{ product.metafields.custom.botanical_name }}</p>
+    {%- elsif product.type != blank -%}
+      <p class="gf-card__botanical">{{ product.type | upcase }}</p>
+    {%- endif -%}
+
+    {%- comment -%} Pot size badges - show if product has size variants {%- endcomment -%}
+    {%- if product.variants.size > 1 and product.options_by_name['Size'] -%}
+      <div class="gf-card__badges">
+        {%- for value in product.options_by_name['Size'].values -%}
+          <span class="gf-card__badge">{{ value }}</span>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Pet safe badge {%- endcomment -%}
+    {%- if product.metafields.custom.pet_safe == true -%}
+      <div class="gf-card__meta-badges">
+        <span class="gf-card__meta-badge">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5.5 2C4.67 2 4 2.67 4 3.5S4.67 5 5.5 5 7 4.33 7 3.5 6.33 2 5.5 2ZM10.5 2C9.67 2 9 2.67 9 3.5S9.67 5 10.5 5 12 4.33 12 3.5 11.33 2 10.5 2ZM3 6C2.17 6 1.5 6.67 1.5 7.5S2.17 9 3 9s1.5-.67 1.5-1.5S3.83 6 3 6ZM13 6c-.83 0-1.5.67-1.5 1.5S12.17 9 13 9s1.5-.67 1.5-1.5S13.83 6 13 6ZM8 7c-1.66 0-3 1.79-3 4 0 1.1.9 2 2 2 .55 0 .5-.25 1-.25s.45.25 1 .25c1.1 0 2-.9 2-2 0-2.21-1.34-4-3-4Z" fill="currentColor"/>
+          </svg>
+          Pet friendly
+        </span>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Price {%- endcomment -%}
+    <div class="gf-card__price">
+      {%- if product.price_varies -%}
+        <span class="gf-card__price-from">From </span>
+      {%- endif -%}
+      <span class="gf-card__price-amount">{{ product.price | money }}</span>
+      {%- if product.compare_at_price > product.price -%}
+        <span class="gf-card__price-was">{{ product.compare_at_price | money }}</span>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} CTA: "See options" for multi-variant, qty + "Add to bag" for single {%- endcomment -%}
+    <div class="gf-card__actions">
+      {%- if product.variants.size > 1 -%}
+        <a href="{{ product.url }}" class="gf-card__btn gf-card__btn--outline">See options</a>
+      {%- elsif product.available -%}
+        <form action="/cart/add" method="post" class="gf-card__add-form">
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+          <div class="gf-card__qty-wrap">
+            <button type="button" class="gf-card__qty-btn" data-qty="minus" aria-label="Decrease quantity">-</button>
+            <input type="number" name="quantity" value="1" min="1" class="gf-card__qty-input" aria-label="Quantity">
+            <button type="button" class="gf-card__qty-btn" data-qty="plus" aria-label="Increase quantity">+</button>
+          </div>
+          <button type="submit" class="gf-card__btn gf-card__btn--filled">Add to bag</button>
+        </form>
+      {%- else -%}
+        <button class="gf-card__btn gf-card__btn--disabled" disabled>Sold out</button>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
