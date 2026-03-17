@@ -1,6 +1,5 @@
 /* ============================================================
    Greenform Product Carousel & Card Styles
-  
    ============================================================ */
 
 /* ---- Section layout ---- */
@@ -71,6 +70,7 @@
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
+  padding: 0 calc(50vw - 40vw + 1rem);
 
   /* Hide scrollbar but keep scroll */
   scrollbar-width: none;
@@ -83,7 +83,7 @@
 
 .gf-carousel__slide {
   flex: 0 0 auto;
-  scroll-snap-align: start;
+  scroll-snap-align: center;
   /* Mobile: ~80% width so next card peeks */
   width: calc(80vw - 2rem);
   max-width: 320px;
@@ -97,6 +97,7 @@
     gap: 1.25rem;
     overflow-x: visible;
     scroll-snap-type: none;
+    padding: 0;
   }
 
   .gf-carousel__slide {
@@ -441,7 +442,7 @@
   line-height: 1.4;
 }
 
-/* Outlined â€” "See options" */
+/* Outlined — "See options" */
 .gf-card__btn--outline {
   background: transparent;
   color: var(--black, #1d1d1f);
@@ -453,7 +454,7 @@
   color: #fff;
 }
 
-/* Filled â€” "Add to bag" */
+/* Filled — "Add to bag" */
 .gf-card__btn--filled {
   background: var(--black, #1d1d1f);
   color: #fff;
@@ -465,7 +466,7 @@
   border-color: var(--gray-dark, #424245);
 }
 
-/* Disabled â€” "Sold out" */
+/* Disabled — "Sold out" */
 .gf-card__btn--disabled {
   background: #e0e0e0;
   color: #999;
