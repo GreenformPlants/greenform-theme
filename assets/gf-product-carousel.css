@@ -1,5 +1,6 @@
 /* ============================================================
    Greenform Product Carousel & Card Styles
+   Design reference: Patch Plants (patchplants.com)
    ============================================================ */
 
 /* ---- Section layout ---- */
@@ -135,13 +136,10 @@
 
 .gf-carousel__nav--prev {
   left: 0;
-  background: linear-gradient(to right, rgba(0,0,0,0.15) 0%, transparent 100%);
-  border-radius: 0;
 }
 
 .gf-carousel__nav--next {
   right: 0;
-  background: linear-gradient(to left, rgba(0,0,0,0.15) 0%, transparent 100%);
 }
 
 .gf-carousel__nav.is-hidden {
