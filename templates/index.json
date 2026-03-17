@@ -65,6 +65,7 @@
     },
     "featured_collection": {
       "type": "featured-collection",
+      "disabled": true,
       "settings": {
         "collection": "all",
         "products_to_show": 8,
@@ -117,11 +118,23 @@
         "show_view_all": true,
         "view_all_label": "View all plants"
       }
+    },
+    "gf_product_carousel_6LizMe": {
+      "type": "gf-product-carousel",
+      "name": "GF Product Carousel",
+      "settings": {
+        "heading": "Our plants",
+        "link_text": "View all",
+        "link_url": "",
+        "collection": "",
+        "products_to_show": 2
+      }
     }
   },
   "order": [
     "image_banner",
     "gf_hero_h8LbDd",
+    "gf_product_carousel_6LizMe",
     "featured_collection",
     "gf_cta_banner_cB3txH",
     "gf_product_grid_GAhLDW"
