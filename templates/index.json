@@ -70,8 +70,8 @@
         "heading": "Our plants",
         "link_text": "View all",
         "link_url": "",
-        "collection": "all-plants",
-        "products_to_show": 4
+        "collection": "bestsellers",
+        "products_to_show": 8
       }
     },
     "featured_collection": {
