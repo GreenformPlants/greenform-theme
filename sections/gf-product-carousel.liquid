@@ -42,7 +42,7 @@
         {%- if collection != blank -%}
           {%- for product in collection.products limit: limit -%}
             <div class="gf-carousel__slide">
-              {% render 'gf-product-card', product: product %}
+              {% render 'gf-product-card', card_product: product %}
             </div>
           {%- endfor -%}
         {%- else -%}
