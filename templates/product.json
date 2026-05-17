@@ -12,36 +12,88 @@
     "gf_product_carousel_dGPnHp": {
       "type": "gf-product-carousel",
       "blocks": {
-        "frame_ULWBPC": {
+        "frame_EcGcqJ": {
           "type": "frame",
           "settings": {
-            "image": "shopify://shop_images/Zamioculcas_Black_Knight_14cm111-3.jpg"
+            "image": "shopify://shop_images/12.jpg"
           }
         },
-        "frame_bWqUPW": {
+        "frame_nBwyQK": {
           "type": "frame",
           "settings": {
-            "image": "shopify://shop_images/Zamioculcas_Black_Knight_14cm111-5.jpg"
+            "image": "shopify://shop_images/11.jpg"
           }
         },
-        "frame_bk9k6e": {
+        "frame_B7rfMh": {
           "type": "frame",
           "settings": {
-            "image": "shopify://shop_images/Zamioculcas_Black_Knight_14cm111-10.jpg"
+            "image": "shopify://shop_images/10.jpg"
           }
         },
-        "frame_VKQpBc": {
+        "frame_FaK4N7": {
           "type": "frame",
           "settings": {
-            "image": "shopify://shop_images/Zamioculcas_Black_Knight_14cm111-10.jpg"
+            "image": "shopify://shop_images/9.jpg"
+          }
+        },
+        "frame_WdhtgC": {
+          "type": "frame",
+          "settings": {
+            "image": "shopify://shop_images/8.jpg"
+          }
+        },
+        "frame_FLFtBF": {
+          "type": "frame",
+          "settings": {
+            "image": "shopify://shop_images/7.jpg"
+          }
+        },
+        "frame_wP8yfT": {
+          "type": "frame",
+          "settings": {
+            "image": "shopify://shop_images/6.jpg"
+          }
+        },
+        "frame_4w9qjz": {
+          "type": "frame",
+          "settings": {
+            "image": "shopify://shop_images/5.jpg"
+          }
+        },
+        "frame_4Yqkqj": {
+          "type": "frame",
+          "settings": {
+            "image": "shopify://shop_images/4.jpg"
+          }
+        },
+        "frame_wry4YW": {
+          "type": "frame",
+          "settings": {}
+        },
+        "frame_Gx87Rp": {
+          "type": "frame",
+          "settings": {}
+        },
+        "frame_tNdidU": {
+          "type": "frame",
+          "settings": {
+            "image": "shopify://shop_images/1.jpg"
           }
         }
       },
       "block_order": [
-        "frame_ULWBPC",
-        "frame_bWqUPW",
-        "frame_bk9k6e",
-        "frame_VKQpBc"
+        "frame_EcGcqJ",
+        "frame_nBwyQK",
+        "frame_B7rfMh",
+        "frame_FaK4N7",
+        "frame_WdhtgC",
+        "frame_FLFtBF",
+        "frame_wP8yfT",
+        "frame_4w9qjz",
+        "frame_4Yqkqj",
+        "frame_wry4YW",
+        "frame_Gx87Rp",
+        "frame_tNdidU"
       ],
       "name": "GF Product Carousel",
       "settings": {
