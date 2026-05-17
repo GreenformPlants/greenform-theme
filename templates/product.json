@@ -9,6 +9,53 @@
  */
 {
   "sections": {
+    "gf_product_carousel_dGPnHp": {
+      "type": "gf-product-carousel",
+      "blocks": {
+        "frame_ULWBPC": {
+          "type": "frame",
+          "settings": {
+            "image": "shopify://shop_images/Zamioculcas_Black_Knight_14cm111-3.jpg"
+          }
+        },
+        "frame_bWqUPW": {
+          "type": "frame",
+          "settings": {
+            "image": "shopify://shop_images/Zamioculcas_Black_Knight_14cm111-5.jpg"
+          }
+        },
+        "frame_bk9k6e": {
+          "type": "frame",
+          "settings": {
+            "image": "shopify://shop_images/Zamioculcas_Black_Knight_14cm111-10.jpg"
+          }
+        },
+        "frame_VKQpBc": {
+          "type": "frame",
+          "settings": {
+            "image": "shopify://shop_images/Zamioculcas_Black_Knight_14cm111-10.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "frame_ULWBPC",
+        "frame_bWqUPW",
+        "frame_bk9k6e",
+        "frame_VKQpBc"
+      ],
+      "name": "GF Product Carousel",
+      "settings": {
+        "alt_text": "360° product view",
+        "max_width": 700,
+        "border_radius": 12,
+        "object_fit": "contain",
+        "background_color": "#f8f6f2",
+        "dot_active_color": "#4a7c59",
+        "sensitivity": 4,
+        "auto_spin": true,
+        "spin_speed": 80
+      }
+    },
     "main-product": {
       "type": "main-product",
       "settings": {
@@ -67,23 +114,12 @@
         "trust-sourcing"
       ],
       "settings": {}
-    },
-    "gf_product_carousel_dGPnHp": {
-      "type": "gf-product-carousel",
-      "name": "GF Product Carousel",
-      "settings": {
-        "heading": "Our plants",
-        "link_text": "View all",
-        "link_url": "",
-        "collection": "",
-        "products_to_show": 2
-      }
     }
   },
   "order": [
+    "gf_product_carousel_dGPnHp",
     "main-product",
     "care-card",
-    "trust-strip",
-    "gf_product_carousel_dGPnHp"
+    "trust-strip"
   ]
 }
