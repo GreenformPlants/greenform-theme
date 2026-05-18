@@ -67,11 +67,15 @@
       "type": "gf-product-carousel",
       "name": "GF Product Carousel",
       "settings": {
-        "heading": "Our plants",
-        "link_text": "View all",
-        "link_url": "",
-        "collection": "bestsellers",
-        "products_to_show": 8
+        "alt_text": "360° product view",
+        "max_width": 700,
+        "border_radius": 12,
+        "object_fit": "contain",
+        "background_color": "#f8f6f2",
+        "dot_active_color": "#4a7c59",
+        "sensitivity": 4,
+        "auto_spin": true,
+        "spin_speed": 80
       }
     },
     "featured_collection": {
@@ -123,7 +127,7 @@
       "settings": {
         "heading": "Our plants",
         "subheading": "Hand-picked for New Zealand homes",
-        "collection": "",
+        "collection": "all-plants",
         "products_to_show": 6,
         "enable_quick_add": true,
         "show_view_all": true,
