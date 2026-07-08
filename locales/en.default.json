@@ -1,0 +1,70 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "general": {
+    "accessibility": {
+      "skip_to_content": "Skip to content",
+      "previous_image": "Previous image",
+      "next_image": "Next image",
+      "close": "Close"
+    },
+    "search": {
+      "placeholder": "Search plants, pots, care…",
+      "submit": "Search",
+      "no_results": "No results for \"{{ terms }}\"."
+    },
+    "cart": {
+      "title": "Your cart",
+      "empty": "Your cart is empty.",
+      "subtotal": "Subtotal",
+      "checkout": "Check out",
+      "continue_shopping": "Continue shopping",
+      "remove": "Remove",
+      "quantity": "Quantity",
+      "view_cart": "View cart"
+    },
+    "breadcrumb": {
+      "home": "Home"
+    },
+    "404": {
+      "title": "Page not found",
+      "subtext": "The page you're looking for isn't here. It may have moved or the link may be wrong.",
+      "link": "Return home"
+    }
+  },
+  "product": {
+    "add_to_cart": "Add to cart",
+    "sold_out": "Sold out",
+    "unavailable": "Unavailable",
+    "save_to_wishlist": "Save to wishlist",
+    "in_stock": "In stock — ships within 2–4 business days",
+    "out_of_stock": "Currently out of stock",
+    "free_shipping_note": "Free shipping on orders over ${{ amount }}",
+    "spin_coming_soon": "360° view coming soon",
+    "drag_to_rotate": "← Drag to rotate →",
+    "about_heading": "About this plant",
+    "growth_heading": "Growth & size",
+    "care_heading": "Care guide",
+    "rating_suffix": "reviews"
+  },
+  "collection": {
+    "title": "{{ title }}",
+    "empty": "No plants in this collection yet.",
+    "sort_by": "Sort",
+    "items_count": "{{ count }} plants"
+  },
+  "newsletter": {
+    "heading": "Plant care, in your inbox",
+    "subtext": "Honest, seasonal advice from Auckland — no spam, unsubscribe any time.",
+    "email_placeholder": "you@domain.com",
+    "submit": "Subscribe",
+    "success": "Thanks — check your inbox to confirm."
+  }
+}

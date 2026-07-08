@@ -1,0 +1,44 @@
+<div class="page-header">
+  <h1>Search</h1>
+  <form action="{{ routes.search_url }}" method="get" role="search" style="margin-top:16px; display:flex; gap:8px; max-width:520px;">
+    <input type="search"
+           name="q"
+           value="{{ search.terms | escape }}"
+           placeholder="{{ 'general.search.placeholder' | t }}"
+           style="flex:1; padding:12px 14px; border:1.5px solid var(--light); border-radius:8px; background:var(--white); font-size:14px;"
+           autocomplete="off">
+    <button type="submit" class="btn-primary" style="width:auto; padding:12px 20px; margin:0;">{{ 'general.search.submit' | t }}</button>
+  </form>
+</div>
+
+{%- if search.performed -%}
+  <div class="product-grid-wrap">
+    {%- if search.results_count == 0 -%}
+      <p style="color: var(--mid); font-size: 14px;">{{ 'general.search.no_results' | t: terms: search.terms }}</p>
+    {%- else -%}
+      <p style="color: var(--mid); font-size: 13px; margin-bottom: 20px;">{{ search.results_count }} result{% if search.results_count != 1 %}s{% endif %} for "{{ search.terms | escape }}"</p>
+      <div class="product-grid">
+        {%- for item in search.results -%}
+          {%- if item.object_type == 'product' -%}
+            {% render 'product-card', card_product: item %}
+          {%- else -%}
+            <a class="product-card" href="{{ item.url }}">
+              <div class="product-card-body">
+                <div class="product-card-tag">{{ item.object_type }}</div>
+                <div class="product-card-title">{{ item.title }}</div>
+              </div>
+            </a>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Search",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}

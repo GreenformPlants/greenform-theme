@@ -1,0 +1,50 @@
+{%- comment -%}
+  Greenform — metafield-driven pot selector (per size).
+  Renders a Pot swatch row + a JSON blob (data-pots) consumed by assets/gf-pots.js.
+  Pots: product.metafields.custom.custom_pots_<sizehandle> (list of pot products).
+  Swatch colour: pot.metafields.custom.swatch_colour.
+  Composite image: the file in product.metafields.custom.composite_files whose alt == pot.handle.
+  A pot with NO composite is treated as the default pot the 360 was shot in: selecting it
+  returns to the 360 viewer (img is emitted empty).
+{%- endcomment -%}
+
+{%- assign gf_size_opt = nil -%}
+{%- for opt in product.options_with_values -%}
+  {%- assign lname = opt.name | downcase -%}
+  {%- if lname contains 'size' -%}{%- assign gf_size_opt = opt -%}{%- endif -%}
+{%- endfor -%}
+
+{%- assign gf_comps = product.metafields.custom.composite_files.value -%}
+
+<div class="opt-group" data-pot-block hidden>
+  <div class="opt-head">Pot</div>
+  <div class="rule"></div>
+  <div class="pot-row" data-pot-row></div>
+  <div class="rule"></div>
+</div>
+
+<script type="application/json" data-pots>
+{
+{%- if gf_size_opt -%}
+  {%- for sval in gf_size_opt.values -%}
+    {%- assign shandle = sval | handleize -%}
+    {%- assign potkey = 'custom_pots_' | append: shandle -%}
+    {%- assign potlist = product.metafields.custom[potkey].value -%}
+    "{{ sval | escape }}":[
+    {%- if potlist -%}
+      {%- for pot in potlist -%}
+        {%- assign curl = '' -%}
+        {%- if gf_comps -%}
+          {%- for c in gf_comps -%}
+            {%- if c.alt == pot.handle -%}{%- assign curl = c | image_url: width: 1100 -%}{%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+        {%- assign sw = pot.metafields.custom.swatch_colour -%}
+        {%- unless forloop.first -%},{%- endunless -%}{"handle":{{ pot.handle | json }},"title":{{ pot.title | json }},"swatch":"{{ sw }}","img":"{{ curl }}"}
+      {%- endfor -%}
+    {%- endif -%}
+    ]{%- unless forloop.last -%},{%- endunless -%}
+  {%- endfor -%}
+{%- endif -%}
+}
+</script>

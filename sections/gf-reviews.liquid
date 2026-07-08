@@ -1,0 +1,66 @@
+{%- comment -%} Greenform — Customer reviews. {%- endcomment -%}
+{%- assign sid = 'gf-rev-' | append: section.id -%}
+<style>
+  #{{ sid }} { padding: 64px 0; }
+  #{{ sid }} .gfr-wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+  #{{ sid }} .gfr-head { text-align: center; max-width: 640px; margin: 0 auto 34px; }
+  #{{ sid }} .gfr-eyebrow { font-family: var(--font-display, 'Advercase', Georgia, serif);
+    font-size: 14px; color: var(--accent, #2d4a2d); margin-bottom: 8px; }
+  #{{ sid }} .gfr-head h2 { font-size: clamp(24px, 3.2vw, 36px); font-weight: 600; letter-spacing: -.01em; }
+  #{{ sid }} .gfr-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  #{{ sid }} .gfr-card { background: #fff; border: 1px solid var(--line, #d8d8d8); border-radius: 10px;
+    padding: 22px; display: flex; flex-direction: column; gap: 11px; }
+  #{{ sid }} .gfr-stars { color: #b08d57; letter-spacing: 2px; font-size: 14px; }
+  #{{ sid }} .gfr-text { font-size: 13.5px; color: #33433b; flex: 1; }
+  #{{ sid }} .gfr-who { font-size: 13px; font-weight: 600; }
+  #{{ sid }} .gfr-plant { font-size: 12px; color: var(--mid, #6b6b6b); }
+  @media (max-width: 1024px){ #{{ sid }} .gfr-grid { grid-template-columns: repeat(2, 1fr); } }
+</style>
+<div id="{{ sid }}">
+  <div class="gfr-wrap">
+    <div class="gfr-head">
+      {%- if section.settings.eyebrow != blank -%}<div class="gfr-eyebrow">{{ section.settings.eyebrow }}</div>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2>{{ section.settings.heading }}</h2>{%- endif -%}
+    </div>
+    <div class="gfr-grid">
+      {%- for block in section.blocks -%}
+        <div class="gfr-card" {{ block.shopify_attributes }}>
+          {%- assign r = block.settings.rating | default: 5 -%}
+          <div class="gfr-stars">
+            {%- for i in (1..5) -%}{%- if i <= r -%}&#9733;{%- else -%}&#9734;{%- endif -%}{%- endfor -%}
+          </div>
+          <p class="gfr-text">{{ block.settings.text }}</p>
+          <div>
+            <div class="gfr-who">{{ block.settings.author }}</div>
+            {%- if block.settings.plant != blank -%}<div class="gfr-plant">{{ block.settings.plant }}</div>{%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Customer reviews",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Real reviews from real plant lovers" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "What our customers say" }
+  ],
+  "blocks": [
+    { "type": "review", "name": "Review", "settings": [
+      { "type": "range", "id": "rating", "label": "Rating", "min": 1, "max": 5, "step": 1, "default": 5 },
+      { "type": "textarea", "id": "text", "label": "Review text", "default": "My plant arrived in perfect condition and beautifully packaged." },
+      { "type": "text", "id": "author", "label": "Author", "default": "Customer name" },
+      { "type": "text", "id": "plant", "label": "Plant", "default": "Plant name" }
+    ]}
+  ],
+  "max_blocks": 8,
+  "presets": [{ "name": "Customer reviews", "blocks": [
+    { "type": "review", "settings": { "rating": 5, "text": "My Monstera arrived in perfect condition. Beautifully packaged and clearly well looked after. Already planning my next order.", "author": "Sarah T.", "plant": "Monstera Deliciosa" } },
+    { "type": "review", "settings": { "rating": 5, "text": "The care guide that came with my Fiddle Leaf Fig has been a lifesaver. Three months in and it is thriving.", "author": "James K.", "plant": "Fiddle Leaf Fig" } },
+    { "type": "review", "settings": { "rating": 5, "text": "Fast shipping to Wellington and the plant was packed so carefully. Love the care instructions for NZ conditions.", "author": "Aroha M.", "plant": "Alocasia Zebrina" } },
+    { "type": "review", "settings": { "rating": 4, "text": "Great selection of rare plants. The Thai Constellation was exactly as pictured. Would love more pot options.", "author": "Daniel W.", "plant": "Thai Constellation" } }
+  ]}]
+}
+{% endschema %}

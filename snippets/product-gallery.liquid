@@ -1,0 +1,160 @@
+{%- comment -%}
+  Greenform product gallery — v8 (per-size 360 + pot composite image swap)
+
+  Reads:
+    product.metafields.custom.spin_frames_<sizehandle>  (list.file_reference) per size
+    product.metafields.custom.spin_frames                (legacy single list) fallback
+    variant.image                                        composite "plant in that pot"
+    product.media images                                 extra static photos (arrows)
+
+  Emits three JSON blocks consumed by product.js:
+    [data-size-frames]   { "12cm":[url,...], "14cm":[...], ... }   (frame 0 = main photo)
+    [data-variant-media] { "<variantId>":"<imageUrl>", ... }       (pots that have an image)
+    [data-extra-photos]  [ url, ... ]                              (media that is not the
+                          featured image and not a variant image)
+{%- endcomment -%}
+
+<style>
+.gallery{ position:sticky; top:18px; align-self:start; }
+.stage{ position:relative; width:100%; aspect-ratio:1/1; background:#fff; border:1px solid #efefec; border-radius:14px; overflow:hidden; touch-action:pan-y; }
+.stage .spin-viewer{ position:absolute; inset:0; cursor:grab; }
+.stage.spinning .spin-viewer{ cursor:grabbing; }
+.stage .spin-viewer img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; }
+.stage .spin-viewer img.active{ opacity:1; }
+.stage .stage-static{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; background:#fff; }
+.stage .stage-static[hidden]{ display:none; }
+.stage .spin-placeholder{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; color:#9a9a92; }
+.stage .spin-placeholder[hidden]{ display:none; }
+.stage .spin-placeholder svg{ width:42px; height:42px; opacity:.5; }
+.spin-placeholder-label{ font-size:14px; letter-spacing:.04em; }
+.stage .spin-badge{ position:absolute; top:13px; left:13px; z-index:3; background:rgba(26,26,26,.82); color:#fff; font-size:12px; letter-spacing:.05em; padding:5px 10px; border-radius:20px; display:flex; align-items:center; gap:5px; }
+.stage .spin-badge.hidden{ display:none; }
+.stage .spin-badge svg{ width:14px; height:14px; }
+.stage .view-tag{ position:absolute; top:13px; right:13px; z-index:3; background:rgba(255,255,255,.92); color:#2a2a2a; font-size:11.5px; padding:4px 10px; border-radius:20px; border:1px solid #eee; }
+.stage .view-tag.hidden{ display:none; }
+.stage .spin-hint{ position:absolute; bottom:18px; left:50%; transform:translateX(-50%); z-index:3; background:rgba(26,26,26,.72); color:#fff; font-size:12px; padding:6px 13px; border-radius:20px; transition:opacity .4s; pointer-events:none; }
+.stage .spin-hint.gone{ opacity:0; }
+.stage .stage-arrow{ position:absolute; top:50%; transform:translateY(-50%); z-index:4; width:40px; height:40px; border-radius:50%; border:none; background:rgba(255,255,255,.86); box-shadow:0 2px 8px rgba(0,0,0,.12); display:flex; align-items:center; justify-content:center; cursor:pointer; }
+.stage .stage-arrow:hover{ background:#fff; }
+.stage .stage-arrow.arrow-prev{ left:12px; } .stage .stage-arrow.arrow-next{ right:12px; }
+.stage .stage-arrow svg{ width:18px; height:18px; }
+.scrubber-bar{ margin-top:14px; }
+.scrubber-bar.hidden{ visibility:hidden; }
+.scrubber-inner .s-track{ position:relative; width:100%; height:4px; background:#e6e6e1; border-radius:3px; cursor:pointer; }
+.scrubber-inner .s-thumb{ position:absolute; top:50%; left:0; width:16px; height:16px; border-radius:50%; background:var(--accent,#3f7d4f); transform:translate(-50%,-50%); box-shadow:0 1px 3px rgba(0,0,0,.25); }
+.thumbnails{ display:flex; gap:10px; margin-top:16px; flex-wrap:wrap; }
+.thumbnails .thumb-item{ width:62px; height:62px; border-radius:10px; border:1.5px solid #e8e8e4; background:#fff; padding:0; cursor:pointer; overflow:hidden; position:relative; }
+.thumbnails .thumb-item.active{ border-color:var(--accent,#3f7d4f); }
+.thumbnails .thumb-item img{ width:100%; height:100%; object-fit:cover; display:block; }
+.thumbnails .thumb-360{ width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:11px; color:#3a3a3a; gap:2px; }
+.thumbnails .thumb-360 svg{ width:20px; height:20px; }
+/* Greenform: on mobile the gallery must NOT stick — a sticky element covers the
+   page content as the customer scrolls the single-column layout. */
+@media(max-width:749px){
+  .gallery{ position:static; top:auto; align-self:auto; }
+}
+</style>
+
+{%- comment -%} -- find the Size option -- {%- endcomment -%}
+{%- assign size_option = nil -%}
+{%- for opt in product.options_with_values -%}
+  {%- assign lname = opt.name | downcase -%}
+  {%- if lname contains 'size' -%}{%- assign size_option = opt -%}{%- endif -%}
+{%- endfor -%}
+
+{%- comment -%} -- collect variant image ids (comma-wrapped) and the variant->image map -- {%- endcomment -%}
+{%- assign vimg_ids = ',' -%}
+{%- for v in product.variants -%}
+  {%- if v.image -%}{%- assign vimg_ids = vimg_ids | append: v.image.id | append: ',' -%}{%- endif -%}
+{%- endfor -%}
+
+<div class="gallery" data-gallery>
+  <div class="stage" data-stage>
+    <button class="stage-arrow arrow-prev" type="button" aria-label="Previous image" data-arrow-prev>
+      {% render 'icon-arrow-left' %}
+    </button>
+    <button class="stage-arrow arrow-next" type="button" aria-label="Next image" data-arrow-next>
+      {% render 'icon-arrow-right' %}
+    </button>
+
+    <div class="spin-badge" data-spin-badge>
+      {% render 'icon-360' %}
+      <span>360°</span>
+    </div>
+    <div class="view-tag hidden" data-view-tag></div>
+    <div class="spin-hint" data-spin-hint>{{ 'product.drag_to_rotate' | t | default: 'Drag to spin' }}</div>
+
+    {%- comment -%} 360 viewer — images injected/managed by product.js for the selected size {%- endcomment -%}
+    <div class="spin-viewer" data-spin-viewer></div>
+
+    {%- comment -%} static image used for pot composites and extra photos {%- endcomment -%}
+    <img class="stage-static" data-stage-static alt="{{ product.title | escape }}" hidden>
+
+    {%- comment -%} graceful fallback when a product has no spin frames at all {%- endcomment -%}
+    <div class="spin-placeholder" data-spin-placeholder hidden>
+      {% render 'icon-360' %}
+      <div class="spin-placeholder-label">{{ 'product.spin_coming_soon' | t | default: '360 coming soon' }}</div>
+    </div>
+  </div>
+
+  <div class="scrubber-bar" data-scrubber>
+    <div class="scrubber-inner">
+      <div class="scrubber-track-wrap" data-scrub-wrap>
+        <div class="s-track" data-s-track><div class="s-thumb" data-s-thumb></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="thumbnails" data-thumbs></div>
+
+  <script type="application/json" data-size-frames>
+  {
+    {%- if size_option -%}
+      {%- for val in size_option.values -%}
+        {%- assign skey = 'spin_frames_' | append: val | handleize -%}
+        {%- assign mf = product.metafields.custom[skey] -%}
+        {%- assign frames = mf.value -%}
+        "{{ val | escape }}": [
+          {%- if frames and frames.size > 0 -%}
+            {%- for fr in frames -%}{%- unless forloop.first -%},{%- endunless -%}"{{ fr | image_url: width: 1100 }}"{%- endfor -%}
+          {%- endif -%}
+        ]{%- unless forloop.last -%},{%- endunless -%}
+      {%- endfor -%}
+    {%- else -%}
+      {%- assign legacy = product.metafields.custom.spin_frames.value -%}
+      "_all": [
+        {%- if legacy and legacy.size > 0 -%}
+          {%- for fr in legacy -%}{%- unless forloop.first -%},{%- endunless -%}"{{ fr | image_url: width: 1100 }}"{%- endfor -%}
+        {%- endif -%}
+      ]
+    {%- endif -%}
+  }
+  </script>
+
+  <script type="application/json" data-variant-media>
+  {
+    {%- assign firstv = true -%}
+    {%- for v in product.variants -%}
+      {%- if v.image -%}
+        {%- unless firstv -%},{%- endunless -%}"{{ v.id }}":"{{ v.image | image_url: width: 1100 }}"{%- assign firstv = false -%}
+      {%- endif -%}
+    {%- endfor -%}
+  }
+  </script>
+
+  <script type="application/json" data-extra-photos>
+  [
+    {%- assign firstp = true -%}
+    {%- for m in product.media -%}
+      {%- if m.media_type == 'image' -%}
+        {%- assign mid_test = ',' | append: m.id | append: ',' -%}
+        {%- assign is_featured = false -%}
+        {%- if product.featured_media and m.id == product.featured_media.id -%}{%- assign is_featured = true -%}{%- endif -%}
+        {%- unless vimg_ids contains mid_test or is_featured -%}
+          {%- unless firstp -%},{%- endunless -%}"{{ m | image_url: width: 1400 }}"{%- assign firstp = false -%}
+        {%- endunless -%}
+      {%- endif -%}
+    {%- endfor -%}
+  ]
+  </script>
+</div>

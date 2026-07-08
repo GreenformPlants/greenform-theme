@@ -1,0 +1,199 @@
+{%- liquid
+  assign sid = 'hero-' | append: section.id
+-%}
+
+<style>
+  /* === Layout === */
+  #{{ sid }} .gf-hero__content {
+    padding-bottom: {{ section.settings.content_bottom_desktop | default: 80 }}px;
+  }
+  @media (max-width: 720px) {
+    #{{ sid }} .gf-hero__content {
+      padding-bottom: {{ section.settings.content_bottom_mobile | default: 48 }}px;
+    }
+  }
+  #{{ sid }} .gf-hero__overlay {
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,{{ section.settings.overlay_strength | default: 35 | divided_by: 100.0 }}) 100%);
+  }
+
+  /* === Title === */
+  #{{ sid }} .gf-hero__title {
+    font-size: {{ section.settings.title_size_desktop | default: 84 }}px;
+    font-weight: {{ section.settings.title_weight | default: '600' }};
+    color: {{ section.settings.title_color | default: '#ffffff' }};
+    margin-bottom: {{ section.settings.title_gap | default: 12 }}px;
+    letter-spacing: {{ section.settings.title_letter_spacing | default: -2 | divided_by: 100.0 }}em;
+    line-height: {{ section.settings.title_line_height | default: 105 | divided_by: 100.0 }};
+  }
+  @media (max-width: 720px) {
+    #{{ sid }} .gf-hero__title {
+      font-size: {{ section.settings.title_size_mobile | default: 48 }}px;
+    }
+  }
+
+  /* === Subtitle === */
+  #{{ sid }} .gf-hero__subtitle {
+    font-size: {{ section.settings.subtitle_size_desktop | default: 18 }}px;
+    color: {{ section.settings.subtitle_color | default: '#ffffff' }};
+    opacity: {{ section.settings.subtitle_opacity | default: 80 | divided_by: 100.0 }};
+    margin-bottom: {{ section.settings.subtitle_gap | default: 28 }}px;
+  }
+  @media (max-width: 720px) {
+    #{{ sid }} .gf-hero__subtitle {
+      font-size: {{ section.settings.subtitle_size_mobile | default: 16 }}px;
+    }
+  }
+
+  /* === Tag === */
+  #{{ sid }} .gf-hero__tag {
+    color: {{ section.settings.tag_color | default: '#ffffff' }};
+    opacity: {{ section.settings.tag_opacity | default: 90 | divided_by: 100.0 }};
+  }
+
+  /* === Buttons === */
+  #{{ sid }} .gf-hero .gf-btn,
+  #{{ sid }} .gf-hero__actions .gf-btn {
+    border-radius: {{ section.settings.button_radius | default: 8 }}px;
+    padding: {{ section.settings.button_pad_y | default: 18 }}px {{ section.settings.button_pad_x | default: 36 }}px;
+    font-size: {{ section.settings.button_font_size | default: 15 }}px;
+    font-weight: {{ section.settings.button_weight | default: '500' }};
+  }
+  #{{ sid }} .gf-hero__actions .gf-btn--primary {
+    background-color: {{ section.settings.button_primary_bg | default: '#1b4332' }};
+    color: {{ section.settings.button_primary_fg | default: '#ffffff' }};
+  }
+  #{{ sid }} .gf-hero__actions .gf-btn--primary:hover {
+    background-color: {{ section.settings.button_primary_bg_hover | default: '#2d6a4f' }};
+  }
+  #{{ sid }} .gf-hero__actions .gf-btn--secondary {
+    color: {{ section.settings.button_secondary_fg | default: '#ffffff' }};
+    border: 1.5px solid {{ section.settings.button_secondary_border | default: '#ffffff' }};
+    background: transparent;
+  }
+</style>
+
+<section class="gf-hero" id="{{ sid }}">
+  {%- if section.settings.image != blank -%}
+    <div class="gf-hero__bg">
+      {{
+        section.settings.image
+        | image_url: width: 2000
+        | image_tag: loading: 'eager', fetchpriority: 'high', sizes: '100vw', widths: '800,1200,1600,2000'
+      }}
+    </div>
+  {%- else -%}
+    {%- if section.settings.fallback_image_url != blank -%}
+      <div class="gf-hero__bg">
+        <img src="{{ section.settings.fallback_image_url }}" alt="" loading="eager" fetchpriority="high">
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+  <div class="gf-hero__overlay"></div>
+
+  <div class="gf-hero__content">
+    {%- if section.settings.tag != blank -%}
+      <div class="gf-hero__tag">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 12l2.5 2.5L16 9"/></svg>
+        <span>{{ section.settings.tag }}</span>
+      </div>
+    {%- endif -%}
+
+    <h1 class="gf-hero__title">{{ section.settings.heading }}</h1>
+
+    {%- if section.settings.subheading != blank -%}
+      <p class="gf-hero__subtitle">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    <div class="gf-hero__actions">
+      {%- if section.settings.button_label_1 != blank -%}
+        <a href="{{ section.settings.button_link_1 | default: '#' }}" class="gf-btn gf-btn--primary gf-btn--lg">
+          {{ section.settings.button_label_1 }}
+        </a>
+      {%- endif -%}
+      {%- if section.settings.button_label_2 != blank -%}
+        <a href="{{ section.settings.button_link_2 | default: '#' }}" class="gf-btn gf-btn--secondary gf-btn--lg">
+          {{ section.settings.button_label_2 }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Greenform Hero",
+  "tag": "section",
+  "class": "gf-hero-section",
+  "settings": [
+    { "type": "header",      "content": "Content" },
+    { "type": "image_picker","id": "image",               "label": "Background image" },
+    { "type": "url",         "id": "fallback_image_url",  "label": "Fallback image URL", "info": "Used when no image is uploaded above." },
+    { "type": "text",        "id": "tag",                 "label": "Tag line", "default": "NZ's premium houseplant store" },
+    { "type": "text",        "id": "heading",             "label": "Heading", "default": "Plants, Delivered" },
+    { "type": "textarea",    "id": "subheading",          "label": "Subheading", "default": "Straight from our nursery" },
+    { "type": "text",        "id": "button_label_1",      "label": "Primary button label", "default": "Shop all plants" },
+    { "type": "url",         "id": "button_link_1",       "label": "Primary button link" },
+    { "type": "text",        "id": "button_label_2",      "label": "Secondary button label", "default": "Explore care guides" },
+    { "type": "url",         "id": "button_link_2",       "label": "Secondary button link" },
+
+    { "type": "header",      "content": "Layout" },
+    { "type": "range",       "id": "content_bottom_desktop","label": "Content distance from bottom — desktop (px)", "min": 0,  "max": 200, "step": 4,  "default": 80 },
+    { "type": "range",       "id": "content_bottom_mobile", "label": "Content distance from bottom — mobile (px)",  "min": 0,  "max": 200, "step": 4,  "default": 48 },
+    { "type": "range",       "id": "overlay_strength",      "label": "Overlay darkness (0 to 100)",                 "min": 0,  "max": 80,  "step": 5,  "default": 35 },
+
+    { "type": "header",      "content": "Title" },
+    { "type": "range",       "id": "title_size_desktop", "label": "Title size — desktop (px)", "min": 32, "max": 140, "step": 2, "default": 84 },
+    { "type": "range",       "id": "title_size_mobile",  "label": "Title size — mobile (px)",  "min": 24, "max": 80,  "step": 2, "default": 48 },
+    {
+      "type": "select", "id": "title_weight", "label": "Title weight",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi-bold (600)" },
+        { "value": "700", "label": "Bold (700)" }
+      ],
+      "default": "600"
+    },
+    { "type": "color",       "id": "title_color",          "label": "Title colour",                     "default": "#ffffff" },
+    { "type": "range",       "id": "title_gap",            "label": "Gap below title (px)",             "min": 0,  "max": 80,  "step": 2,  "default": 12 },
+    { "type": "range",       "id": "title_letter_spacing", "label": "Title letter spacing (×0.01 em)",  "min": -5, "max": 5,   "step": 1,  "default": -2 },
+    { "type": "range",       "id": "title_line_height",    "label": "Title line height (×0.01)",        "min": 90, "max": 160, "step": 5,  "default": 105 },
+
+    { "type": "header",      "content": "Subtitle" },
+    { "type": "range",       "id": "subtitle_size_desktop","label": "Subtitle size — desktop (px)",     "min": 12, "max": 32,  "step": 1,  "default": 18 },
+    { "type": "range",       "id": "subtitle_size_mobile", "label": "Subtitle size — mobile (px)",      "min": 12, "max": 24,  "step": 1,  "default": 16 },
+    { "type": "color",       "id": "subtitle_color",       "label": "Subtitle colour",                  "default": "#ffffff" },
+    { "type": "range",       "id": "subtitle_opacity",     "label": "Subtitle opacity (0 to 100)",      "min": 0,  "max": 100, "step": 5,  "default": 80 },
+    { "type": "range",       "id": "subtitle_gap",         "label": "Gap below subtitle (px)",          "min": 0,  "max": 80,  "step": 2,  "default": 28 },
+
+    { "type": "header",      "content": "Tag" },
+    { "type": "color",       "id": "tag_color",            "label": "Tag colour",                       "default": "#ffffff" },
+    { "type": "range",       "id": "tag_opacity",          "label": "Tag opacity (0 to 100)",           "min": 0,  "max": 100, "step": 5,  "default": 90 },
+
+    { "type": "header",      "content": "Buttons" },
+    { "type": "range",       "id": "button_radius",        "label": "Button corner radius (px)",        "min": 0,  "max": 60,  "step": 2,  "default": 8 },
+    { "type": "range",       "id": "button_pad_y",         "label": "Button vertical padding (px)",     "min": 6,  "max": 32,  "step": 1,  "default": 18 },
+    { "type": "range",       "id": "button_pad_x",         "label": "Button horizontal padding (px)",   "min": 12, "max": 60,  "step": 2,  "default": 36 },
+    { "type": "range",       "id": "button_font_size",     "label": "Button font size (px)",            "min": 11, "max": 22,  "step": 1,  "default": 15 },
+    {
+      "type": "select", "id": "button_weight", "label": "Button font weight",
+      "options": [
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi-bold (600)" },
+        { "value": "700", "label": "Bold (700)" }
+      ],
+      "default": "500"
+    },
+    { "type": "color",       "id": "button_primary_bg",       "label": "Primary button background",       "default": "#1b4332" },
+    { "type": "color",       "id": "button_primary_bg_hover", "label": "Primary button background (hover)", "default": "#2d6a4f" },
+    { "type": "color",       "id": "button_primary_fg",       "label": "Primary button text",             "default": "#ffffff" },
+    { "type": "color",       "id": "button_secondary_fg",     "label": "Secondary button text",           "default": "#ffffff" },
+    { "type": "color",       "id": "button_secondary_border", "label": "Secondary button border",         "default": "#ffffff" }
+  ],
+  "presets": [
+    { "name": "Greenform Hero" }
+  ]
+}
+{% endschema %}

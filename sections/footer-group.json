@@ -1,0 +1,28 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "footer",
+  "name": "Footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "settings": {
+        "tagline": "Carefully grown houseplants, delivered across New Zealand. Auckland-based, plant-obsessed."
+      },
+      "blocks": {
+        "shop": { "type": "menu", "settings": { "heading": "Shop" } },
+        "care": { "type": "menu", "settings": { "heading": "Care" } },
+        "about": { "type": "menu", "settings": { "heading": "About" } }
+      },
+      "block_order": ["shop", "care", "about"]
+    }
+  },
+  "order": ["footer"]
+}

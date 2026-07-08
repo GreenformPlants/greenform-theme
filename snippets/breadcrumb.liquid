@@ -1,0 +1,33 @@
+{%- comment -%}
+  Breadcrumb matching the preview design.
+  On product pages uses the current collection if viewed-from-collection, else falls back to product_type.
+{%- endcomment -%}
+
+<div class="breadcrumb" aria-label="Breadcrumb">
+  <a href="{{ routes.root_url }}">{{ 'general.breadcrumb.home' | t }}</a><span class="sep">›</span>
+
+  {%- if template contains 'product' -%}
+    {%- if collection and collection.handle -%}
+      <a href="{{ collection.url }}">{{ collection.title }}</a><span class="sep">›</span>
+    {%- elsif product.type != blank -%}
+      <a href="{{ routes.collections_url }}/{{ product.type | handleize }}">{{ product.type }}</a><span class="sep">›</span>
+    {%- else -%}
+      <a href="{{ routes.collections_url }}">Plants</a><span class="sep">›</span>
+    {%- endif -%}
+    {{ product.title }}
+
+  {%- elsif template contains 'collection' -%}
+    <a href="{{ routes.collections_url }}">Collections</a><span class="sep">›</span>
+    {{ collection.title }}
+
+  {%- elsif template contains 'page' -%}
+    {{ page.title }}
+
+  {%- elsif template contains 'article' -%}
+    <a href="{{ blog.url }}">{{ blog.title }}</a><span class="sep">›</span>
+    {{ article.title }}
+
+  {%- else -%}
+    {{ page_title }}
+  {%- endif -%}
+</div>

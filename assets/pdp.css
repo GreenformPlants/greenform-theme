@@ -1,0 +1,51 @@
+/* ============================================================
+   GREENFORM — Product page redesign (Orbifolia layout)
+   Loaded after theme.css + greenform.css. Scoped to .pdp-info.
+   ============================================================ */
+
+/* Advercase web font (hosted in Shopify Files) */
+@font-face{ font-family:'Advercase'; src:url('https://cdn.shopify.com/s/files/1/0752/9526/0837/files/Advercase-Regular.woff2?v=1782357289') format('woff2'); font-weight:400; font-style:normal; font-display:swap; }
+
+.pdp-info{
+  --pdp-title:'Geologica','Inter',system-ui,sans-serif;   /* big species title */
+  --pdp-display:'Advercase','Inter',system-ui,sans-serif; /* Size / Pot labels + size values */
+  --pdp-rule:#8a8a8a;
+
+  /* ── EDIT THESE TWO TO TUNE THE SIZE / POT SPACING ── */
+  --label-rule-gap:5px;    /* gap between the "Size" / "Pot" text and the line under it */
+  --row-pad:8px;           /* gap between the two lines (space around the options) */
+
+  display:block;
+}
+
+/* Title block */
+.pdp-info .pdp-genus{ font-family:var(--font); font-weight:400; font-size:15px; line-height:1.1; letter-spacing:0.005em; color:#2b2b2b; margin-bottom:2px; }
+.pdp-info .pdp-species{ font-family:var(--pdp-title); font-weight:600; font-size:clamp(44px,12.5vw,58px); line-height:.95; letter-spacing:-0.03em; color:var(--black); margin:0 0 18px; }
+@media(min-width:1000px){ .pdp-info .pdp-species{ font-size:56px; } }
+
+/* Ruled option groups */
+.pdp-info .opt-group{ margin-bottom:0; }
+.pdp-info .opt-head{ font-family:var(--pdp-display); font-weight:400; font-size:16.5px; letter-spacing:0.02em; color:var(--black); margin-top:var(--label-rule-gap); margin-bottom:var(--label-rule-gap); }
+.pdp-info .rule{ height:1px; background:var(--pdp-rule); width:100%; }
+
+/* Size — radio rows, tight to the left */
+.pdp-info .size-row{ display:flex; align-items:center; justify-content:flex-start; flex-wrap:wrap; padding:var(--row-pad) 1px; gap:0 26px; }
+.pdp-info .size-opt{ display:inline-flex; align-items:center; gap:8px; cursor:pointer; background:none; border:none; padding:0; }
+.pdp-info .size-opt .radio{ width:15px; height:15px; border:1.5px solid #b9b9b4; border-radius:50%; position:relative; flex-shrink:0; display:block; transition:border-color .15s; }
+.pdp-info .size-opt.selected .radio{ border-color:var(--accent); }
+.pdp-info .size-opt.selected .radio::after{ content:''; position:absolute; inset:3px; border-radius:50%; background:var(--accent); }
+.pdp-info .size-opt .lbl{ font-family:var(--pdp-display); font-weight:400; font-size:16px; color:var(--black); line-height:1; }
+
+/* Pot — circular swatches, first is "no pot" */
+.pdp-info .pot-row{ display:flex; align-items:center; flex-wrap:wrap; gap:13px; padding:var(--row-pad) 1px; }
+.pdp-info .swatch{ width:24px; height:24px; border-radius:50%; border:1.5px solid var(--light); cursor:pointer; position:relative; overflow:hidden; flex-shrink:0; padding:0; transition:box-shadow .15s; }
+.pdp-info .swatch.selected{ box-shadow:0 0 0 2px #fff,0 0 0 4px var(--accent); }
+.pdp-info .swatch.none{ background:#fff; }
+.pdp-info .swatch.none::after{ content:''; position:absolute; left:50%; top:50%; width:150%; height:2px; background:#d23b2e; transform:translate(-50%,-50%) rotate(45deg); }
+
+/* Description */
+.pdp-info .pdp-desc{ margin-top:22px; font-family:var(--font); font-size:16.5px; line-height:1.62; color:#1d1d1d; }
+.pdp-info .pdp-desc p + p{ margin-top:14px; }
+
+/* Commerce block (price + stock + add to cart) — kept in current style, restyle later */
+.pdp-info .pdp-commerce{ margin-top:28px; padding-top:22px; border-top:1px solid #ececec; }

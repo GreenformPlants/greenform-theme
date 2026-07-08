@@ -1,0 +1,82 @@
+{%- comment -%} Greenform — Care tips. Editorial care layer with optional button. {%- endcomment -%}
+{%- assign sid = 'gf-care-' | append: section.id -%}
+<style>
+  #{{ sid }} { padding: 64px 0; background: {{ section.settings.bg_color }}; }
+  #{{ sid }} .gfk-wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+  #{{ sid }} .gfk-head { text-align: center; max-width: 640px; margin: 0 auto 34px; }
+  #{{ sid }} .gfk-eyebrow { font-family: var(--font-display, 'Advercase', Georgia, serif);
+    font-size: 14px; color: var(--accent, #2d4a2d); margin-bottom: 8px; }
+  #{{ sid }} .gfk-head h2 { font-size: clamp(24px, 3.2vw, 36px); font-weight: 600; letter-spacing: -.01em; }
+  #{{ sid }} .gfk-head p { color: var(--mid, #6b6b6b); margin-top: 10px; }
+  #{{ sid }} .gfk-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  #{{ sid }} .gfk-tip { text-align: center; padding: 8px; }
+  #{{ sid }} .gfk-ic { width: 54px; height: 54px; border-radius: 50%; background: #fff;
+    border: 1px solid var(--line, #d8d8d8); display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 14px; color: var(--accent, #2d4a2d); }
+  #{{ sid }} .gfk-tip h3 { font-size: 16px; font-weight: 600; margin-bottom: 7px; }
+  #{{ sid }} .gfk-tip p { font-size: 13.5px; color: var(--mid, #6b6b6b); }
+  #{{ sid }} .gfk-cta { text-align: center; margin-top: 32px; }
+  #{{ sid }} .gfk-btn { display: inline-block; font-weight: 500; font-size: 15px; padding: 14px 28px;
+    border-radius: 8px; border: 1.5px solid var(--accent, #2d4a2d); color: var(--accent, #2d4a2d); background: transparent; transition: .18s; }
+  #{{ sid }} .gfk-btn:hover { background: var(--accent, #2d4a2d); color: #fff; }
+  @media (max-width: 820px){ #{{ sid }} .gfk-grid { grid-template-columns: 1fr; } }
+</style>
+<div id="{{ sid }}">
+  <div class="gfk-wrap">
+    <div class="gfk-head">
+      {%- if section.settings.eyebrow != blank -%}<div class="gfk-eyebrow">{{ section.settings.eyebrow }}</div>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2>{{ section.settings.heading }}</h2>{%- endif -%}
+      {%- if section.settings.subtext != blank -%}<p>{{ section.settings.subtext }}</p>{%- endif -%}
+    </div>
+    <div class="gfk-grid">
+      {%- for block in section.blocks -%}
+        <div class="gfk-tip" {{ block.shopify_attributes }}>
+          <div class="gfk-ic">
+            {%- case block.settings.icon -%}
+              {%- when 'sun' -%}<svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>
+              {%- when 'drop' -%}<svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2.5C12 2.5 5 10 5 14.5a7 7 0 0 0 14 0C19 10 12 2.5 12 2.5z"/></svg>
+              {%- when 'leaf' -%}<svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M11 20A7 7 0 0 1 4 13C4 8 11 4 20 4c0 9-4 16-9 16z"/><path d="M4 20c2-4 5-7 9-9"/></svg>
+            {%- endcase -%}
+          </div>
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.text }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+    {%- if section.settings.button_label != blank -%}
+      <div class="gfk-cta"><a class="gfk-btn" href="{{ section.settings.button_link | default: '#' }}">{{ section.settings.button_label }}</a></div>
+    {%- endif -%}
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Care tips",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Grow with confidence" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Plant care, simplified" },
+    { "type": "textarea", "id": "subtext", "label": "Subtext", "default": "Everything you need to keep your plants thriving." },
+    { "type": "color", "id": "bg_color", "label": "Background", "default": "#e8f0e8" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Browse all care guides" },
+    { "type": "url", "id": "button_link", "label": "Button link" }
+  ],
+  "blocks": [
+    { "type": "tip", "name": "Tip", "settings": [
+      { "type": "select", "id": "icon", "label": "Icon", "default": "sun",
+        "options": [
+          { "value": "sun", "label": "Sun" },
+          { "value": "drop", "label": "Water drop" },
+          { "value": "leaf", "label": "Leaf" }
+        ]},
+      { "type": "text", "id": "title", "label": "Title", "default": "Care tip" },
+      { "type": "textarea", "id": "text", "label": "Text", "default": "A short, helpful care tip." }
+    ]}
+  ],
+  "max_blocks": 3,
+  "presets": [{ "name": "Care tips", "blocks": [
+    { "type": "tip", "settings": { "icon": "sun", "title": "Find the right light", "text": "Most houseplants prefer bright, indirect light. Keep them near a window but out of harsh direct sun." } },
+    { "type": "tip", "settings": { "icon": "drop", "title": "Water with confidence", "text": "Check the top 2 to 3cm of soil before watering. Most plants prefer to dry out slightly between drinks." } },
+    { "type": "tip", "settings": { "icon": "leaf", "title": "Feed the growth", "text": "Use a balanced liquid fertiliser during spring and summer. Ease off in autumn and winter." } }
+  ]}]
+}
+{% endschema %}

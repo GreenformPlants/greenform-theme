@@ -1,0 +1,162 @@
+{%- comment -%}
+  Product card — used on collection grids, homepage featured collections.
+  Requires: card_product (a Product object)
+
+  Behaviour: static image at load. On mouseenter (touch start), lazy-load the
+  remaining frames and let the customer drag across the card to spin.
+
+  360 frames: matches the product page's per-size 360 viewer. Reads the
+  selected/first size's custom.spin_frames_<sizehandle> list (frame 0 = the
+  main photo, i.e. the viewer's first slide), falling back to the legacy
+  custom.spin_frames list, then to the Calathea Orbifolia placeholder set.
+  The static (pre-hover) image is always frame 0 of that set, so the default
+  picture is the 360 viewer's first slide.
+
+  Sizes line: reads the Size option for variants products, falls back to
+  custom.plant_size for single-size legacy products. Hidden when neither
+  source is populated.
+
+  Naming: matches the product page — genus (small, above) + species title
+  (larger). Genus prefers custom.genus, else the first word of
+  custom.botanical_name / custom.latin_name so it works across the catalogue.
+{%- endcomment -%}
+
+{%- assign latin_name = card_product.metafields.custom.latin_name -%}
+{%- assign category_tag = card_product.metafields.custom.category_tag | default: card_product.type -%}
+
+{%- comment -%} ---- Genus (same logic as the product page) ---- {%- endcomment -%}
+{%- assign genus = card_product.metafields.custom.genus -%}
+{%- if genus == blank -%}
+  {%- assign botanical = card_product.metafields.custom.botanical_name | default: latin_name -%}
+  {%- if botanical != blank -%}
+    {%- assign genus = botanical | split: ' ' | first -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- comment -%} ---- Find the Size option (mirrors product-gallery) ---- {%- endcomment -%}
+{%- assign size_option = nil -%}
+{%- for opt in card_product.options_with_values -%}
+  {%- assign lname = opt.name | downcase -%}
+  {%- if lname contains 'size' -%}{%- assign size_option = opt -%}{%- endif -%}
+{%- endfor -%}
+
+{%- comment -%}
+  ---- 360 frames ----
+  Match the product page: use the per-size spin_frames_<sizehandle> for the
+  selected (or first) size. Fall back to the first size that has frames, then
+  to the legacy single spin_frames list.
+{%- endcomment -%}
+{%- assign viewer_files = nil -%}
+{%- if size_option -%}
+  {%- assign default_size = size_option.selected_value | default: size_option.values.first -%}
+  {%- assign skey = 'spin_frames_' | append: default_size | handleize -%}
+  {%- assign mf = card_product.metafields.custom[skey] -%}
+  {%- if mf.value and mf.value.size > 1 -%}
+    {%- assign viewer_files = mf.value -%}
+  {%- else -%}
+    {%- for val in size_option.values -%}
+      {%- if viewer_files == nil -%}
+        {%- assign vkey = 'spin_frames_' | append: val | handleize -%}
+        {%- assign vmf = card_product.metafields.custom[vkey] -%}
+        {%- if vmf.value and vmf.value.size > 1 -%}
+          {%- assign viewer_files = vmf.value -%}
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endif -%}
+{%- if viewer_files == nil -%}
+  {%- assign legacy_frames = card_product.metafields.custom.spin_frames.value -%}
+  {%- if legacy_frames and legacy_frames.size > 1 -%}
+    {%- assign viewer_files = legacy_frames -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- assign use_plant_frames = false -%}
+{%- if viewer_files != blank and viewer_files.size > 1 -%}
+  {%- assign use_plant_frames = true -%}
+{%- endif -%}
+
+{%- capture frames_json -%}
+[
+{%- if use_plant_frames -%}
+  {%- for file in viewer_files -%}
+    {%- unless forloop.first -%},{%- endunless -%}"{{ file | image_url: width: 600 }}"
+  {%- endfor -%}
+{%- else -%}
+  {%- assign placeholder_names = 'orbifolia-360-01.jpg,orbifolia-360-02.jpg,orbifolia-360-03.jpg,orbifolia-360-04.jpg,orbifolia-360-05.jpg,orbifolia-360-06.jpg,orbifolia-360-07.jpg,orbifolia-360-08.jpg,orbifolia-360-09.jpg,orbifolia-360-10.jpg,orbifolia-360-11.jpg,orbifolia-360-12.jpg,orbifolia-360-13.jpg,orbifolia-360-14.jpg,orbifolia-360-15.jpg,orbifolia-360-16.jpg,orbifolia-360-17.jpg,orbifolia-360-18.jpg,orbifolia-360-19.jpg' | split: ',' -%}
+  {%- for fname in placeholder_names -%}
+    {%- unless forloop.first -%},{%- endunless -%}"https://cdn.shopify.com/s/files/1/0752/9526/0837/files/{{ fname }}?width=600"
+  {%- endfor -%}
+{%- endif -%}
+]
+{%- endcapture -%}
+
+{%- comment -%}
+  ---- Static (pre-hover) image = frame 0 of the 360 viewer ----
+  Derive it from the first loop item (not viewer_files.first): on a metafield
+  list, `.first` yields the raw file GID, so image_url returns empty. Iterating
+  yields the actual image object that image_url can resolve.
+{%- endcomment -%}
+{%- assign static_src = '' -%}
+{%- if use_plant_frames -%}
+  {%- for file in viewer_files -%}
+    {%- if forloop.first -%}
+      {%- assign static_src = file | image_url: width: 600 -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+{%- if static_src == blank -%}
+  {%- assign static_src = 'https://cdn.shopify.com/s/files/1/0752/9526/0837/files/orbifolia-360-01.jpg?width=600' -%}
+{%- endif -%}
+
+{%- comment -%} ---- Sizes ---- {%- endcomment -%}
+{%- assign size_values = '' -%}
+{%- assign size_count = 0 -%}
+{%- if size_option -%}
+  {%- assign size_count = size_option.values.size -%}
+  {%- assign size_values = size_option.values | join: ', ' -%}
+{%- endif -%}
+{%- if size_values == blank -%}
+  {%- assign legacy_size = card_product.metafields.custom.plant_size -%}
+  {%- if legacy_size != blank -%}
+    {%- assign size_count = 1 -%}
+    {%- assign size_values = legacy_size -%}
+  {%- endif -%}
+{%- endif -%}
+{%- if size_count > 1 -%}
+  {%- assign size_label = "Sizes: " -%}
+{%- else -%}
+  {%- assign size_label = "Size: " -%}
+{%- endif -%}
+
+<a class="product-card" href="{{ card_product.url }}">
+  <div class="product-card-image product-card-spinner" data-spinner data-frames='{{ frames_json | strip_newlines }}'>
+    <img class="product-card-frame is-active" data-static src="{{ static_src }}" alt="{{ card_product.title | escape }}" loading="lazy" width="600" height="600">
+    <div class="product-card-spinner-badge">360°</div>
+    <div class="product-card-spinner-hint">Move to spin</div>
+  </div>
+  <div class="product-card-body">
+    {%- if category_tag != blank -%}
+      <div class="product-card-tag">{{ category_tag }}</div>
+    {%- endif -%}
+    {%- if genus != blank -%}
+      <div class="product-card-genus">{{ genus }}</div>
+    {%- endif -%}
+    <div class="product-card-title">{{ card_product.title }}</div>
+    {%- if latin_name != blank -%}
+      <div class="product-card-subtitle">{{ latin_name }}</div>
+    {%- endif -%}
+    {%- if size_values != blank -%}
+      <div class="product-card-sizes">{{ size_label }}{{ size_values }}</div>
+    {%- endif -%}
+    <div class="product-card-price">
+      {%- if card_product.compare_at_price > card_product.price -%}
+        {{ card_product.price | money }}
+        <span class="compare">{{ card_product.compare_at_price | money }}</span>
+      {%- else -%}
+        {{ card_product.price | money }}
+      {%- endif -%}
+    </div>
+  </div>
+</a>

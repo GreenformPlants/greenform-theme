@@ -1,0 +1,33 @@
+<div class="page-header">
+  <h1>All collections</h1>
+</div>
+
+<div class="product-grid-wrap">
+  <div class="product-grid">
+    {%- for c in collections -%}
+      {%- if c.products_count > 0 -%}
+        <a class="product-card" href="{{ c.url }}">
+          <div class="product-card-image">
+            {%- if c.image -%}
+              <img src="{{ c.image | image_url: width: 600 }}" alt="{{ c.title | escape }}" loading="lazy">
+            {%- elsif c.products.first.featured_image -%}
+              <img src="{{ c.products.first.featured_image | image_url: width: 600 }}" alt="{{ c.title | escape }}" loading="lazy">
+            {%- endif -%}
+          </div>
+          <div class="product-card-body">
+            <div class="product-card-title">{{ c.title }}</div>
+            <div class="product-card-subtitle">{{ c.products_count }} plant{% if c.products_count != 1 %}s{% endif %}</div>
+          </div>
+        </a>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "List collections",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}

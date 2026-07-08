@@ -1,0 +1,63 @@
+<nav class="site-nav" role="navigation" aria-label="Main navigation" data-site-nav>
+  <a class="nav-logo" href="{{ routes.root_url }}">{{ section.settings.logo_text | default: shop.name }}</a>
+
+  {%- if section.settings.menu != blank -%}
+    <ul class="nav-links">
+      {%- for link in section.settings.menu.links -%}
+        <li><a href="{{ link.url }}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a></li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+
+  <div class="nav-right">
+    <a class="nav-icon-btn nav-icon-btn--search" href="{{ routes.search_url }}" aria-label="Search">
+      {% render 'icon-search' %}
+    </a>
+
+    <a class="nav-icon-btn nav-icon-btn--cart" href="{{ routes.cart_url }}" aria-label="Cart ({{ cart.item_count }})">
+      {% render 'icon-cart' %}
+      {%- if cart.item_count > 0 -%}
+        <span class="cart-bubble" data-cart-count>{{ cart.item_count }}</span>
+      {%- else -%}
+        <span class="cart-bubble" data-cart-count style="display:none;">0</span>
+      {%- endif -%}
+    </a>
+
+    <button type="button" class="nav-icon-btn nav-icon-btn--menu" aria-label="Open menu" aria-expanded="false" data-menu-toggle>
+      {% render 'icon-menu' %}
+    </button>
+  </div>
+</nav>
+
+{%- if section.settings.menu != blank -%}
+  <div class="nav-drawer" id="nav-drawer" hidden data-menu-drawer>
+    <ul class="nav-drawer-links">
+      {%- for link in section.settings.menu.links -%}
+        <li><a href="{{ link.url }}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a></li>
+      {%- endfor -%}
+      <li class="nav-drawer-sep"></li>
+      <li><a href="{{ routes.search_url }}">Search</a></li>
+      <li><a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}">{% if customer %}Account{% else %}Sign in{% endif %}</a></li>
+    </ul>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo text",
+      "default": "Greenform"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Main menu",
+      "default": "main-menu"
+    }
+  ]
+}
+{% endschema %}

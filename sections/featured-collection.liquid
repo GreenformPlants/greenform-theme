@@ -1,0 +1,89 @@
+{%- liquid
+  assign band_height_d   = section.settings.band_height        | default: 200
+  assign band_height_m   = section.settings.band_height_mobile | default: 60
+  assign lead_top_d      = section.settings.lead_top           | default: -90
+  assign lead_top_m      = section.settings.lead_top_mobile    | default: 0
+  assign heading_top_d   = section.settings.heading_top        | default: 120
+  assign heading_top_m   = section.settings.heading_top_mobile | default: 20
+  assign top_pad_d       = section.settings.top_padding        | default: 0
+  assign top_pad_m       = section.settings.top_padding_mobile | default: 0
+  assign bot_pad_d       = section.settings.bottom_padding     | default: 0
+  assign bot_pad_m       = section.settings.bottom_padding_mobile | default: 0
+  assign sid             = 'fc-' | append: section.id
+-%}
+
+<style>
+  #{{ sid }} { padding-top: {{ top_pad_d }}px; padding-bottom: {{ bot_pad_d }}px; }
+  #{{ sid }} .collection-lead { height: {{ band_height_d }}px; }
+  #{{ sid }} .collection-lead__title { top: {{ lead_top_d }}px; }
+  #{{ sid }} .collection-lead__right { top: {{ heading_top_d }}px; }
+  @media (max-width: 720px) {
+    #{{ sid }} { padding-top: {{ top_pad_m }}px; padding-bottom: {{ bot_pad_m }}px; }
+    #{{ sid }} .collection-lead { height: {{ band_height_m }}px; }
+    #{{ sid }} .collection-lead__title { top: {{ lead_top_m }}px; }
+    #{{ sid }} .collection-lead__right { top: {{ heading_top_m }}px; }
+  }
+</style>
+
+<div id="{{ sid }}">
+  {%- if section.settings.lead_text != blank or section.settings.heading != blank or section.settings.subtext != blank -%}
+    <div class="collection-lead">
+      {%- if section.settings.lead_text != blank -%}
+        <p class="collection-lead__title">{{ section.settings.lead_text }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank or section.settings.subtext != blank -%}
+        <div class="collection-lead__right">
+          {%- if section.settings.heading != blank -%}
+            <h2 class="collection-lead__heading" style="position: static;">{{ section.settings.heading }}</h2>
+          {%- endif -%}
+          {%- if section.settings.subtext != blank -%}
+            <p class="collection-lead__subtext">{{ section.settings.subtext }}</p>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  <div class="product-grid-wrap">
+    {%- assign coll = collections[section.settings.collection] -%}
+    {%- if coll and coll.products.size > 0 -%}
+      <div class="product-grid">
+        {%- for card_product in coll.products limit: section.settings.products_to_show -%}
+          {% render 'product-card', card_product: card_product %}
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <p style="color: var(--mid); font-size: 14px;">Add products to the "{{ section.settings.collection | default: 'frontpage' }}" collection to see them here.</p>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Featured collection",
+  "tag": "section",
+  "settings": [
+    { "type": "textarea",    "id": "lead_text",         "label": "Lead text (serif, left)", "info": "Set in Advercase. Use a line break for the two-line look." },
+    { "type": "text",        "id": "heading",           "label": "Heading (sans, right)", "default": "New this week" },
+    { "type": "textarea",    "id": "subtext",           "label": "Subtext" },
+    { "type": "collection",  "id": "collection",        "label": "Collection" },
+    { "type": "range",       "id": "products_to_show",  "label": "Products to show", "min": 2, "max": 12, "step": 1, "default": 4 },
+
+    { "type": "header",      "content": "Desktop spacing" },
+    { "type": "range",       "id": "band_height",   "label": "Heading band height (px)", "min": 0,    "max": 400, "step": 10, "default": 200 },
+    { "type": "range",       "id": "lead_top",      "label": "Serif lead vertical offset (px, negative climbs up over hero)", "min": -200, "max": 200, "step": 5, "default": -90 },
+    { "type": "range",       "id": "heading_top",   "label": "Heading vertical offset (px, positive drops down toward grid)", "min": -100, "max": 300, "step": 5, "default": 120 },
+    { "type": "range",       "id": "top_padding",   "label": "Section top padding (px)", "min": 0, "max": 200, "step": 5, "default": 0 },
+    { "type": "range",       "id": "bottom_padding","label": "Section bottom padding (px)", "min": 0, "max": 200, "step": 5, "default": 0 },
+
+    { "type": "header",      "content": "Mobile spacing (≤720 px)" },
+    { "type": "paragraph",   "content": "These override the desktop values on phone-sized screens. Set the band height very low to pull the grid up close under the hero." },
+    { "type": "range",       "id": "band_height_mobile",   "label": "Heading band height — mobile (px)", "min": 0,   "max": 300, "step": 5, "default": 60 },
+    { "type": "range",       "id": "lead_top_mobile",      "label": "Serif lead vertical offset — mobile (px)", "min": -150, "max": 150, "step": 5, "default": 0 },
+    { "type": "range",       "id": "heading_top_mobile",   "label": "Heading vertical offset — mobile (px)", "min": -50, "max": 200, "step": 5, "default": 20 },
+    { "type": "range",       "id": "top_padding_mobile",   "label": "Section top padding — mobile (px)", "min": 0, "max": 150, "step": 5, "default": 0 },
+    { "type": "range",       "id": "bottom_padding_mobile","label": "Section bottom padding — mobile (px)", "min": 0, "max": 150, "step": 5, "default": 0 }
+  ],
+  "presets": [{ "name": "Featured collection" }]
+}
+{% endschema %}

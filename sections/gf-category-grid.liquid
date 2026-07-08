@@ -1,0 +1,67 @@
+{%- comment -%} Greenform — Shop by category. Image tiles linking to collections. {%- endcomment -%}
+{%- assign sid = 'gf-cats-' | append: section.id -%}
+<style>
+  #{{ sid }} { padding: 64px 0; }
+  #{{ sid }} .gfc-wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+  #{{ sid }} .gfc-head { text-align: center; max-width: 640px; margin: 0 auto 34px; }
+  #{{ sid }} .gfc-eyebrow { font-family: var(--font-display, 'Advercase', Georgia, serif);
+    font-size: 14px; color: var(--accent, #2d4a2d); margin-bottom: 8px; }
+  #{{ sid }} .gfc-head h2 { font-size: clamp(24px, 3.2vw, 36px); font-weight: 600; letter-spacing: -.01em; }
+  #{{ sid }} .gfc-head p { color: var(--mid, #6b6b6b); margin-top: 10px; }
+  #{{ sid }} .gfc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  #{{ sid }} .gfc-tile { position: relative; border-radius: 10px; overflow: hidden;
+    aspect-ratio: 4/3; background: var(--accent-light, #e8f0e8); display: block; }
+  #{{ sid }} .gfc-tile img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
+  #{{ sid }} .gfc-tile:hover img { transform: scale(1.05); }
+  #{{ sid }} .gfc-l { position: absolute; inset: auto 0 0 0; padding: 18px;
+    background: linear-gradient(transparent, rgba(20,30,20,.75)); color: #fff; font-weight: 600; font-size: 17px; }
+  @media (max-width: 820px){ #{{ sid }} .gfc-grid { grid-template-columns: repeat(2, 1fr); } }
+</style>
+<div id="{{ sid }}">
+  <div class="gfc-wrap">
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.subtext != blank -%}
+      <div class="gfc-head">
+        {%- if section.settings.eyebrow != blank -%}<div class="gfc-eyebrow">{{ section.settings.eyebrow }}</div>{%- endif -%}
+        {%- if section.settings.heading != blank -%}<h2>{{ section.settings.heading }}</h2>{%- endif -%}
+        {%- if section.settings.subtext != blank -%}<p>{{ section.settings.subtext }}</p>{%- endif -%}
+      </div>
+    {%- endif -%}
+    <div class="gfc-grid">
+      {%- for block in section.blocks -%}
+        <a class="gfc-tile" href="{{ block.settings.link | default: '#' }}" {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            <img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.label | escape }}" loading="lazy" width="800" height="600">
+          {%- endif -%}
+          <span class="gfc-l">{{ block.settings.label }}</span>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Shop by category",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Browse the collection" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Shop by category" },
+    { "type": "textarea", "id": "subtext", "label": "Subtext", "default": "Hand-picked groupings to help you find the right plant faster." }
+  ],
+  "blocks": [
+    { "type": "tile", "name": "Tile", "settings": [
+      { "type": "image_picker", "id": "image", "label": "Image" },
+      { "type": "text", "id": "label", "label": "Label", "default": "Category" },
+      { "type": "url", "id": "link", "label": "Link" }
+    ]}
+  ],
+  "max_blocks": 6,
+  "presets": [{ "name": "Shop by category", "blocks": [
+    { "type": "tile", "settings": { "label": "New arrivals" } },
+    { "type": "tile", "settings": { "label": "Best sellers" } },
+    { "type": "tile", "settings": { "label": "Easy-care" } },
+    { "type": "tile", "settings": { "label": "Statement plants" } },
+    { "type": "tile", "settings": { "label": "Pots & planters" } },
+    { "type": "tile", "settings": { "label": "Gifts" } }
+  ]}]
+}
+{% endschema %}

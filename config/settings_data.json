@@ -1,0 +1,40 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "current": {
+    "color_black": "#1a1a1a",
+    "color_mid": "#6b6b6b",
+    "color_light": "#d8d8d8",
+    "color_bg": "#f8f8f6",
+    "color_white": "#ffffff",
+    "color_accent": "#2d4a2d",
+    "color_accent_light": "#e8f0e8",
+    "font_stack": "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif",
+    "max_width": 1180,
+    "free_shipping_threshold": 9900,
+    "social_instagram": "",
+    "social_facebook": "",
+    "social_tiktok": ""
+  },
+  "presets": {
+    "Default": {
+      "color_black": "#1a1a1a",
+      "color_mid": "#6b6b6b",
+      "color_light": "#d8d8d8",
+      "color_bg": "#f8f8f6",
+      "color_white": "#ffffff",
+      "color_accent": "#2d4a2d",
+      "color_accent_light": "#e8f0e8",
+      "font_stack": "-apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif",
+      "max_width": 1180,
+      "free_shipping_threshold": 9900
+    }
+  }
+}

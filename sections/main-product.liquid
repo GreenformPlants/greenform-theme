@@ -1,0 +1,260 @@
+{%- liquid
+  assign category_tag   = product.metafields.custom.category_tag | default: product.type
+  assign latin_name     = product.metafields.custom.latin_name
+  assign features_list  = product.metafields.custom.features.value
+  assign about_text     = product.metafields.custom.about_text
+  assign growth_text    = product.metafields.custom.growth_text
+  assign care_cards     = product.metafields.custom.care_cards.value
+  assign note_title     = product.metafields.custom.note_title
+  assign note_text      = product.metafields.custom.note_text
+
+  assign current_variant = product.selected_or_first_available_variant
+  assign free_ship = settings.free_shipping_threshold | money_without_trailing_zeros
+
+  comment
+    Genus: prefer the dedicated custom.genus metafield; otherwise fall back to
+    the first word of botanical_name / latin_name so it works across the catalogue.
+  endcomment
+  assign genus = product.metafields.custom.genus
+  if genus == blank
+    assign botanical = product.metafields.custom.botanical_name | default: latin_name
+    if botanical != blank
+      assign genus = botanical | split: ' ' | first
+    endif
+  endif
+-%}
+
+{% render 'breadcrumb', product: product %}
+
+<div class="product" data-product-section
+     data-product-handle="{{ product.handle }}"
+     data-product-id="{{ product.id }}">
+
+  {% render 'product-gallery', product: product %}
+
+  <div class="info pdp-info">
+
+    {%- if genus != blank -%}
+      <div class="pdp-genus">{{ genus }}</div>
+    {%- endif -%}
+
+    <h1 class="pdp-species">{{ product.title | escape }}</h1>
+
+    <form method="post" action="{{ routes.cart_add_url }}" class="product-form" data-product-form>
+      <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id-input>
+
+      {%- comment -%}
+        When a product has only the default variant (no real Size / Pot options),
+        Shopify still exposes a "Title / Default Title" option. Instead of showing that,
+        we render a Size selector with the single available size (selected, no other
+        choices) and a Pot selector with only the "no pot" swatch (selected). This keeps
+        the PDP visually consistent across single-variant and multi-variant plants.
+      {%- endcomment -%}
+      {%- if product.has_only_default_variant -%}
+        {%- assign size_label = product.metafields.custom.plant_size | default: product.type | remove: ' Plants' | remove: ' Plant' -%}
+        <div class="opt-group">
+          <div class="opt-head">Size</div>
+          <div class="rule"></div>
+          <div class="size-row size-row--single">
+            <button type="button" class="size-opt selected is-single" aria-disabled="true" tabindex="-1">
+              <span class="radio"></span><span class="lbl">{{ size_label | default: 'One size' }}</span>
+            </button>
+          </div>
+          <div class="rule"></div>
+        </div>
+        <div class="opt-group">
+          <div class="opt-head">Pot</div>
+          <div class="rule"></div>
+          <div class="pot-row pot-row--single">
+            <button type="button" class="swatch none selected is-single" aria-disabled="true" tabindex="-1" aria-label="No pot" title="No pot"></button>
+          </div>
+          <div class="rule"></div>
+        </div>
+      {%- else -%}
+        {%- for option in product.options_with_values -%}
+          {%- assign opt_name_lower = option.name | downcase -%}
+          {%- assign is_colour = false -%}
+          {%- if opt_name_lower contains 'colour' or opt_name_lower contains 'color' or opt_name_lower contains 'pot' -%}
+            {%- assign is_colour = true -%}
+          {%- endif -%}
+
+          <div class="opt-group">
+            <div class="opt-head">{{ option.name }}</div>
+            <div class="rule"></div>
+
+            {%- if is_colour -%}
+              <div class="pot-row" data-option-group data-option-index="{{ option.position }}">
+                {%- for value in option.values -%}
+                  {%- assign swatch_slug = value | handleize -%}
+                  {%- assign is_none = false -%}
+                  {%- assign swatch_colour = '' -%}
+                  {%- case swatch_slug -%}
+                    {%- when 'none' or 'no-pot' or 'nopot' or 'grow-pot' or 'plastic-grow-pot' -%}{%- assign is_none = true -%}
+                    {%- when 'mint' -%}{%- assign swatch_colour = '#b3cfb3' -%}
+                    {%- when 'sage' -%}{%- assign swatch_colour = '#a8cf6a' -%}
+                    {%- when 'concrete-grey' or 'concrete' or 'grey' or 'gray' -%}{%- assign swatch_colour = '#8c8c8c' -%}
+                    {%- when 'teal' -%}{%- assign swatch_colour = '#2fa3ad' -%}
+                    {%- when 'red' or 'terracotta-red' -%}{%- assign swatch_colour = '#cf3b2e' -%}
+                    {%- when 'sand' or 'bone' -%}{%- assign swatch_colour = '#e8e2d8' -%}
+                    {%- when 'matte-black' or 'black' -%}{%- assign swatch_colour = '#2d2d2d' -%}
+                    {%- when 'terracotta' -%}{%- assign swatch_colour = '#c97a56' -%}
+                    {%- when 'white' -%}{%- assign swatch_colour = '#ffffff' -%}
+                    {%- when 'cream' -%}{%- assign swatch_colour = '#f0ead6' -%}
+                    {%- when 'forest' or 'forest-green' -%}{%- assign swatch_colour = '#2f5d3a' -%}
+                  {%- endcase -%}
+                  <button type="button"
+                    class="swatch{% if is_none %} none{% endif %}{% if value == option.selected_value %} selected{% endif %}"
+                    {% unless is_none %}style="background:{{ swatch_colour | default: '#cccccc' }};"{% endunless %}
+                    data-option-value="{{ value | escape }}"
+                    data-option-position="{{ option.position }}"
+                    aria-label="{{ value | escape }}"
+                    title="{{ value | escape }}"></button>
+                {%- endfor -%}
+              </div>
+            {%- else -%}
+              <div class="size-row" data-option-group data-option-index="{{ option.position }}">
+                {%- for value in option.values -%}
+                  <button type="button"
+                    class="size-opt{% if value == option.selected_value %} selected{% endif %}"
+                    data-option-value="{{ value | escape }}"
+                    data-option-position="{{ option.position }}">
+                    <span class="radio"></span><span class="lbl">{{ value }}</span>
+                  </button>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+
+            <div class="rule"></div>
+          </div>
+        {%- endfor -%}
+
+        {%- comment -%} ── Greenform: metafield-driven pot selector (per size) ── {%- endcomment -%}
+        {% render 'gf-pot-selector', product: product %}
+      {%- endif -%}
+
+      {%- comment -%} ── Description (shown in the info column, matching the design) ── {%- endcomment -%}
+      {%- if about_text != blank -%}
+        <div class="pdp-desc">{{ about_text | newline_to_br }}</div>
+      {%- elsif product.description != blank -%}
+        <div class="pdp-desc">{{ product.description }}</div>
+      {%- endif -%}
+
+      {%- comment -%} ── Commerce block (price + stock + add to cart) ─ kept in current style, restyle later ── {%- endcomment -%}
+      <div class="pdp-commerce">
+        <div class="info-price" data-price>
+          {%- if current_variant.compare_at_price > current_variant.price -%}
+            <span data-current-price>{{ current_variant.price | money_without_trailing_zeros }}</span>
+            <span class="currency">{{ shop.currency }}</span>
+            <span class="compare" data-compare-price>{{ current_variant.compare_at_price | money_without_trailing_zeros }}</span>
+          {%- else -%}
+            <span data-current-price>{{ current_variant.price | money_without_trailing_zeros }}</span>
+            <span class="currency">{{ shop.currency }}</span>
+          {%- endif -%}
+        </div>
+        <p class="price-note">{{ 'product.free_shipping_note' | t: amount: free_ship | remove: '$' }}</p>
+
+        <div class="stock-indicator{% unless current_variant.available %} out{% endunless %}" data-stock-indicator>
+          <span class="stock-dot"></span>
+          <span data-stock-label>
+            {%- if current_variant.available -%}
+              {{ 'product.in_stock' | t }}
+            {%- else -%}
+              {{ 'product.out_of_stock' | t }}
+            {%- endif -%}
+          </span>
+        </div>
+
+        <button type="submit" class="btn-primary" data-add-to-cart-btn{% unless current_variant.available %} disabled{% endunless %}>
+          {%- if current_variant.available -%}
+            {{ 'product.add_to_cart' | t }}
+          {%- else -%}
+            {{ 'product.sold_out' | t }}
+          {%- endif -%}
+        </button>
+      </div>
+    </form>
+
+    <button type="button" class="btn-secondary" data-wishlist-btn>{{ 'product.save_to_wishlist' | t }}</button>
+
+    {%- if features_list.size > 0 -%}
+      <div class="divider"></div>
+      <div class="features">
+        {%- for feature in features_list -%}
+          <div class="feature">
+            {% render 'icon-checkmark' %}
+            <span>{{ feature }}</span>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Embed full product JSON for variant-picker logic {%- endcomment -%}
+    <script type="application/json" data-product-json>
+      {{ product | json }}
+    </script>
+  </div>
+</div>
+
+{%- comment -%} ── SECONDARY DESCRIPTION SECTION (growth / care / note) ── {%- endcomment -%}
+{%- if growth_text != blank or care_cards.size > 0 or note_title != blank or note_text != blank -%}
+  <div class="description-section">
+
+    {%- if growth_text != blank -%}
+      <div class="desc-grid">
+        <div class="desc-block">
+          <h2>{{ 'product.growth_heading' | t }}</h2>
+          {{ growth_text | newline_to_br }}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- if care_cards.size > 0 -%}
+      <div class="care-section">
+        <h2>{{ 'product.care_heading' | t }}</h2>
+        <div class="care-grid">
+          {%- for card in care_cards -%}
+            <div class="care-card">
+              <div class="care-icon-wrap">
+                {% render 'care-icon', name: card.icon %}
+              </div>
+              <div class="care-label">{{ card.label }}</div>
+              <div class="care-value">{{ card.value }}</div>
+              <div class="care-desc">{{ card.description }}</div>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- if note_title != blank or note_text != blank -%}
+      <div class="note-banner">
+        {% render 'icon-info' %}
+        <div>
+          {%- if note_title != blank -%}<h3>{{ note_title }}</h3>{%- endif -%}
+          {%- if note_text != blank -%}<p>{{ note_text | newline_to_br }}</p>{%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+  </div>
+{%- endif -%}
+
+<script src="{{ 'product.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'gf-pots.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "Product information",
+  "tag": "section",
+  "class": "section-main-product",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "This section renders the product page design. Content is driven by product metafields — see the theme README for the exact metafield definitions."
+    }
+  ],
+  "presets": [
+    { "name": "Product information" }
+  ]
+}
+{% endschema %}

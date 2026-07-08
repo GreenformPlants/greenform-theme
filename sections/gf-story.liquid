@@ -1,0 +1,53 @@
+{%- comment -%} Greenform — Brand story. Image + text split. {%- endcomment -%}
+{%- assign sid = 'gf-story-' | append: section.id -%}
+<style>
+  #{{ sid }} { padding: 72px 0; }
+  #{{ sid }} .gfs-wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 44px; align-items: center; }
+  #{{ sid }}.media-right .gfs-wrap { direction: rtl; }
+  #{{ sid }}.media-right .gfs-wrap > * { direction: ltr; }
+  #{{ sid }} .gfs-media { border-radius: 10px; overflow: hidden; aspect-ratio: 5/4; background: var(--accent-light, #e8f0e8); }
+  #{{ sid }} .gfs-media img { width: 100%; height: 100%; object-fit: cover; }
+  #{{ sid }} .gfs-eyebrow { font-family: var(--font-display, 'Advercase', Georgia, serif);
+    font-size: 14px; color: var(--accent, #2d4a2d); margin-bottom: 8px; }
+  #{{ sid }} .gfs-body h2 { font-size: clamp(24px, 3.2vw, 36px); font-weight: 600; margin-bottom: 14px; letter-spacing: -.01em; }
+  #{{ sid }} .gfs-body p { color: var(--mid, #6b6b6b); margin-bottom: 12px; }
+  #{{ sid }} .gfs-btn { display: inline-block; margin-top: 6px; font-weight: 500; font-size: 15px; padding: 14px 28px;
+    border-radius: 8px; border: 1.5px solid var(--accent, #2d4a2d); color: var(--accent, #2d4a2d); background: transparent; transition: .18s; }
+  #{{ sid }} .gfs-btn:hover { background: var(--accent, #2d4a2d); color: #fff; }
+  @media (max-width: 820px){ #{{ sid }} .gfs-wrap { grid-template-columns: 1fr; gap: 24px; } }
+</style>
+<div id="{{ sid }}" class="{% if section.settings.media_position == 'right' %}media-right{% endif %}">
+  <div class="gfs-wrap">
+    <div class="gfs-media">
+      {%- if section.settings.image != blank -%}
+        <img src="{{ section.settings.image | image_url: width: 900 }}" alt="{{ section.settings.heading | escape }}" loading="lazy" width="900" height="720">
+      {%- endif -%}
+    </div>
+    <div class="gfs-body">
+      {%- if section.settings.eyebrow != blank -%}<div class="gfs-eyebrow">{{ section.settings.eyebrow }}</div>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2>{{ section.settings.heading }}</h2>{%- endif -%}
+      {%- if section.settings.body != blank -%}<div>{{ section.settings.body }}</div>{%- endif -%}
+      {%- if section.settings.button_label != blank -%}
+        <a class="gfs-btn" href="{{ section.settings.button_link | default: '#' }}">{{ section.settings.button_label }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Brand story",
+  "tag": "section",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "select", "id": "media_position", "label": "Image position", "default": "left",
+      "options": [ { "value": "left", "label": "Left" }, { "value": "right", "label": "Right" } ] },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Our story" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Grown well, chosen carefully" },
+    { "type": "richtext", "id": "body", "label": "Body", "default": "<p>Greenform began with a simple idea, that a houseplant should arrive healthy, settle in fast, and be easy to look after. Every plant is hand-selected from quality growers, checked before it leaves us, and sent with the care notes you need to keep it thriving.</p>" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "More about Greenform" },
+    { "type": "url", "id": "button_link", "label": "Button link" }
+  ],
+  "presets": [{ "name": "Brand story" }]
+}
+{% endschema %}

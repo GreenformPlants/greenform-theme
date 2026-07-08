@@ -1,0 +1,88 @@
+<div class="cart-page">
+  <h1>{{ 'general.cart.title' | t }}</h1>
+
+  {%- if cart.item_count == 0 -%}
+    <div class="cart-empty">
+      <p>{{ 'general.cart.empty' | t }}</p>
+      <p style="margin-top:16px;"><a href="{{ routes.root_url }}">{{ 'general.cart.continue_shopping' | t }}</a></p>
+    </div>
+  {%- else -%}
+    <form action="{{ routes.cart_url }}" method="post" novalidate>
+      <div class="cart-layout">
+        <div class="cart-items">
+          {%- for item in cart.items -%}
+            <div class="cart-item">
+              <div class="cart-item-image">
+                {%- if item.image -%}
+                  <img src="{{ item.image | image_url: width: 200 }}" alt="{{ item.product.title | escape }}" width="96" height="96">
+                {%- endif -%}
+              </div>
+
+              <div>
+                <a class="cart-item-title" href="{{ item.url }}">{{ item.product.title }}</a>
+                {%- if item.variant.title != 'Default Title' -%}
+                  <div class="cart-item-variant">{{ item.variant.title }}</div>
+                {%- endif -%}
+                <div class="cart-item-qty">
+                  <button type="button" data-qty-decr aria-label="Decrease">−</button>
+                  <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" data-qty-input data-line-key="{{ item.key }}">
+                  <button type="button" data-qty-incr aria-label="Increase">+</button>
+                </div>
+                <a class="cart-item-remove" href="{{ item.url_to_remove }}">{{ 'general.cart.remove' | t }}</a>
+              </div>
+
+              <div class="cart-item-price">{{ item.final_line_price | money }}</div>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <aside class="cart-summary">
+          <div class="cart-summary-row">
+            <span>{{ 'general.cart.subtotal' | t }}</span>
+            <span>{{ cart.total_price | money }}</span>
+          </div>
+          {%- if cart.total_discount > 0 -%}
+            <div class="cart-summary-row">
+              <span>Discount</span>
+              <span>−{{ cart.total_discount | money }}</span>
+            </div>
+          {%- endif -%}
+          <div class="cart-summary-total">
+            <span>Total</span>
+            <span>{{ cart.total_price | money_with_currency }}</span>
+          </div>
+
+          <button type="submit" name="checkout" class="btn-primary">{{ 'general.cart.checkout' | t }}</button>
+          <button type="submit" name="update" class="btn-secondary" style="margin-bottom:0;">Update cart</button>
+
+          <p class="cart-summary-note" style="margin-top:14px;">Shipping calculated at checkout.</p>
+        </aside>
+      </div>
+    </form>
+  {%- endif -%}
+</div>
+
+<script>
+  (function () {
+    document.querySelectorAll('[data-qty-decr]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var input = b.parentElement.querySelector('[data-qty-input]');
+        input.value = Math.max(0, parseInt(input.value, 10) - 1);
+      });
+    });
+    document.querySelectorAll('[data-qty-incr]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var input = b.parentElement.querySelector('[data-qty-input]');
+        input.value = parseInt(input.value, 10) + 1;
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Cart",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}

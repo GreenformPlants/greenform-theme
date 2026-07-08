@@ -1,0 +1,455 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "gf-hero",
+      "settings": {
+        "image": "shopify://shop_images/Homepage_Hero_1920_x_1080_IMAGE_3.jpg",
+        "fallback_image_url": "https://images.unsplash.com/photo-1545241047-6083a3684587?auto=format&fit=crop&w=2400&q=80",
+        "tag": "",
+        "heading": "Plants, Delivered",
+        "subheading": "Straight from our nursery",
+        "button_label_1": "Shop our plants",
+        "button_link_1": "/collections/all",
+        "button_label_2": "",
+        "button_link_2": "/blogs/care-guides",
+        "content_bottom_desktop": 200,
+        "content_bottom_mobile": 200,
+        "overlay_strength": 10,
+        "title_size_desktop": 84,
+        "title_size_mobile": 58,
+        "title_weight": "600",
+        "title_color": "#ffffff",
+        "title_gap": 0,
+        "title_letter_spacing": -2,
+        "title_line_height": 105,
+        "subtitle_size_desktop": 18,
+        "subtitle_size_mobile": 16,
+        "subtitle_color": "#ffffff",
+        "subtitle_opacity": 80,
+        "subtitle_gap": 28,
+        "tag_color": "#ffffff",
+        "tag_opacity": 70,
+        "button_radius": 8,
+        "button_pad_y": 15,
+        "button_pad_x": 30,
+        "button_font_size": 15,
+        "button_weight": "500",
+        "button_primary_bg": "#1b4332",
+        "button_primary_bg_hover": "#2d6a4f",
+        "button_primary_fg": "#ffffff",
+        "button_secondary_fg": "#ffffff",
+        "button_secondary_border": "#ffffff"
+      }
+    },
+    "gf_trust_bar": {
+      "type": "gf-trust-bar",
+      "blocks": {
+        "t1": {
+          "type": "item",
+          "settings": {
+            "icon": "leaf",
+            "text": "50-day safety guarantee"
+          }
+        },
+        "t2": {
+          "type": "item",
+          "settings": {
+            "icon": "truck",
+            "text": "Shipping everywhere in NZ"
+          }
+        },
+        "t3": {
+          "type": "item",
+          "settings": {
+            "icon": "check",
+            "text": "Hand-picked the morning it ships"
+          }
+        },
+        "t4": {
+          "type": "item",
+          "settings": {
+            "icon": "chat",
+            "text": "Care support with every plant"
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4"
+      ],
+      "settings": {
+        "bg_color": "#2d4a2d",
+        "text_color": "#ffffff"
+      }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "settings": {
+        "lead_text": "",
+        "heading": "New this week",
+        "subtext": "",
+        "collection": "frontpage",
+        "products_to_show": 4,
+        "band_height": 160,
+        "lead_top": -165,
+        "heading_top": 120,
+        "top_padding": 0,
+        "bottom_padding": 0,
+        "band_height_mobile": 60,
+        "lead_top_mobile": 0,
+        "heading_top_mobile": 20,
+        "top_padding_mobile": 0,
+        "bottom_padding_mobile": 0
+      }
+    },
+    "featured_collection_enecDp": {
+      "type": "featured-collection",
+      "settings": {
+        "lead_text": "",
+        "heading": "Orchids",
+        "subtext": "",
+        "collection": "orchids",
+        "products_to_show": 12,
+        "band_height": 160,
+        "lead_top": -165,
+        "heading_top": 120,
+        "top_padding": 0,
+        "bottom_padding": 0,
+        "band_height_mobile": 60,
+        "lead_top_mobile": 0,
+        "heading_top_mobile": 20,
+        "top_padding_mobile": 0,
+        "bottom_padding_mobile": 0
+      }
+    },
+    "gf_category_grid": {
+      "type": "gf-category-grid",
+      "blocks": {
+        "c1": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/collection_image4cc.jpg",
+            "label": "New arrivals",
+            "link": ""
+          }
+        },
+        "c2": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/collection_image4bb.jpg",
+            "label": "Best sellers",
+            "link": ""
+          }
+        },
+        "c3": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/collection_image4efdasf.jpg",
+            "label": "Easy-care",
+            "link": ""
+          }
+        },
+        "c4": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/collection_image4f.jpg",
+            "label": "Statement plants",
+            "link": ""
+          }
+        },
+        "c5": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/collection_image4ddd.jpg",
+            "label": "Pots & planters",
+            "link": ""
+          }
+        },
+        "c6": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/collection_image4a.jpg",
+            "label": "Gifts",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6"
+      ],
+      "settings": {
+        "eyebrow": "Browse the collection",
+        "heading": "Shop by category",
+        "subtext": "Hand-picked groupings to help you find the right plant faster."
+      }
+    },
+    "best_sellers": {
+      "type": "featured-collection",
+      "disabled": true,
+      "settings": {
+        "lead_text": "",
+        "heading": "Customer favourites",
+        "subtext": "",
+        "collection": "best-sellers",
+        "products_to_show": 8,
+        "band_height": 200,
+        "lead_top": -90,
+        "heading_top": 120,
+        "top_padding": 0,
+        "bottom_padding": 0,
+        "band_height_mobile": 60,
+        "lead_top_mobile": 0,
+        "heading_top_mobile": 20,
+        "top_padding_mobile": 0,
+        "bottom_padding_mobile": 0
+      }
+    },
+    "gf_shop_by_need": {
+      "type": "gf-shop-by-need",
+      "blocks": {
+        "n1": {
+          "type": "need",
+          "settings": {
+            "icon": "sun",
+            "title": "By light",
+            "text": "Low, medium, bright",
+            "link": ""
+          }
+        },
+        "n2": {
+          "type": "need",
+          "settings": {
+            "icon": "home",
+            "title": "By room",
+            "text": "Living, bedroom, bath",
+            "link": ""
+          }
+        },
+        "n3": {
+          "type": "need",
+          "settings": {
+            "icon": "ruler",
+            "title": "By size",
+            "text": "Desktop to statement",
+            "link": ""
+          }
+        },
+        "n4": {
+          "type": "need",
+          "settings": {
+            "icon": "drop",
+            "title": "By difficulty",
+            "text": "Beginner to devoted",
+            "link": ""
+          }
+        },
+        "n5": {
+          "type": "need",
+          "settings": {
+            "icon": "paw",
+            "title": "Pet-friendly",
+            "text": "Safe for cats and dogs",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "n1",
+        "n2",
+        "n3",
+        "n4",
+        "n5"
+      ],
+      "settings": {
+        "eyebrow": "Find your plant",
+        "heading": "Shop by need",
+        "subtext": "Start from the question you are actually asking.",
+        "bg_color": "#e8f0e8"
+      }
+    },
+    "rich_text": {
+      "type": "rich-text",
+      "settings": {
+        "heading": "Plants that arrive ready to settle in",
+        "body": "Every plant is hand-picked the morning it ships, packed in our own moisture-retaining boxes, and backed by a 30-day arrival guarantee. If anything looks off when you open the box, we make it right."
+      }
+    },
+    "gf_reviews": {
+      "type": "gf-reviews",
+      "blocks": {
+        "r1": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "text": "My Monstera arrived in perfect condition. Beautifully packaged and clearly well looked after. Already planning my next order.",
+            "author": "Sarah T.",
+            "plant": "Monstera Deliciosa"
+          }
+        },
+        "r2": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "text": "The care guide that came with my Fiddle Leaf Fig has been a lifesaver. Three months in and it is thriving.",
+            "author": "James K.",
+            "plant": "Fiddle Leaf Fig"
+          }
+        },
+        "r3": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "text": "Fast shipping to Wellington and the plant was packed so carefully. Love the care instructions for NZ conditions.",
+            "author": "Aroha M.",
+            "plant": "Alocasia Zebrina"
+          }
+        },
+        "r4": {
+          "type": "review",
+          "settings": {
+            "rating": 4,
+            "text": "Great selection of rare plants. The Thai Constellation was exactly as pictured. Would love more pot options.",
+            "author": "Daniel W.",
+            "plant": "Thai Constellation"
+          }
+        }
+      },
+      "block_order": [
+        "r1",
+        "r2",
+        "r3",
+        "r4"
+      ],
+      "disabled": true,
+      "settings": {
+        "eyebrow": "Real reviews from real plant lovers",
+        "heading": "What our customers say"
+      }
+    },
+    "gf_care_tips": {
+      "type": "gf-care-tips",
+      "blocks": {
+        "k1": {
+          "type": "tip",
+          "settings": {
+            "icon": "sun",
+            "title": "Find the right light",
+            "text": "Most houseplants prefer bright, indirect light. Keep them near a window but out of harsh direct sun."
+          }
+        },
+        "k2": {
+          "type": "tip",
+          "settings": {
+            "icon": "drop",
+            "title": "Water with confidence",
+            "text": "Check the top 2 to 3cm of soil before watering. Most plants prefer to dry out slightly between drinks."
+          }
+        },
+        "k3": {
+          "type": "tip",
+          "settings": {
+            "icon": "leaf",
+            "title": "Feed the growth",
+            "text": "Use a balanced liquid fertiliser during spring and summer. Ease off in autumn and winter."
+          }
+        }
+      },
+      "block_order": [
+        "k1",
+        "k2",
+        "k3"
+      ],
+      "settings": {
+        "eyebrow": "Grow with confidence",
+        "heading": "Plant care, simplified",
+        "subtext": "Everything you need to keep your plants thriving.",
+        "bg_color": "#e8f0e8",
+        "button_label": "Browse all care guides",
+        "button_link": "/blogs/care-guides"
+      }
+    },
+    "gf_plant_finder": {
+      "type": "gf-plant-finder",
+      "disabled": true,
+      "settings": {
+        "eyebrow": "Not sure where to start",
+        "heading": "Find your plant in four questions",
+        "text": "Answer a few quick questions about light, space, time and pets, and we will match you with plants that thrive in your home.",
+        "button_label": "Start the plant finder",
+        "button_link": "",
+        "bg_color": "#2d4a2d",
+        "text_color": "#ffffff",
+        "button_bg": "#ffffff",
+        "button_fg": "#2d4a2d"
+      }
+    },
+    "gf_story": {
+      "type": "gf-story",
+      "settings": {
+        "media_position": "left",
+        "eyebrow": "Our story",
+        "heading": "Grown well, chosen carefully",
+        "body": "<p>Greenform began with a simple idea, that a houseplant should arrive healthy, settle in fast, and be easy to look after. Every plant is hand-selected from quality growers, checked before it leaves us, and sent with the care notes you need to keep it thriving.</p>",
+        "button_label": "More about Greenform",
+        "button_link": "/pages/about"
+      }
+    },
+    "gf_gifting": {
+      "type": "gf-gifting",
+      "settings": {
+        "image_opacity": 45,
+        "eyebrow": "A living gift",
+        "heading": "Gifting, made easy",
+        "text": "For housewarmings, birthdays and thank-yous, delivered with a handwritten note and care card.",
+        "button_label": "Shop gifts",
+        "button_link": "/collections/gifts"
+      }
+    },
+    "gf_newsletter": {
+      "type": "gf-newsletter",
+      "settings": {
+        "heading": "Stay in the loop",
+        "text": "Care tips, new arrivals, and the occasional restock of something special.",
+        "placeholder": "Enter your email",
+        "button_label": "Subscribe",
+        "success_message": "Thanks for subscribing. Check your inbox.",
+        "bg_color": "#2d4a2d",
+        "text_color": "#ffffff",
+        "button_bg": "#ffffff",
+        "button_fg": "#2d4a2d"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "gf_trust_bar",
+    "featured_collection",
+    "featured_collection_enecDp",
+    "gf_category_grid",
+    "best_sellers",
+    "gf_shop_by_need",
+    "rich_text",
+    "gf_reviews",
+    "gf_care_tips",
+    "gf_plant_finder",
+    "gf_story",
+    "gf_gifting",
+    "gf_newsletter"
+  ]
+}

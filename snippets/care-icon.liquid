@@ -1,0 +1,33 @@
+{%- comment -%}
+  Renders a care-guide icon matching the preview design.
+  Accepts: name (one of: light, water, temperature, humidity, mix, pet, fertilizer, toxicity)
+  Fallback: generic leaf icon.
+{%- endcomment -%}
+
+{%- assign n = name | downcase | strip -%}
+
+{%- case n -%}
+  {%- when 'light' -%}
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="2" x2="12" y2="0"/><line x1="12" y1="24" x2="12" y2="22"/><line x1="2" y1="12" x2="0" y2="12"/><line x1="24" y1="12" x2="22" y2="12"/><line x1="4.2" y1="4.2" x2="2.8" y2="2.8"/><line x1="21.2" y1="21.2" x2="19.8" y2="19.8"/><line x1="4.2" y1="19.8" x2="2.8" y2="21.2"/><line x1="21.2" y1="2.8" x2="19.8" y2="4.2"/></svg>
+
+  {%- when 'water' -%}
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6 8 4 12 4 15a8 8 0 0 0 16 0c0-3-2-7-8-13z"/></svg>
+
+  {%- when 'temperature' or 'temp' -%}
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></svg>
+
+  {%- when 'humidity' -%}
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20"/><path d="M12 2a14.5 14.5 0 0 1 0 20"/><path d="M2 12h10"/></svg>
+
+  {%- when 'mix' or 'potting_mix' or 'potting-mix' or 'soil' -%}
+    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+
+  {%- when 'pet' or 'pet-safe' or 'pet_safe' or 'toxicity' -%}
+    <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="12" y1="3" x2="12" y2="21"/><path d="M17 6H9.5a3.5 3.5 0 1 0 0 7h5a3.5 3.5 0 1 1 0 7H6"/></svg>
+
+  {%- when 'fertilizer' or 'feed' -%}
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21v-5a8 8 0 0 1 8-8h0v13"/><path d="M11 14a8 8 0 0 1 8-8v5a8 8 0 0 1-8 8"/></svg>
+
+  {%- else -%}
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c5 0 9 4 9 9 0 0-4-2-7-2s-6 3-6 6c-1-2-2-4-2-6 0-5 3-7 6-7z"/></svg>
+{%- endcase -%}

@@ -1,0 +1,41 @@
+{%- comment -%} Greenform — Plant finder. Quiz call-to-action banner. {%- endcomment -%}
+{%- assign sid = 'gf-finder-' | append: section.id -%}
+<style>
+  #{{ sid }} { padding: 72px 0; background: {{ section.settings.bg_color }}; color: {{ section.settings.text_color }}; text-align: center; }
+  #{{ sid }} .gff-wrap { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+  #{{ sid }} .gff-eyebrow { font-family: var(--font-display, 'Advercase', Georgia, serif);
+    font-size: 14px; opacity: .85; margin-bottom: 8px; }
+  #{{ sid }} .gff-wrap h2 { font-size: clamp(24px, 3.4vw, 38px); font-weight: 600; margin-bottom: 12px; letter-spacing: -.01em; }
+  #{{ sid }} .gff-wrap p { opacity: .9; margin-bottom: 24px; }
+  #{{ sid }} .gff-btn { display: inline-block; font-weight: 500; font-size: 15px; padding: 15px 32px;
+    border-radius: 8px; background: {{ section.settings.button_bg }}; color: {{ section.settings.button_fg }}; transition: opacity .18s; }
+  #{{ sid }} .gff-btn:hover { opacity: .9; }
+</style>
+<div id="{{ sid }}">
+  <div class="gff-wrap">
+    {%- if section.settings.eyebrow != blank -%}<div class="gff-eyebrow">{{ section.settings.eyebrow }}</div>{%- endif -%}
+    {%- if section.settings.heading != blank -%}<h2>{{ section.settings.heading }}</h2>{%- endif -%}
+    {%- if section.settings.text != blank -%}<p>{{ section.settings.text }}</p>{%- endif -%}
+    {%- if section.settings.button_label != blank -%}
+      <a class="gff-btn" href="{{ section.settings.button_link | default: '#' }}">{{ section.settings.button_label }}</a>
+    {%- endif -%}
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Plant finder",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Not sure where to start" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Find your plant in four questions" },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Answer a few quick questions about light, space, time and pets, and we will match you with plants that thrive in your home." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Start the plant finder" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "color", "id": "bg_color", "label": "Background", "default": "#2d4a2d" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#ffffff" },
+    { "type": "color", "id": "button_bg", "label": "Button background", "default": "#ffffff" },
+    { "type": "color", "id": "button_fg", "label": "Button text", "default": "#2d4a2d" }
+  ],
+  "presets": [{ "name": "Plant finder" }]
+}
+{% endschema %}
